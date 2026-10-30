@@ -8,3 +8,8 @@ Daten (Open Data, kein API-Key):
 
 Standardmässig zeigt die Seite den Wert von 8:30 (Messzeit).
 Bei fehlender Verbindung zeigt sie gespeicherte Beispieldaten (Badge «Beispieldaten»).
+
+
+## Ansicht
+- Automatisch kompakt, wenn das Fenster niedriger als 880 px ist (z. B. Einbettung in Schabi, Beamer).
+- `?kompakt` erzwingt die kompakte Ansicht, `?normal` die grosse. `?theme=dark` für dunkel.

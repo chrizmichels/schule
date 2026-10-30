@@ -51,6 +51,13 @@ aside li.on{background:var(--teal);color:var(--teal-ink)}
 .warn{background:var(--warn);color:#3b2a00;border:2px solid #b8860b;border-radius:14px;padding:12px 18px;font-weight:700}
 :root[data-theme=dark] .warn{color:#fff3cf}
 .ctl{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px}.ctl .seg{display:contents}.ctl button{width:100%;white-space:nowrap}.ctl button small{display:block;font-size:12px;font-weight:400;opacity:.85}@media (max-width:560px){.ctl{grid-template-columns:1fr}}
+html.k body{padding-block:8px;font-size:16px}html.k .wrap{gap:10px}
+html.k header{padding:8px 16px;border-radius:16px}html.k header h1{font-size:28px}html.k header small{font-size:13px}html.k header button{padding:6px 12px}.k .ctl button small{font-size:11px}
+html.k .status{font-size:15px}html.k .pill{padding:2px 12px}
+html.k .tiles{grid-auto-rows:clamp(150px,calc((100vh - 270px)/2),300px);gap:10px}html.k .tile{padding:10px 14px;border-radius:14px}html.k .tile h2{font-size:16px;margin-bottom:2px}
+html.k .tile .v{font-size:clamp(36px,min(5vw,10vh),90px)}html.k .tile .v[style]{font-size:clamp(30px,min(4vw,8vh),68px)!important}html.k .tile p{font-size:15px;margin-top:2px}html.k .bar{height:12px;margin-top:6px}
+html.k aside{padding:10px 14px;border-radius:14px}html.k aside h2{font-size:17px;margin-bottom:4px}html.k aside ol{font-size:clamp(13px,1.9vh,17px);gap:clamp(1px,.5vh,6px)}html.k aside li{padding:2px 4px;grid-template-columns:26px 1fr}html.k aside li b{font-size:16px}
+html.k .past,html.k .note{display:none}html.k .main{gap:10px}html.k .conn{margin-top:0;font-size:13px}html.k .warn{padding:6px 14px;font-size:15px}
 </style>
 <div class="wrap">
  <header>
@@ -122,6 +129,8 @@ async function load(st,tgt){
   return{rows:ok[0],live:true}
 }
 const dm=k=>k.slice(8,10)+'.'+k.slice(5,7)+'., '+k.slice(11)+' Uhr';
+function setK(){try{const f=/[?&]kompakt/.test(location.search),n=/[?&]normal/.test(location.search);document.documentElement.classList.toggle('k',f||(!n&&window.innerHeight<880))}catch(e){}}
+setK();addEventListener('resize',setK);
 document.documentElement.lang='de-CH';
 try{if(/[?&]theme=dark/.test(location.search))document.documentElement.setAttribute('data-theme','dark')}catch(e){}
 function zurichKey(ms){const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Zurich',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(ms)).map(x=>[x.type,x.value]));return p.year+'-'+p.month+'-'+p.day+'T'+p.hour+':'+p.minute}
