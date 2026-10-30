@@ -149,7 +149,7 @@ async function loadFl(tgt){
   window.DIAG='MeteoSchweiz: '+res.map((x,k)=>jobs[k][0]+' '+(x.status==='fulfilled'?'neuester Wert '+dm(x.value[0][0]):(x.reason&&x.reason.name==='AbortError'?'Zeit':(x.reason&&x.reason.message)||'Fehler'))).join(' | ');
   const ok=res.filter(x=>x.status==='fulfilled').map(x=>x.value);if(!ok.length)throw new Error('MeteoSchweiz nicht erreichbar');
   ok.sort((a,b)=>a[0][0]<b[0][0]?1:-1);
-  let rows=ok[0];if(tgt&&ok.length>1&&ok[1].length>rows.length&&ok[1][0][0]>=rows[0][0])rows=ok[1];
+  let rows=ok[0];if(tgt){const k=toKey(tgt),c=ok.filter(r=>r.some(x=>x[0]<=k)).sort((x,y)=>y.length-x.length);if(c.length)rows=c[0]}
   return{rows,live:true}}
 function pick(rows,tgt){ if(!tgt)return 0; const key=toKey(tgt); let i=rows.findIndex(r=>r[0]<=key); return i}
 function toKey(d){const p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'T'+p(d.getHours())+':'+p(d.getMinutes())}
