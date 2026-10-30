@@ -34,7 +34,7 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--fg);outline-off
 .tile .u{font-size:.4em;font-weight:400;margin-left:6px}
 .tile p{margin:6px 0 0;font-size:19px;color:var(--muted)}
 .tile.copy{background:var(--ok);color:#14211f}.tile.copy p{color:#14211f}.tile.copy h2{background:rgba(255,255,255,.6);color:#14211f}
-.pill.live{color:#14211f}
+.pill.live{color:#14211f}.pill.live::before{content:'';display:inline-block;width:9px;height:9px;margin-right:8px;border-radius:50%;background:#e5322d;vertical-align:1px;animation:lp 2s ease-in-out infinite}@keyframes lp{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(229,50,45,.5)}50%{opacity:.55;box-shadow:0 0 0 5px rgba(229,50,45,0)}}@media(prefers-reduced-motion:reduce){.pill.live::before{animation:none}}
 .bar{height:16px;border-radius:10px;margin-top:10px;overflow:hidden;background:var(--bg)}
 .bar i{display:block;height:100%;background:var(--teal);width:0}
 aside{background:var(--tile);border-radius:18px;padding:16px 20px;min-width:0}
