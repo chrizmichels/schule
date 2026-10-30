@@ -5,9 +5,9 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap">
 <style>
 /* Layout: Beamer-Anzeige. Kopfband in Türkis, darunter 6 grosse Messkacheln (3 x 2), rechts die Wind-Skala zum Abgleich mit dem Fenster. */
-:root{--teal:#28c6a4;--teal-ink:#06382d;--lav:#d8e1f9;--grey:#f0f2f2;--bg:#ffffff;--fg:#14211f;--muted:#4b5b58;--line:#14211f;--tile:#f0f2f2;--ok:#bbe1b7;--warn:#ffe3a3;
+:root{--teal:#28c6a4;--teal-ink:#14211f;--lav:#d8e1f9;--grey:#f0f2f2;--bg:#ffffff;--fg:#14211f;--muted:#4b5b58;--line:#14211f;--tile:#f0f2f2;--ok:#28c6a4;--warn:#ffe3a3;
  --font:'Andika','Trebuchet MS',Verdana,sans-serif}
-:root[data-theme="dark"]{--bg:#0c1917;--fg:#e8f5f1;--muted:#a3beb7;--line:#336a5f;--tile:#142624;--lav:#21423d;--grey:#142624;--ok:#1b4d40;--warn:#4d3f14;--teal-ink:#06382d;color-scheme:dark}
+:root[data-theme="dark"]{--bg:#111314;--fg:#eef1f1;--muted:#a8b0b0;--line:#4f5757;--tile:#1c1f20;--lav:#2b3350;--grey:#1c1f20;--ok:#28c6a4;--warn:#4d3f14;--teal-ink:#14211f;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:18px;padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:1500px;margin:0 auto;display:grid;gap:16px}
@@ -33,7 +33,8 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--fg);outline-off
 .tile .v{white-space:nowrap;font-size:clamp(48px,6.4vw,92px);font-weight:700;line-height:1.05;font-variant-numeric:tabular-nums}
 .tile .u{font-size:.4em;font-weight:400;margin-left:6px}
 .tile p{margin:6px 0 0;font-size:19px;color:var(--muted)}
-.tile.copy{background:var(--ok)}.tile.copy p{color:var(--fg)}
+.tile.copy{background:var(--ok);color:#14211f}.tile.copy p{color:#14211f}.tile.copy h2{background:rgba(255,255,255,.6);color:#14211f}
+.pill.live{color:#14211f}
 .bar{height:16px;border:2px solid var(--line);border-radius:10px;margin-top:10px;overflow:hidden;background:var(--bg)}
 .bar i{display:block;height:100%;background:var(--teal);width:0}
 aside{background:var(--tile);border:2px solid var(--line);border-radius:18px;padding:16px 20px;min-width:0}
@@ -121,6 +122,7 @@ async function load(st,tgt){
 }
 const dm=k=>k.slice(8,10)+'.'+k.slice(5,7)+'., '+k.slice(11)+' Uhr';
 document.documentElement.lang='de-CH';
+try{if(/[?&]theme=dark/.test(location.search))document.documentElement.setAttribute('data-theme','dark')}catch(e){}
 function zurichKey(ms){const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Zurich',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date(ms)).map(x=>[x.type,x.value]));return p.year+'-'+p.month+'-'+p.day+'T'+p.hour+':'+p.minute}
 const num=v=>(v===undefined||v===''||v==='-'||isNaN(+v))?null:+v;
 function parseOGD(txt){const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=>H.indexOf(n);const c={t:ix('tre200s0'),ws:ix('fkl010z0'),wk:ix('fu3010z0'),gs:ix('fkl010z1'),gk:ix('fu3010z1'),d:ix('dkl010z0'),p:ix('prestas0'),r:ix('rre150z0'),g:ix('gre000z0'),h:ix('ure200s0'),ts:ix('reference_timestamp')};
