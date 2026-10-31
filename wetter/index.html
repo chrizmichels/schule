@@ -65,16 +65,16 @@ html.k aside{padding:10px 14px;border-radius:14px}html.k aside h2{font-size:17px
 html.k .past,html.k .note{display:none}html.k .main{gap:10px}html.k .conn{margin-top:0;font-size:13px}html.k .warn{padding:6px 14px;font-size:15px}
 
 /* Layout-Feinschliff: Kacheln zentriert, Schrift passt sich der Kachelgrösse an; Windbox bündig mit den Kacheln */
-.tile{container-type:size;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(4px,2.2cqh,16px)}
-html .tile h2,html.k .tile h2{margin:0;font-size:clamp(15px,min(6cqw,7.5cqh),26px)}
-html .tile .v,html.k .tile .v{font-size:clamp(34px,min(25cqw,32cqh),160px)}
-html .tile .v[style],html.k .tile .v[style]{font-size:clamp(30px,min(17cqw,24cqh),110px)!important}
+.tile{container-type:size;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;text-align:left;gap:clamp(3px,2.4cqh,20px)}
+html .tile h2,html.k .tile h2{margin:0;font-size:clamp(15px,min(7.6cqw,8.4cqh),34px)}
+html .tile .v,html.k .tile .v{font-size:clamp(36px,min(36cqw,40cqh),230px)}
+html .tile .v[style],html.k .tile .v[style]{font-size:clamp(32px,min(24cqw,30cqh),160px)!important}
 html .tile .u,html.k .tile .u{font-size:.38em;margin-left:.2em}
-html .tile p,html.k .tile p{margin:0;font-size:clamp(14px,min(4.6cqw,6cqh),23px);text-wrap:balance;line-height:1.25}
-html .tile .bar,html.k .tile .bar{width:80%;margin:0;height:clamp(10px,3cqh,18px)}
-.tile .v{transform-origin:center}
+html .tile p,html.k .tile p{margin:0;font-size:clamp(14px,min(6.4cqw,7.4cqh),32px);text-wrap:balance;line-height:1.25}
+html .tile .bar,html.k .tile .bar{width:100%;margin:0;height:clamp(10px,3cqh,18px)}
+.tile .v{transform-origin:left center}
 aside{container-type:size;display:flex;flex-direction:column}
-html aside h2,html.k aside h2{margin:0 0 4px;text-align:center;font-size:clamp(17px,min(5.5cqw,4.2cqh),27px)}
+html aside h2,html.k aside h2{margin:0 0 4px;text-align:left;font-size:clamp(17px,min(5.5cqw,4.2cqh),27px)}
 html aside ol,html.k aside ol{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;gap:0;font-size:clamp(12px,min(4.4cqw,3.5cqh),21px);line-height:1.22}
 html aside li,html.k aside li{padding:2px 6px;grid-template-columns:2em 1fr}
 html aside li b,html.k aside li b{font-size:1.15em}
