@@ -3,6 +3,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 /* Layout: Beamer-Anzeige. Kopfband in Türkis, darunter 6 grosse Messkacheln (3 x 2), rechts die Wind-Skala zum Abgleich mit dem Fenster. */
 :root{--teal:#28c6a4;--teal-ink:#14211f;--lav:#d8e1f9;--grey:#f0f2f2;--bg:#ffffff;--fg:#14211f;--muted:#4b5b58;--line:#14211f;--tile:#f0f2f2;--ok:#28c6a4;--warn:#ffe3a3;
@@ -54,8 +56,8 @@ aside li.on{background:var(--teal);color:var(--teal-ink)}
 
 [hidden]{display:none!important}
 .tabs{margin-left:auto;display:flex;gap:8px}.tabs button{padding:5px 14px;border-color:transparent;background:var(--tile);font-size:16px}.tabs button[aria-pressed="true"]{background:var(--teal-ink);color:#fff;border-color:transparent}
-.tv{background:var(--tile);border-radius:18px;padding:14px 18px}.tv h2{margin:0 0 6px;font-size:20px}.tv svg{display:block;width:100%;height:auto}.tv text{fill:var(--fg);font-family:inherit}.tv .m{fill:var(--muted)}
-html.k .tv{padding:8px 12px;border-radius:14px}html.k .tv h2{font-size:16px;margin-bottom:2px}html.k .tv svg{height:clamp(260px,calc(100vh - 290px),620px)}html.k .tabs button{padding:2px 12px;font-size:14px}
+.tv{background:var(--tile);border-radius:18px;padding:14px 18px}.tv h2{margin:0 0 6px;font-size:20px}#tv svg{display:block;width:100%;height:auto}.tv text{fill:var(--fg);font-family:inherit}.tv .m{fill:var(--muted)}
+html.k .tv{padding:8px 12px;border-radius:14px}html.k .tv h2{font-size:16px;margin-bottom:2px}html.k #tv svg{height:clamp(260px,calc(100vh - 290px),620px)}html.k .tabs button{padding:2px 12px;font-size:14px}
 html.k body{padding-block:8px;font-size:16px}html.k .wrap{gap:10px}
 html.k header{padding:8px 16px;border-radius:16px}html.k header h1{font-size:28px}html.k header small{font-size:13px}html.k header button{padding:6px 12px}.k .ctl button small{font-size:11px}
 html.k .status{font-size:15px}html.k .pill{padding:2px 12px}
@@ -79,6 +81,13 @@ html aside ol,html.k aside ol{flex:1;min-height:0;display:flex;flex-direction:co
 html aside li,html.k aside li{padding:2px 6px;grid-template-columns:2em 1fr}
 html aside li b,html.k aside li b{font-size:1.15em}
 @media(max-width:1000px){aside{container-type:inline-size}html aside ol,html.k aside ol{justify-content:flex-start;gap:5px;font-size:17px}}
+
+/* Karte */
+#map{height:520px;border-radius:12px;overflow:hidden;background:#dfe6e4;z-index:0}
+html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
+.pin i{display:block;width:22px;height:22px;margin:2px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.55)}
+.leaflet-tooltip.lbl{font-family:inherit;font-weight:700;font-size:15px;line-height:1.25;color:#14211f;border:2px solid #14211f;border-radius:8px;padding:3px 9px;box-shadow:none}
+.leaflet-tooltip.lbl small{display:block;font-weight:400;font-size:12.5px}
 </style>
 <div class="wrap">
  <header>
@@ -94,11 +103,12 @@ html aside li b,html.k aside li b{font-size:1.15em}
    </div>
   </div>
  </header>
- <div class="status"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button></span></div>
+ <div class="status"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button><button id="tab-m" aria-pressed="false">Karte</button></span></div>
  <div class="main">
   <section>
    <div class="tiles" id="tiles"></div>
    <div class="tv" id="tv" hidden></div>
+   <div class="tv" id="mv" hidden><h2>Wo wir messen</h2><div id="map"></div><p class="hint" id="maptxt" style="margin:8px 0 0"></p></div>
   </section>
   <aside aria-labelledby="wind-h">
    <h2 id="wind-h">Wind am Fenster</h2>
@@ -225,7 +235,7 @@ function drawTV(){
      '<text x="'+(X(m)+(k?14:-14))+'" y="'+(Y(q[1])+(k?34:-14))+'" text-anchor="'+(k?'start':'end')+'" font-size="20" font-weight="700">'+l+' Uhr: '+fmt(q[1],1)+' °C</text>'});
   const d=day.split('-').reverse().join('.');
   box.innerHTML='<h2>Tagesverlauf der Temperatur · '+NAMES[station]+' · '+d+'</h2><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Temperatur über den Tag">'+g+'</svg>'}
-function setTab(t){tab=t;$('tab-w').setAttribute('aria-pressed',String(t==='w'));$('tab-v').setAttribute('aria-pressed',String(t==='v'));$('tiles').hidden=t==='v';$('tilehint').hidden=t==='v';$('tv').hidden=t!=='v';if(t==='v')drawTV()}
+function setTab(t){tab=t;['w','v','m'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';if(t==='v')drawTV();if(t==='m')showMap()}
 function syncMode(){$('std').setAttribute('aria-pressed',String(mode==='std'));$('now').setAttribute('aria-pressed',String(mode==='now'))}
 async function run(){syncMode();
   clearTimeout(timer);$('badge').className='pill hist';$('badge').textContent='lädt …';
@@ -236,18 +246,35 @@ async function run(){syncMode();
   if(mode!=='past')timer=setTimeout(run,5*60000);
 }
 function buildBft(){$('bft').innerHTML=BFT.map((b,k)=>'<li><b>'+k+'</b><span><strong>'+b[0]+'</strong><br>'+b[1]+'</span></li>').join('')}
-function setStation(s){station=s;for(const k in NAMES)$('st-'+k).setAttribute('aria-pressed',String(k===s));run()}
+function setStation(s){station=s;for(const k in NAMES)$('st-'+k).setAttribute('aria-pressed',String(k===s));if(typeof mapSel==='function')mapSel();run()}
 $('st-mythenquai').onclick=()=>setStation('mythenquai');
 $('st-fluntern').onclick=()=>setStation('fluntern');
 $('go').onclick=()=>{const d=$('d').value,t=$('t').value;if(!d||!t){$('pasthint').textContent='Bitte Datum und Uhrzeit wählen.';return}target=new Date(d+'T'+t+':00');mode='past';$('pasthint').textContent='Zeige den Wert von '+d.split('-').reverse().join('.')+', '+t+' Uhr.';run()};
 $('now').onclick=()=>{mode='now';$('pasthint').textContent='Zeigt den neuesten Wert. Normal zeigt die Seite den Wert von 8:30.';run()};
 $('std')&&($('std').onclick=()=>{mode='std';run()});
 const today=new Date();$('d').max=toKey(today).slice(0,10);
-$('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');
+$('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');$('tab-m').onclick=()=>setTab('m');
 buildBft();run();
 
 /* Werte schrumpfen, falls sie breiter als die Kachel sind */
 (function(){function fit(){document.querySelectorAll('#tiles .tile .v').forEach(function(v){v.style.transform='';var t=v.closest('.tile'),cs=getComputedStyle(t),avail=t.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),w=v.scrollWidth;if(w>avail&&w>0)v.style.transform='scale('+(avail/w).toFixed(3)+')'})}
 var tl=document.getElementById('tiles');if(tl){new MutationObserver(fit).observe(tl,{childList:true});if(window.ResizeObserver)new ResizeObserver(fit).observe(tl)}
 window.addEventListener('resize',fit);setTimeout(fit,300)})();
+
+/* Karte: Messstationen und Schule */
+const PL={fluntern:{n:'Zürich-Fluntern',s:'MeteoSchweiz · 556 m ü. M.',ll:[47.3778,8.5657],d:'top'},mythenquai:{n:'Mythenquai',s:'Stadt Zürich · ca. 408 m ü. M.',ll:[47.3545,8.5363],d:'right'},schule:{n:'Schule Bühl',s:'Bühlstrasse 6, Wiedikon',ll:[47.36819,8.51633],d:'left'}};
+let LMAP=null;const LMK={};
+function pinIcon(c){return L.divIcon({className:'pin',html:'<i style="background:'+c+'"></i>',iconSize:[28,28],iconAnchor:[14,28],tooltipAnchor:[0,-18]})}
+function km(a,b){const R=6371,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,x=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
+function mapSel(){if(!LMAP)return;for(const k of ['fluntern','mythenquai'])LMK[k].setIcon(pinIcon(k===station?'#28c6a4':'#14211f')).setZIndexOffset(k===station?500:0)}
+function showMap(){
+ if(!window.L){$('maptxt').textContent='Die Karte konnte nicht geladen werden (keine Internetverbindung).';return}
+ if(!LMAP){
+  LMAP=L.map('map',{scrollWheelZoom:false});
+  L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',{maxZoom:18,attribution:'© swisstopo'}).addTo(LMAP);
+  for(const k in PL){const p=PL[k];LMK[k]=L.marker(p.ll,{icon:pinIcon(k==='schule'?'#e5322d':'#14211f'),keyboard:false}).addTo(LMAP).bindTooltip('<span>'+p.n+'</span><small>'+p.s+'</small>',{permanent:true,direction:p.d,className:'lbl'})}
+  const f=km(PL.schule.ll,PL.fluntern.ll),m=km(PL.schule.ll,PL.mythenquai.ll);
+  $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Grün = Station, die gerade angezeigt wird.'
+ }
+ LMAP.invalidateSize();LMAP.fitBounds(L.latLngBounds(Object.values(PL).map(p=>p.ll)),{padding:[70,70]});mapSel()}
 </script>
