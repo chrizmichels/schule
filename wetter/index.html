@@ -63,6 +63,22 @@ html.k .tiles{grid-auto-rows:clamp(150px,calc((100vh - 270px)/2),300px);gap:10px
 html.k .tile .v{font-size:clamp(36px,min(5vw,10vh),90px)}html.k .tile .v[style]{font-size:clamp(30px,min(4vw,8vh),68px)!important}html.k .tile p{font-size:15px;margin-top:2px}html.k .bar{height:12px;margin-top:6px}
 html.k aside{padding:10px 14px;border-radius:14px}html.k aside h2{font-size:17px;margin-bottom:4px}html.k aside ol{font-size:clamp(13px,1.9vh,17px);gap:clamp(1px,.5vh,6px)}html.k aside li{padding:2px 4px;grid-template-columns:26px 1fr}html.k aside li b{font-size:16px}
 html.k .past,html.k .note{display:none}html.k .main{gap:10px}html.k .conn{margin-top:0;font-size:13px}html.k .warn{padding:6px 14px;font-size:15px}
+
+/* Layout-Feinschliff: Kacheln zentriert, Schrift passt sich der Kachelgrösse an; Windbox bündig mit den Kacheln */
+.tile{container-type:size;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:clamp(4px,2.2cqh,16px)}
+html .tile h2,html.k .tile h2{margin:0;font-size:clamp(15px,min(6cqw,7.5cqh),26px)}
+html .tile .v,html.k .tile .v{font-size:clamp(34px,min(25cqw,32cqh),160px)}
+html .tile .v[style],html.k .tile .v[style]{font-size:clamp(30px,min(17cqw,24cqh),110px)!important}
+html .tile .u,html.k .tile .u{font-size:.38em;margin-left:.2em}
+html .tile p,html.k .tile p{margin:0;font-size:clamp(14px,min(4.6cqw,6cqh),23px);text-wrap:balance;line-height:1.25}
+html .tile .bar,html.k .tile .bar{width:80%;margin:0;height:clamp(10px,3cqh,18px)}
+.tile .v{transform-origin:center}
+aside{container-type:size;display:flex;flex-direction:column}
+html aside h2,html.k aside h2{margin:0 0 4px;text-align:center;font-size:clamp(17px,min(5.5cqw,4.2cqh),27px)}
+html aside ol,html.k aside ol{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;gap:0;font-size:clamp(12px,min(4.4cqw,3.5cqh),21px);line-height:1.22}
+html aside li,html.k aside li{padding:2px 6px;grid-template-columns:2em 1fr}
+html aside li b,html.k aside li b{font-size:1.15em}
+@media(max-width:1000px){aside{container-type:inline-size}html aside ol,html.k aside ol{justify-content:flex-start;gap:5px;font-size:17px}}
 </style>
 <div class="wrap">
  <header>
@@ -83,13 +99,13 @@ html.k .past,html.k .note{display:none}html.k .main{gap:10px}html.k .conn{margin
   <section>
    <div class="tiles" id="tiles"></div>
    <div class="tv" id="tv" hidden></div>
-   <p class="hint" id="tilehint" style="margin-top:12px">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung.</p>
   </section>
   <aside aria-labelledby="wind-h">
    <h2 id="wind-h">Wind am Fenster</h2>
    <ol id="bft"></ol>
   </aside>
  </div>
+ <p class="hint" id="tilehint" style="margin:0">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung.</p>
  <div class="past">
   <label for="d">Tag verpasst?</label>
   <input type="date" id="d" min="2026-10-26"><input type="time" id="t" value="08:30" step="600">
@@ -229,4 +245,9 @@ $('std')&&($('std').onclick=()=>{mode='std';run()});
 const today=new Date();$('d').max=toKey(today).slice(0,10);
 $('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');
 buildBft();run();
+
+/* Werte schrumpfen, falls sie breiter als die Kachel sind */
+(function(){function fit(){document.querySelectorAll('#tiles .tile .v').forEach(function(v){v.style.transform='';var t=v.closest('.tile'),cs=getComputedStyle(t),avail=t.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight),w=v.scrollWidth;if(w>avail&&w>0)v.style.transform='scale('+(avail/w).toFixed(3)+')'})}
+var tl=document.getElementById('tiles');if(tl){new MutationObserver(fit).observe(tl,{childList:true});if(window.ResizeObserver)new ResizeObserver(fit).observe(tl)}
+window.addEventListener('resize',fit);setTimeout(fit,300)})();
 </script>
