@@ -51,6 +51,11 @@ aside li.on{background:var(--teal);color:var(--teal-ink)}
 .warn{background:var(--warn);color:#3b2a00;border:2px solid #b8860b;border-radius:14px;padding:12px 18px;font-weight:700}
 :root[data-theme=dark] .warn{color:#fff3cf}
 .ctl{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:8px}.ctl .seg{display:contents}.ctl button{width:100%;white-space:nowrap}.ctl button small{display:block;font-size:12px;font-weight:400;opacity:.85}@media (max-width:560px){.ctl{grid-template-columns:1fr}}
+
+[hidden]{display:none!important}
+.tabs{margin-left:auto;display:flex;gap:8px}.tabs button{padding:5px 14px;border-color:transparent;background:var(--tile);font-size:16px}.tabs button[aria-pressed="true"]{background:var(--teal-ink);color:#fff;border-color:transparent}
+.tv{background:var(--tile);border-radius:18px;padding:14px 18px}.tv h2{margin:0 0 6px;font-size:20px}.tv svg{display:block;width:100%;height:auto}.tv text{fill:var(--fg);font-family:inherit}.tv .m{fill:var(--muted)}
+html.k .tv{padding:8px 12px;border-radius:14px}html.k .tv h2{font-size:16px;margin-bottom:2px}html.k .tv svg{height:clamp(260px,calc(100vh - 290px),620px)}html.k .tabs button{padding:2px 12px;font-size:14px}
 html.k body{padding-block:8px;font-size:16px}html.k .wrap{gap:10px}
 html.k header{padding:8px 16px;border-radius:16px}html.k header h1{font-size:28px}html.k header small{font-size:13px}html.k header button{padding:6px 12px}.k .ctl button small{font-size:11px}
 html.k .status{font-size:15px}html.k .pill{padding:2px 12px}
@@ -73,11 +78,12 @@ html.k .past,html.k .note{display:none}html.k .main{gap:10px}html.k .conn{margin
    </div>
   </div>
  </header>
- <div class="status"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span></div>
+ <div class="status"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button></span></div>
  <div class="main">
   <section>
    <div class="tiles" id="tiles"></div>
-   <p class="hint" style="margin-top:12px">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung.</p>
+   <div class="tv" id="tv" hidden></div>
+   <p class="hint" id="tilehint" style="margin-top:12px">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung.</p>
   </section>
   <aside aria-labelledby="wind-h">
    <h2 id="wind-h">Wind am Fenster</h2>
@@ -182,8 +188,28 @@ function render(rows,i,live,why){
    '<div class="tile copy"><h2>Regnet es?</h2><div class="v">'+(rainNow||'–')+'</div><p>'+(rainNow?'in den letzten 30 Minuten':'Keine Daten.')+'</p></div>'+
    '<div class="tile"><h2>Sonne</h2><div class="v">'+(rad==null?'–':Math.round(rad))+'<span class="u">W/m²</span></div><div class="bar"><i style="width:'+(rad==null?0:Math.min(100,rad/8))+'%"></i></div><p>Je mehr, desto sonniger.</p></div>'+
    '<div class="tile"><h2>Luftfeuchtigkeit</h2><div class="v">'+fmt(hum,0)+'<span class="u">%</span></div><p>100 % heisst Nebel oder Regen</p></div>';
+  LAST={rows,i};if(tab==='v')drawTV();
   [...document.querySelectorAll('#bft li')].forEach((li,k)=>li.classList.toggle('on',k===Math.min(b,7)));
 }
+
+let tab='w',LAST=null;
+function drawTV(){
+  const box=$('tv');if(!LAST)return;const {rows,i}=LAST,r=rows[i];if(!r){box.innerHTML='';return}
+  const day=r[0].slice(0,10),pts=rows.filter(x=>x[0].slice(0,10)===day&&x[1]!=null).map(x=>[(+x[0].slice(11,13))*60+(+x[0].slice(14,16)),x[1]]).sort((a,b)=>a[0]-b[0]);
+  if(!pts.length){box.innerHTML='<h2>Tagesverlauf</h2><p class="hint">Für diesen Tag gibt es keine Temperaturwerte.</p>';return}
+  const W=900,H=430,L=56,R=20,T=30,B=40,vs=pts.map(x=>x[1]);let lo=Math.floor(Math.min(...vs)/2)*2-2,hi=Math.ceil(Math.max(...vs)/2)*2+2;if(hi-lo<8)hi=lo+8;
+  const X=m=>L+(m/1440)*(W-L-R),Y=v=>T+(hi-v)/(hi-lo)*(H-T-B);let g='';
+  for(let v=lo;v<=hi;v+=2)g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="currentColor" stroke-opacity="'+(v===0?'.6':'.15')+'"/><text class="m" x="'+(L-8)+'" y="'+(Y(v)+5)+'" text-anchor="end" font-size="15">'+v+'</text>';
+  for(let h=0;h<=24;h+=3)g+='<line x1="'+X(h*60)+'" x2="'+X(h*60)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="currentColor" stroke-opacity="'+(h%6?'.07':'.15')+'"/><text class="m" x="'+X(h*60)+'" y="'+(H-B+22)+'" text-anchor="middle" font-size="15">'+h+' Uhr</text>';
+  g+='<text class="m" x="'+(L-8)+'" y="'+(T-14)+'" text-anchor="end" font-size="14">°C</text>';
+  g+='<polyline fill="none" stroke="var(--teal-ink)" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round" points="'+pts.map(x=>X(x[0]).toFixed(1)+','+Y(x[1]).toFixed(1)).join(' ')+'"/>';
+  const last=pts[pts.length-1];g+='<circle cx="'+X(last[0])+'" cy="'+Y(last[1])+'" r="5" fill="var(--teal-ink)"/>';
+  [[510,'8:30'],[705,'11:45']].forEach(([m,l],k)=>{const q=pts.filter(x=>x[0]<=m).pop();if(!q||m-q[0]>25||m>last[0]+25)return;
+    g+='<line x1="'+X(m)+'" x2="'+X(m)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--ok)" stroke-width="3" stroke-dasharray="6 5"/><circle cx="'+X(m)+'" cy="'+Y(q[1])+'" r="9" fill="var(--ok)" stroke="var(--teal-ink)" stroke-width="2.5"/>'+
+     '<text x="'+(X(m)+(k?12:-12))+'" y="'+(Y(q[1])-14)+'" text-anchor="'+(k?'start':'end')+'" font-size="20" font-weight="700">'+l+' Uhr: '+fmt(q[1],1)+' °C</text>'});
+  const d=day.split('-').reverse().join('.');
+  box.innerHTML='<h2>Tagesverlauf der Temperatur · '+NAMES[station]+' · '+d+'</h2><svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Temperatur über den Tag">'+g+'</svg>'}
+function setTab(t){tab=t;$('tab-w').setAttribute('aria-pressed',String(t==='w'));$('tab-v').setAttribute('aria-pressed',String(t==='v'));$('tiles').hidden=t==='v';$('tilehint').hidden=t==='v';$('tv').hidden=t!=='v';if(t==='v')drawTV()}
 function syncMode(){$('std').setAttribute('aria-pressed',String(mode==='std'));$('now').setAttribute('aria-pressed',String(mode==='now'))}
 async function run(){syncMode();
   clearTimeout(timer);$('badge').className='pill hist';$('badge').textContent='lädt …';
@@ -201,5 +227,6 @@ $('go').onclick=()=>{const d=$('d').value,t=$('t').value;if(!d||!t){$('pasthint'
 $('now').onclick=()=>{mode='now';$('pasthint').textContent='Zeigt den neuesten Wert. Normal zeigt die Seite den Wert von 8:30.';run()};
 $('std')&&($('std').onclick=()=>{mode='std';run()});
 const today=new Date();$('d').max=toKey(today).slice(0,10);
+$('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');
 buildBft();run();
 </script>
