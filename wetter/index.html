@@ -103,7 +103,7 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
    </div>
   </div>
  </header>
- <div class="status"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button><button id="tab-m" aria-pressed="false">Karte</button></span></div>
+ <div class="status"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Tag wechseln"><button id="wb" title="7 Tage zurück">‹ 7 Tage</button><button id="wf" title="7 Tage vor" disabled>7 Tage ›</button></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button><button id="tab-m" aria-pressed="false">Karte</button></span></div>
  <div class="main">
   <section>
    <div class="tiles" id="tiles"></div>
@@ -259,6 +259,11 @@ $('st-mythenquai').onclick=()=>setStation('mythenquai');
 $('st-fluntern').onclick=()=>setStation('fluntern');
 $('go').onclick=()=>{const d=$('d').value,t=$('t').value;if(!d||!t){$('pasthint').textContent='Bitte Datum und Uhrzeit wählen.';return}target=new Date(d+'T'+t+':00');mode='past';$('pasthint').textContent='Zeige den Wert von '+d.split('-').reverse().join('.')+', '+t+' Uhr.';run()};
 $('now').onclick=()=>{mode='now';$('pasthint').textContent='Zeigt den neuesten Wert. Normal zeigt die Seite den Wert von 8:30.';run()};
+function wk(dir){const base=mode==='past'&&target?new Date(target):new Date();base.setHours(8,30,0,0);base.setDate(base.getDate()+7*dir);const now=new Date();
+  if(base>=new Date(now.getFullYear(),now.getMonth(),now.getDate(),8,30)||dir>0&&base>now){mode='std';$('pasthint').textContent='Normal zeigt die Seite den Wert von 8:30 (Messzeit). Für einen verpassten Tag: Datum wählen.'}
+  else{target=base;mode='past';const d=toKey(base).slice(0,10);$('d').value=d;$('t').value='08:30';$('pasthint').textContent='Zeige den Wert von '+d.split('-').reverse().join('.')+', 08:30 Uhr.'}
+  $('wf').disabled=mode!=='past';run()}
+$('wb').onclick=()=>wk(-1);$('wf').onclick=()=>wk(1);
 $('std')&&($('std').onclick=()=>{mode='std';run()});
 const today=new Date();$('d').max=toKey(today).slice(0,10);
 $('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');$('tab-m').onclick=()=>setTab('m');
