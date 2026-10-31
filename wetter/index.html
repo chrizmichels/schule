@@ -23,7 +23,7 @@ button[aria-pressed="true"]{background:var(--teal);color:var(--teal-ink);border-
 header button{background:#fff;color:var(--teal-ink);border-color:transparent}
 header button[aria-pressed="true"]{background:var(--teal-ink);color:#fff;border-color:transparent}
 button:focus-visible,input:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
-.status{align-items:center;font-size:17px}.srow{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;min-width:0}
+.status{font-size:17px}.srow{width:100%;white-space:nowrap;display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;min-width:0}
 .pill{border-radius:999px;padding:4px 14px;font-weight:700}
 .pill.live{background:var(--ok)}.pill.demo{background:var(--warn)}
 .main{display:grid;gap:16px;grid-template-columns:minmax(0,3fr) minmax(280px,1fr)}
@@ -60,7 +60,7 @@ aside li.on{background:var(--teal);color:var(--teal-ink)}
 html.k .tv{padding:8px 12px;border-radius:14px}html.k .tv h2{font-size:16px;margin-bottom:2px}html.k #tv svg{height:clamp(260px,calc(100vh - 290px),620px)}html.k .tabs button{padding:2px 12px;font-size:14px}
 html.k body{padding-block:8px;font-size:16px}html.k .wrap{gap:10px}
 html.k header{padding:8px 16px;border-radius:16px}html.k header h1{font-size:36px}html.k header small{font-size:17px}html.k header button{padding:6px 14px;font-size:20px}.k .ctl button small{font-size:14px}
-html.k .status{font-size:15px}html.k .main.status{gap:10px}.srow .tabs{margin-left:0}.srow .tabs[aria-label="Tag wechseln"]{margin-left:auto}.srow .tabs button{width:84px;padding:2px 0;text-align:center}.srow{gap:8px}html.k .pill{padding:2px 12px}
+html.k .status{font-size:15px}html.k .main.status{gap:10px}.srow .tabs{margin-left:0}.srow .tabs[aria-label="Tag wechseln"]{margin-left:auto}.srow .tabs button{width:112px;padding:2px 0;text-align:center}.srow{gap:8px}html.k .pill{padding:2px 12px}
 html.k .tiles{grid-auto-rows:clamp(150px,calc((100vh - 270px)/2),300px);gap:10px}html.k .tile{padding:10px 14px;border-radius:14px}html.k .tile h2{font-size:16px;margin-bottom:2px}
 html.k .tile .v{font-size:clamp(36px,min(5vw,10vh),90px)}html.k .tile .v[style]{font-size:clamp(30px,min(4vw,8vh),68px)!important}html.k .tile p{font-size:15px;margin-top:2px}html.k .bar{height:12px;margin-top:6px}
 html.k aside{padding:10px 14px;border-radius:14px}html.k aside h2{font-size:17px;margin-bottom:4px}html.k aside ol{font-size:clamp(13px,1.9vh,17px);gap:clamp(1px,.5vh,6px)}html.k aside li{padding:2px 4px;grid-template-columns:26px 1fr}html.k aside li b{font-size:16px}
@@ -103,7 +103,7 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
    </div>
   </div>
  </header>
- <div class="status main"><div class="srow"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Tag wechseln"><button id="wb" title="1 Tag zurück (bis 7 Tage)">‹ Zurück</button><button id="wh" disabled>Heute</button><button id="wf" title="1 Tag vor" disabled>Vor ›</button></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Verlauf</button><button id="tab-m" aria-pressed="false">Karte</button></span></div><div></div></div>
+ <div class="status"><div class="srow"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Tag wechseln"><button id="wb" title="1 Tag zurück (bis 7 Tage)">‹ Zurück</button><button id="wh" disabled>Heute</button><button id="wf" title="1 Tag vor" disabled>Vor ›</button></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button><button id="tab-m" aria-pressed="false">Karte</button></span></div></div>
  <div class="main">
   <section>
    <div class="tiles" id="tiles"></div>
