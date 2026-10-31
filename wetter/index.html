@@ -279,7 +279,9 @@ function showMap(){
  if(!window.L){$('maptxt').textContent='Die Karte konnte nicht geladen werden (keine Internetverbindung).';return}
  if(!LMAP){
   LMAP=L.map('map',{scrollWheelZoom:false});
-  L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',{maxZoom:18,attribution:'© swisstopo'}).addTo(LMAP);
+  const lk=L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',{maxZoom:18,attribution:'© swisstopo'});
+  const lb=L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.swissimage/default/current/3857/{z}/{x}/{y}.jpeg',{maxZoom:18,attribution:'© swisstopo'}).addTo(LMAP);
+  L.control.layers({'Luftbild':lb,'Karte':lk},null,{collapsed:false,position:'topright'}).addTo(LMAP);
   for(const k in PL){const p=PL[k];LMK[k]=L.marker(p.ll,{icon:pinIcon(k==='schule'?'#e5322d':'#14211f'),keyboard:false}).addTo(LMAP).bindTooltip('<span>'+p.n+'</span><small>'+p.s+'</small>',{permanent:true,direction:p.d,className:'lbl'})}
   const f=km(PL.schule.ll,PL.fluntern.ll),m=km(PL.schule.ll,PL.mythenquai.ll);
   $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Grün = Station, die gerade angezeigt wird.'
