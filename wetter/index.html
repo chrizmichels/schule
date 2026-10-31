@@ -262,7 +262,7 @@ var tl=document.getElementById('tiles');if(tl){new MutationObserver(fit).observe
 window.addEventListener('resize',fit);setTimeout(fit,300)})();
 
 /* Karte: Messstationen und Schule */
-const PL={fluntern:{n:'Zürich-Fluntern',s:'MeteoSchweiz · 556 m ü. M.',ll:[47.3778,8.5657],d:'top'},mythenquai:{n:'Mythenquai',s:'Stadt Zürich · ca. 408 m ü. M.',ll:[47.3545,8.5363],d:'right'},schule:{n:'Schule Bühl',s:'Bühlstrasse 6, Wiedikon',ll:[47.36819,8.51633],d:'left'}};
+const PL={fluntern:{n:'Zürich-Fluntern',s:'MeteoSchweiz · 556 m ü. M.',ll:[47.3778,8.5657],d:'left'},mythenquai:{n:'Mythenquai',s:'Stadt Zürich · ca. 408 m ü. M.',ll:[47.3545,8.5363],d:'right'},schule:{n:'Schule Bühl',s:'Bühlstrasse 6, Wiedikon',ll:[47.36819,8.51633],d:'right'}};
 let LMAP=null;const LMK={};
 function pinIcon(c){return L.divIcon({className:'pin',html:'<i style="background:'+c+'"></i>',iconSize:[28,28],iconAnchor:[14,28],tooltipAnchor:[0,-18]})}
 function km(a,b){const R=6371,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,x=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
@@ -276,5 +276,5 @@ function showMap(){
   const f=km(PL.schule.ll,PL.fluntern.ll),m=km(PL.schule.ll,PL.mythenquai.ll);
   $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Grün = Station, die gerade angezeigt wird.'
  }
- LMAP.invalidateSize();LMAP.fitBounds(L.latLngBounds(Object.values(PL).map(p=>p.ll)),{padding:[70,70]});mapSel()}
+ LMAP.invalidateSize();LMAP.fitBounds(L.latLngBounds(Object.values(PL).map(p=>p.ll)),{padding:[60,60]});mapSel()}
 </script>
