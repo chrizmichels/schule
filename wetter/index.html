@@ -238,7 +238,7 @@ function drawTV(){
   let tx='';
   [[510,'8:30'],[705,'11:45']].forEach(([m,l],k)=>{const q=pts.filter(x=>x[0]<=m).pop();if(!q||m-q[0]>25||m>last[0]+25)return;
     g+='<line x1="'+X(m)+'" x2="'+X(m)+'" y1="'+T+'" y2="'+(H-B)+'" stroke="var(--ok)" stroke-width="3" stroke-dasharray="6 5"/><circle cx="'+X(m)+'" cy="'+Y(q[1])+'" r="9" fill="var(--ok)" stroke="var(--teal-ink)" stroke-width="2.5"/>';
-    tx+='<text class="hl" x="'+(X(m)+(k?14:-14))+'" y="'+(Y(q[1])+(k?34:-14))+'" text-anchor="'+(k?'start':'end')+'" font-size="20" font-weight="700">'+l+' Uhr: '+fmt(q[1],M.d)+' '+M.u+'</text>'});
+    tx+='<text class="hl" x="'+(X(m)+(k?14:-14))+'" y="'+(k&&Y(q[1])+34>H-B-6?Y(q[1])-16:Y(q[1])+(k?34:-14))+'" text-anchor="'+(k?'start':'end')+'" font-size="20" font-weight="700">'+l+' Uhr: '+fmt(q[1],M.d)+' '+M.u+'</text>'});
   for(let v=lo;v<=hi+1e-9;v+=st)tx+='<text class="m hl" x="'+(L-8)+'" y="'+(Y(v)+5)+'" text-anchor="end" font-size="15">'+(dec?v.toFixed(1):Math.round(v))+'</text>';
   for(let h=0;h<=24;h+=3)tx+='<text class="m hl" x="'+X(h*60)+'" y="'+(H-B+22)+'" text-anchor="middle" font-size="15">'+h+' Uhr</text>';
   tx+='<text class="m hl" x="'+(L-8)+'" y="'+(T-14)+'" text-anchor="end" font-size="14">'+M.u+'</text>';
