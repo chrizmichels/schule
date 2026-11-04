@@ -87,7 +87,7 @@ html aside li b,html.k aside li b{font-size:1.15em}
 html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
 .pin i{display:block;width:22px;height:22px;margin:2px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.55)}
 .leaflet-tooltip.lbl{font-family:inherit;font-weight:700;font-size:15px;line-height:1.25;color:#14211f;border:2px solid #14211f;border-radius:8px;padding:3px 9px;box-shadow:none}
-.leaflet-tooltip.lbl small{display:block;font-weight:400;font-size:12.5px}
+.leaflet-tooltip.lbl .tt{display:block;font-style:normal;font-weight:800;font-size:22px;line-height:1.15}.leaflet-tooltip.lbl small{display:block;font-weight:400;font-size:12.5px}
 </style>
 <div class="wrap">
  <header>
@@ -245,12 +245,19 @@ function drawTV(){
   box.innerHTML=ttl+'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+M.n+' über den Tag">'+g+tx+'</svg>'}
 function setTab(t){tab=t;['w','v','m'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';if(t==='v')drawTV();if(t==='m')showMap()}
 function syncMode(){$('std').setAttribute('aria-pressed',String(mode==='std'));$('now').setAttribute('aria-pressed',String(mode==='now'))}
+const TEMPS={fluntern:null,mythenquai:null};
+function fT(v){return v==null?'–':String(Math.round(v*10)/10).replace('.',',')+' °C'}
+function mapTemps(){if(!LMAP)return;for(const k of ['fluntern','mythenquai']){const p=PL[k];LMK[k].setTooltipContent('<span>'+p.n+'</span><em class="tt">'+fT(TEMPS[k])+'</em><small>'+p.s+'</small>')}}
+async function otherTemp(me){const o=me==='fluntern'?'mythenquai':'fluntern',dg=window.DIAG;
+  try{const t=curTarget(),r=o==='fluntern'?await loadFl(t):await load(o,t),j=pick(r.rows,t);if(station===me)TEMPS[o]=(r.rows[j<0?0:j]||[])[1]}catch(e){if(station===me)TEMPS[o]=null}
+  window.DIAG=dg;mapTemps()}
 async function run(){syncMode();
   clearTimeout(timer);$('badge').className='pill hist';$('badge').textContent='lädt …';
   let rows,live=false,why='';
   try{const r=station==='fluntern'?await loadFl(curTarget()):await load(station,curTarget());rows=r.rows;live=true}catch(e){rows=SAMPLE[station]||SAMPLE.mythenquai;why='Keine Verbindung zu den Messdaten. Gespeicherte Werte vom 30.10. · '+(window.DIAG||e.message)}
   const i=pick(rows,curTarget());
   if(i<0){render(rows,-1,live,why)}else{render(rows,i,live,why)}
+  TEMPS[station]=(rows[i<0?0:i]||[])[1];mapTemps();otherTemp(station);
   if(mode!=='past')timer=setTimeout(run,5*60000);
 }
 function buildBft(){$('bft').innerHTML=BFT.map((b,k)=>'<li><b>'+k+'</b><span><strong>'+b[0]+'</strong><br>'+b[1]+'</span></li>').join('')}
@@ -291,7 +298,8 @@ function showMap(){
   L.control.layers({'Luftbild':lb,'Karte':lk},null,{collapsed:false,position:'topright'}).addTo(LMAP);
   for(const k in PL){const p=PL[k];LMK[k]=L.marker(p.ll,{icon:pinIcon(k==='schule'?'#e5322d':'#14211f'),keyboard:false}).addTo(LMAP).bindTooltip('<span>'+p.n+'</span><small>'+p.s+'</small>',{permanent:true,direction:p.d,className:'lbl'})}
   const f=km(PL.schule.ll,PL.fluntern.ll),m=km(PL.schule.ll,PL.mythenquai.ll);
-  $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Grün = Station, die gerade angezeigt wird.'
+  $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Grün = Station, die gerade angezeigt wird. Die Temperaturen gelten für die Zeit, die oben steht.'
  }
+ mapTemps();
  LMAP.invalidateSize();LMAP.fitBounds(L.latLngBounds(Object.values(PL).map(p=>p.ll)),{padding:[60,60]});mapSel()}
 </script>
