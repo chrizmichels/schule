@@ -18,3 +18,8 @@ Kindgerechte, getrennte Version: `/detektive`. Drei Fälle (Tagesverlauf, zwei T
 
 ## Startseite (start.html)
 `/start`: drei Bereiche mit gleichem Aufbau, aber eigener Farbe und Schrift: Wetterstation (blau, `/`), SOL-Fälle (Aktenbeige, `/detektive`), FreiDay (grün/gelb, `/einsaetze`). Die Wetter-Anzeige bleibt unter `/`, damit der gedruckte QR-Code weiter funktioniert. Die Kacheln dort haben ein «?» mit Link zum Klexikon (Temperatur, Wind, Wolke, Regen, Sonne, Nebel).
+
+## Looks der drei Bereiche
+- Wetterstation (`index.html`): blau, runde Formen, Messgerät-Symbol. Die vier grünen Kacheln zum Abschreiben bleiben grün.
+- SOL (`detektive.html`): Aktenbeige, Stempel.
+- FreiDay (`einsaetze.html`): grün und sonnengelb, Handschrift (Caveat), Geschichte der 4b-Kinder (kein Detektiv). Papier heisst dort «Einsatz-Logbuch».

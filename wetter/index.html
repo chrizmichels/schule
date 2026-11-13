@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Wetter-Anzeige 4b</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,10 +98,42 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
 .tile .what{position:absolute;top:10px;right:12px;width:2.1em;height:2.1em;min-width:34px;min-height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--fg);border:2px solid var(--line);font-weight:700;font-size:18px;text-decoration:none;line-height:1}
 .tile .what:hover{background:var(--fg);color:var(--bg)}.tile .what:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 .startlink{color:inherit;font-size:16px;font-weight:700;text-decoration:underline;display:inline-block;margin-bottom:4px}
+
+/* Wetterstation-Look: blau, rund, Messgerät (passend zur Startseite). Grün bleibt nur für die vier Kacheln zum Abschreiben. */
+:root{--w:#1f6fb5;--w-ink:#0d2b47;--lav:#dcebf8}
+:root[data-theme="dark"]{--w:#2d7fc7;--lav:#1b3047}
+header{background:var(--w);color:#fff;border-radius:28px}
+header h1,header small{color:#fff}
+.hd{display:flex;align-items:center;gap:16px;min-width:0;flex:1 1 420px}header .ctl{flex:0 0 auto}.hd .gico{flex:none;width:62px;height:62px}
+@media(max-width:520px){.hd .gico{width:44px;height:44px}}
+header button{color:var(--w-ink);border-radius:99px}
+header button[aria-pressed="true"]{background:var(--w-ink);color:#fff}
+header .startlink{color:#fff}
+button[aria-pressed="true"]{background:var(--w);color:#fff;border-color:var(--w-ink)}
+.tile{border-radius:26px}
+.tile h2{border-radius:99px;padding:2px 14px}
+.bar i{background:var(--w)}
+aside{border-radius:26px}
+aside li.on{background:var(--w);color:#fff}
+.past,.note,.tv,.ort{border-radius:22px}
+.tabs button,.past button{border-radius:99px}
+.note{background:var(--lav)}
+.pill.hist{background:var(--lav)}
+
+/* Handy und Tablet: nichts darf breiter als der Bildschirm werden */
+.wrap{grid-template-columns:minmax(0,1fr)}
+@media(max-width:700px){
+ .srow{white-space:normal}
+ .srow .tabs,.srow .tabs[aria-label="Tag wechseln"]{margin-left:0;flex-wrap:wrap}
+ .srow .tabs button{width:auto;padding:4px 14px}
+ header .ctl{width:100%;grid-template-columns:1fr 1fr}
+ header .ctl button{white-space:normal}
+ .past{gap:8px}
+}
 </style>
 <div class="wrap">
  <header>
-  <div><a class="startlink" href="/start">‹ Startseite</a><h1>Wetter in Zürich</h1><small>Klasse 4b · Messwerte von MeteoSchweiz (Fluntern) und der Stadt Zürich (Mythenquai), alle 10 Minuten</small></div>
+  <div class="hd"><svg class="gico" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="#fff" opacity=".18"/><circle cx="32" cy="32" r="22" fill="none" stroke="#fff" stroke-width="4"/><path d="M32 32 L43 18" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#fff"/><path d="M14 44h8M42 44h8" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg><div><a class="startlink" href="/start">‹ Startseite</a><h1>Wetter in Zürich</h1><small>Klasse 4b · Messwerte von MeteoSchweiz (Fluntern) und der Stadt Zürich (Mythenquai), alle 10 Minuten</small></div></div>
   <div class="ctl">
    <div class="seg" role="group" aria-label="Station">
     <button id="st-fluntern" aria-pressed="true">Zürich-Fluntern<small>556 m ü. M.</small></button>

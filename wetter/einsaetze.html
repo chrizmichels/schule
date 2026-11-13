@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FreiDay-Einsätze 4b</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Caveat:wght@600;700&display=swap">
 <style>
-/* Klimadetektive: Stil «Kommissariat» (Schreibtisch, Aktenmappen, Stempel). Eine Akte = eine Frage. Erst vermuten, dann die Spur (Messwerte) prüfen, dann ins Heft schreiben. */
+/* FreiDay-Einsätze: Stil «Wegmarke» (grün, sonnengelb, Handschrift). Basis-Layout stammt von den Klimadetektiven, Farben und Formen sind unten im Block «FreiDay-Look» überschrieben. */
 :root{--desk:#dde3de;--folder:#e7d6ae;--folder-edge:#cdb886;--paper:#fbfaf6;--ink:#1c2420;--muted:#5b6660;--rule:#d4d9d3;--stamp:#b3302a;--ok:#1d7f4c;--ok-soft:#ddf0e3;--bad:#b3302a;--bad-soft:#f8e1dd;--hl:#f2d24b;--hl-soft:#f7ebb0;--blue:#2d62c4;--orange:#c9661a;--cold:#cfe0f7;
  --f-display:"Zilla Slab",Rockwell,Georgia,serif;--f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;--f-type:"Courier Prime","Courier New",ui-monospace,monospace;color-scheme:light}
 *{box-sizing:border-box}
@@ -167,7 +167,7 @@ footer a{color:inherit}
 @media (max-width:520px){body{font-size:17px}.two-days{grid-template-columns:1fr}}
 
 /* FreiDay-Einsätze */
-.cover::before{content:"Einsatzakte 4b.E"!important}
+.cover::before{content:"Logbuch 4b"!important}
 .todo{margin:8px 0 12px 22px;padding:0}.todo li{margin:6px 0;line-height:1.55}
 .klx{display:inline-block;background:var(--ink);color:var(--paper)!important;text-decoration:none;font-weight:700;padding:8px 14px;border-radius:8px;margin:4px 0}
 .rollen{display:grid;gap:14px;margin:12px 0}
@@ -182,24 +182,70 @@ footer a{color:inherit}
 .idee{position:relative;border:2px dashed var(--muted);border-radius:10px;padding:10px 14px 6px 64px;background:#fff}
 .note.warn{border-color:var(--stamp);background:#fdf0ee}
 .sdgchip{display:flex;align-items:center;gap:8px;font-family:var(--f-type);font-weight:700;font-size:.9rem}.sdgchip i{display:inline-block;width:14px;height:14px;border-radius:3px}
+
+/* FreiDay-Look: grün und sonnengelb, runde Formen, Handschrift für Titel (passend zur Startseite) */
+:root{--desk:#eaf3ec;--folder:#def0e2;--folder-edge:#8fc4a0;--paper:#fff;--ink:#10301d;--muted:#4d6657;--rule:#cfe0d4;--stamp:#2c7a4b;--ok:#2c7a4b;--ok-soft:#def0e2;--hl:#f2c14e;--hl-soft:#fbe9b4;--blue:#1f6fb5;--green:#2c7a4b;--sun:#f2c14e;
+ --f-display:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;--f-type:var(--f-display);--f-hand:"Caveat","Atkinson Hyperlegible",cursive}
+.lbl,.chip small,.opt small,.cell span,.ort small,.now small,.v4 small,.gbar .ttl small,.steps li,footer{font-family:var(--f-body)}
+.cover{background:#fff;border:2px solid var(--green);border-radius:10px 10px 44px 10px;overflow:visible}
+.cover::before{background:var(--green)!important;color:#fff!important;border:0!important;border-radius:10px 10px 0 0!important;font-family:var(--f-body)!important;font-weight:700;letter-spacing:.04em}
+.cover h1{font-family:var(--f-hand);font-size:clamp(48px,9vw,84px);line-height:.95;letter-spacing:0;color:var(--green)}
+.cover h1 span{font-family:var(--f-body);color:var(--ink);font-size:.26em;letter-spacing:.12em}
+.sun{position:absolute;right:clamp(14px,4vw,40px);top:20px;background:var(--sun);color:#2a2000;border:3px solid var(--green);border-radius:50%;width:112px;height:112px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:14px;line-height:1.15;transform:rotate(8deg);padding:8px}
+.sun b{font-family:var(--f-hand);font-size:34px;line-height:1}
+@media (max-width:620px){.sun{position:static;align-self:flex-start;transform:rotate(-4deg)}}
+.now,.need{background:var(--folder);border-color:var(--folder-edge)}
+.file{background:#fff;border:2px solid var(--green);border-radius:10px 10px 30px 10px}
+.file .tab{background:var(--green);color:#fff;border:0;font-family:var(--f-body);letter-spacing:.04em}
+.file h3{font-family:var(--f-hand);font-size:36px;line-height:1;color:var(--green)}
+.file p{color:var(--ink)}
+.stars{color:var(--folder-edge)}.stars.on{color:#e0a100}
+.solvedst{border-color:var(--green);color:var(--green);font-family:var(--f-body)}
+.open,.btn{background:var(--sun);color:#2a2000;border:2px solid var(--green);border-radius:14px 14px 14px 4px}
+.btn.light{background:#fff;color:var(--ink);border:2px solid var(--green)}
+.open:hover,.btn:hover{filter:none;background:#f7d27a}
+.gbar{background:var(--green);border-color:var(--green);color:#fff;border-radius:10px 10px 30px 10px}
+.gbar .ttl{font-family:var(--f-hand);font-size:36px}.gbar .ttl small{color:#d8efdf}
+.back{background:#fff;border:2px solid var(--sun);color:var(--ink);border-radius:12px}
+.qcard{border-radius:10px 10px 36px 10px;border:2px solid var(--folder-edge)}
+h3{font-family:var(--f-body)}
+.steps li.on::before{background:var(--sun);outline:2px solid var(--green)}.steps li.done::before{background:var(--green)}
+.chip[aria-pressed=true],.opt[aria-pressed=true]{border-color:var(--green)}
+.kap{background:#f4faf5;border:2px solid var(--folder-edge);border-left:8px solid var(--sun);border-radius:4px 14px 14px 4px}
+.kaptag{background:var(--green);font-family:var(--f-body);transform:none}
+.kap .kaph,.beweis .bwh{font-family:var(--f-hand);font-size:2rem;line-height:1.1;color:var(--green)}
+.kap p{font-size:1.1rem}
+.auftrag{border-color:var(--green);border-radius:14px 14px 14px 4px;background:#fff}
+.chk:has(input:checked){background:var(--ok-soft);border-color:var(--green)}.chk input{accent-color:var(--green)}
+.klx{background:var(--green)}
+.rolle,.v4{border-color:var(--green);background:#fff}.rbadge{background:var(--green);font-family:var(--f-hand);font-size:1.7rem}
+.v4 b{font-family:var(--f-hand);font-size:1.9rem;color:var(--green)}
+.idee{border-color:var(--folder-edge);background:#fff}
+.beweis{border-color:var(--folder-edge);border-left:8px solid var(--green)}
+.bwtag{border-color:var(--green);color:var(--green);font-family:var(--f-body);transform:none}
+.fb{border-color:var(--green);background:var(--ok-soft)}.fb .stp{border-color:var(--green);color:var(--green);font-family:var(--f-body)}.fb strong{font-family:var(--f-hand);font-size:2rem;color:var(--green)}
+.note.warn{border-color:#c9661a;background:#fdf1e3}
+.merk{background:var(--hl-soft)}
+.note{background:#fffdf2}
+.note>b:first-child{font-family:var(--f-body)}
 </style>
 
 </head>
 <body>
 <main id="app" aria-live="polite"></main>
 <script>
-/* FreiDay-Einsätze: Detektivgeschichte mit SDG-Bezug. Pro Team ein Einsatz, fünf Etappen, Klexikon als Recherche. */
+/* FreiDay-Einsätze: Geschichte der 4b mit SDG-Bezug. Pro Team ein Einsatz, fünf Etappen, Klexikon als Recherche. */
 const KLX=t=>`<a class="klx" href="https://klexikon.zum.de/wiki/${encodeURIComponent(t)}" target="_blank" rel="noopener">Klexikon: ${t} ↗</a>`;
 const EINS={
  igel:{nr:1,t:'Der Igel-Einsatz',frage:'Wie kommt der Igel durch den Winter?',sdg:15,sdgn:'Leben an Land',sdgt:'Wir schützen Tiere und ihren Lebensraum an Land.',
   kap:[
-   {t:'Der Hilferuf',p:['Mitte November. Der erste Frost kommt. <b>Tim Thermo</b> rennt ins Kommissariat. «Chefin! Im Laub liegt ein Igel. Er ist klein und dünn. Und er hat noch kein Nest!»',
-     '<b>Klara Klima</b> hört gut zu. «Ohne Nest und ohne Fettpolster wird der Winter für ihn schwer. Das ist ein Fall für uns.»',
-     'Sie legt eine Karte auf den Tisch: <b>SDG 15: Leben an Land</b>. «Wir schützen Tiere an Land. Auch Igel.»']},
-   {t:'Spuren sichern',p:['«Wir brauchen Beweise», sagt Klara Klima. «Was weiss man über Igel? Tim, du liest im Klexikon. Und ihr drei auch.»','«Jeder liest eine andere Seite. Dann erklärt ihr es den anderen. So wird niemand allein klug.»']},
-   {t:'Der Plan',p:['Tim kratzt sich am Kopf. «Und wie helfen wir dem Igel?»','Klara Klima zeigt auf vier Wörter an der Tafel: <b>Warum? Wer? Wie? Was?</b> «Ein guter Plan beantwortet alle vier.»']},
-   {t:'Der Einsatz',p:['Der Plan steht. Klara Klima zieht Handschuhe an. «Los geht’s!»','«Aber leise», flüstert Tim. «Ein Igel braucht Ruhe.»']},
-   {t:'Der Bericht',p:['Am Abend sitzen alle im Kommissariat. Die Lehrperson zeigt das Beweisfoto. Tim strahlt. «Der Igel hat ein Versteck!»','Klara Klima stempelt die Akte: <b>Fall gelöst</b>. «Und jetzt erzählt ihr der Klasse, wie ihr das geschafft habt.»']}],
+   {t:'Der Hilferuf',p:['Mitte November. Der erste Frost kommt. In der grossen Pause ruft ein Kind der 4b: «Kommt schnell! Im Laub liegt ein Igel!» Alle rennen hin. Der Igel ist klein und dünn. Ein Nest hat er auch noch nicht.',
+     '«Ohne Nest und ohne Fettpolster wird der Winter für ihn schwer», sagt ein Kind. «Wir müssen etwas tun!»',
+     'Im Klassenzimmer hängt eine Karte: <b>SDG 15: Leben an Land</b>. «Wir schützen Tiere an Land. Auch Igel.» Die 4b macht sich auf den Weg.']},
+   {t:'Nachlesen',p:['Die 4b will zuerst verstehen: Was weiss man über Igel? Die Kinder lesen im Klexikon. Jedes Kind im Team liest eine andere Seite.','Dann erklärt jedes Kind den anderen, was es gelesen hat. So wird niemand allein klug.']},
+   {t:'Der Plan',p:['«Und wie helfen wir dem Igel?», fragt ein Kind. Die Teams schauen zur Tafel. Dort stehen vier Wörter: <b>Warum? Wer? Wie? Was?</b>','Ein guter Plan beantwortet alle vier.']},
+   {t:'Der Einsatz',p:['Der Plan steht. Die Teams ziehen Handschuhe an. «Los geht’s!»','«Aber leise», flüstert ein Kind. «Ein Igel braucht Ruhe.»']},
+   {t:'Der Bericht',p:['Am Abend ist der Unterschlupf fertig. Die Lehrperson macht ein Foto. «Der Igel hat ein Versteck!» Die Kinder strahlen.','Jetzt erzählt jedes Team der Klasse, wie es das geschafft hat. So lernt die ganze 4b von jedem Projekt. Und die Welt wird ein Stück besser.']}],
   rollen:[
    {k:'A',t:'Igel: Leben und Essen',lk:'Igel',lies:'Lies den Anfang und den Abschnitt <b>«Wie leben unsere Igel und was fressen sie?»</b>',q:['Was frisst der Igel?','Wo schläft der Igel am Tag?','Was macht der Igel bei Gefahr?'],
     a:['Vor allem Insekten (Käfer, Raupen, Ameisen). Auch Regenwürmer und Schnecken.','In einem Nest aus Laub und Ästen.','Er rollt sich zu einer Kugel zusammen.']},
@@ -210,8 +256,8 @@ const EINS={
   merk:['Igel halten Winterschlaf. Dafür brauchen sie im Herbst ein Fettpolster und ein trockenes Versteck.','Am besten hilft ein naturnaher Garten mit Laub, Reisig und Verstecken.','Füttern nur wenn nötig, nur Katzenfutter. Einen Unterschlupf nicht mehr verschieben.'],
   quellen:[['Igel','https://klexikon.zum.de/wiki/Igel'],['Winterschlaf','https://klexikon.zum.de/wiki/Winterschlaf'],['NABU: Unterschlupf für Igel im Winter','https://www.nabu.de/aktiv-werden/naturnah-gaertnern/tiere-im-garten/winterquartiere/unterschlupf-fuer-igel-im-winter']]}
 };
-const ET=['Hilferuf','Spuren sichern','Plan','Einsatz','Bericht'];
-const CK={1:'Wir haben die Warum-Frage in unsere Akte geschrieben.',2:'Alle drei haben ihre Seite dem Team erklärt.',3:'Die Lehrperson hat unseren Plan angeschaut.',4:'Wir haben unseren Unterschlupf gebaut.',5:'Wir haben der Klasse berichtet.'};
+const ET=['Hilferuf','Nachlesen','Plan','Einsatz','Bericht'];
+const CK={1:'Wir haben die Warum-Frage in unser Logbuch geschrieben.',2:'Alle drei haben ihre Seite dem Team erklärt.',3:'Die Lehrperson hat unseren Plan angeschaut.',4:'Wir haben unseren Unterschlupf gebaut.',5:'Wir haben der Klasse berichtet.'};
 let ST={};try{ST=JSON.parse(localStorage.getItem('fd_einsatz')||'{}')||{}}catch(e){}
 const save=()=>{try{localStorage.setItem('fd_einsatz',JSON.stringify(ST))}catch(e){}};
 const S={view:'home',open:{}};
@@ -226,31 +272,31 @@ const details=(key,sum,inner)=>`<details class="explore" data-k="${key}" ${S.ope
 
 function viewHome(){
  const n=Object.keys(EINS).filter(id=>done(id,5)).length;
- return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Winter</div>
- <h1><span>Klima-Kommissariat 4b</span>FreiDay-Einsätze</h1>
- <p>Klara Klima und Tim Thermo brauchen Hilfe. Euer Team übernimmt einen Einsatz. Ihr geht in fünf Etappen vor: Hilferuf, Spuren sichern, Plan, Einsatz, Bericht.</p>
- <div class="need"><b>Das braucht euer Team:</b><ul><li><b>Eure Einsatz-Akte</b> (Papier): Eine pro Team. Dort schreibt ihr.</li><li><b>Diese App:</b> Geschichte, Klexikon-Links und Aufgaben.</li></ul></div></section>
- <div class="files">${Object.entries(EINS).map(([id,e])=>`<div class="file"><span class="tab">Einsatz 0${e.nr}</span><h3>${e.t}</h3><p>${e.frage}</p><p class="sdgchip"><i style="background:#56c02b"></i>SDG ${e.sdg} · ${e.sdgn}</p><div class="foot"><span class="stars ${done(id,5)?'on':''}" aria-label="${done(id,5)?'gelöst':'offen'}">${done(id,5)?'★':'☆'}</span><button class="open" data-act="open" data-v="${id}">Einsatz öffnen</button></div>${done(id,5)?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
+ return `<section class="cover"><div class="sun" aria-hidden="true"><b>Wir</b>verbessern<br>die Welt</div>
+ <h1><span>Logbuch der 4b</span>FreiDay-Einsätze</h1>
+ <p>Die 4b macht sich auf den Weg und verbessert die Welt. Euer Team übernimmt einen Einsatz. Ihr geht in fünf Etappen vor: Hilferuf, Nachlesen, Plan, Einsatz, Bericht.</p>
+ <div class="need"><b>Das braucht euer Team:</b><ul><li><b>Euer Einsatz-Logbuch</b> (Papier): Eines pro Team. Dort schreibt ihr.</li><li><b>Diese App:</b> Geschichte, Klexikon-Links und Aufgaben.</li></ul></div></section>
+ <div class="files">${Object.entries(EINS).map(([id,e])=>`<div class="file"><span class="tab">Einsatz 0${e.nr}</span><h3>${e.t}</h3><p>${e.frage}</p><p class="sdgchip"><i style="background:#56c02b"></i>SDG ${e.sdg} · ${e.sdgn}</p><div class="foot"><span class="stars ${done(id,5)?'on':''}" aria-label="${done(id,5)?'geschafft':'offen'}">${done(id,5)?'★':'☆'}</span><button class="open" data-act="open" data-v="${id}">Einsatz öffnen</button></div>${done(id,5)?'<span class="solvedst">GESCHAFFT</span>':''}</div>`).join('')}</div>
  <p class="muted" style="margin-top:22px">Mehr Einsätze folgen. Quelle für die Recherche: <a href="https://klexikon.zum.de" target="_blank" rel="noopener">Klexikon</a>.</p>`}
 
 function viewEinsatz(id){
  const e=EINS[id],c=cur(id);let h=`<div class="gbar"><button class="back" data-act="home">← Alle Einsätze</button><div class="ttl"><small>Einsatz 0${e.nr} · SDG ${e.sdg}: ${e.sdgn}</small>${e.t}</div></div><div class="qcard">`+stepper(id);
  /* Etappe 1 */
- h+=kap(id,1)+box('1 · Hilferuf',ol([`Öffnet eure <b>Einsatz-Akte</b> (Papier) bei <b>Etappe 1</b>.`,`Lest zusammen die Karte: <b>SDG ${e.sdg} · ${e.sdgn}</b>. ${e.sdgt}`,`Schreibt in eure Akte: <b>Warum braucht der Igel Hilfe?</b> Das ist eure Vermutung.`])+chk(id,1));
+ h+=kap(id,1)+box('1 · Hilferuf',ol([`Öffnet euer <b>Einsatz-Logbuch</b> (Papier) bei <b>Etappe 1</b>.`,`Lest zusammen die Karte: <b>SDG ${e.sdg} · ${e.sdgn}</b>. ${e.sdgt}`,`Schreibt in euer Logbuch: <b>Warum braucht der Igel Hilfe?</b> Das ist eure Vermutung.`])+chk(id,1));
  /* Etappe 2 */
- if(c>=2){h+=kap(id,2)+box('2 · Spuren sichern',ol(['Ihr seid zu dritt. Verteilt die Buchstaben <b>A</b>, <b>B</b> und <b>C</b>.','Öffne den Link bei deinem Buchstaben und lies deine Seite.','Beantworte in deiner Akte (Etappe 2) die 3 Fragen bei deinem Buchstaben.','Prüfe deine Antworten mit «Antworten prüfen».','Erkläre dem Team in 1 Minute, was du gelesen hast.'])+
+ if(c>=2){h+=kap(id,2)+box('2 · Nachlesen',ol(['Ihr seid zu dritt. Verteilt die Buchstaben <b>A</b>, <b>B</b> und <b>C</b>.','Öffne den Link bei deinem Buchstaben und lies deine Seite.','Beantworte in deinem Logbuch (Etappe 2) die 3 Fragen bei deinem Buchstaben.','Prüfe deine Antworten mit «Antworten prüfen».','Erkläre dem Team in 1 Minute, was du gelesen hast.'])+
    `<div class="rollen">`+e.rollen.map(r=>`<div class="rolle"><span class="rbadge">${r.k}</span><b>${r.t}</b><p>${r.lies}</p><p><a class="klx" href="https://klexikon.zum.de/wiki/${encodeURIComponent(r.lk)}" target="_blank" rel="noopener">Klexikon: ${r.lk} ↗</a></p><ol class="fr">${r.q.map(q=>`<li>${q}</li>`).join('')}</ol>${details('r'+r.k,'Antworten prüfen',`<ol class="fr">${r.a.map(a=>`<li>${a}</li>`).join('')}</ol>`)}</div>`).join('')+`</div>`+chk(id,2,c<2))}
  /* Etappe 3 */
- if(c>=3){h+=kap(id,3)+box('3 · Plan',ol(['Beantwortet in eurer Akte (Etappe 3) die vier Fragen.','Wählt eure Idee: <b>A</b> oder <b>B</b> (siehe unten).','Fragt eure Lehrperson: <b>Wo</b> dürfen wir bauen? Schreibt den Ort in eure Akte.','Zeigt eurer Lehrperson den Plan.'])+
+ if(c>=3){h+=kap(id,3)+box('3 · Plan',ol(['Beantwortet in eurem Logbuch (Etappe 3) die vier Fragen.','Wählt eure Idee: <b>A</b> oder <b>B</b> (siehe unten).','Fragt eure Lehrperson: <b>Wo</b> dürfen wir bauen? Schreibt den Ort in euer Logbuch.','Zeigt eurer Lehrperson den Plan.'])+
    `<div class="vier">`+[['Warum?','Unser Problem','Warum braucht der Igel Hilfe?'],['Wer?','Wem helfen wir? Wer macht was?','Der Igel. Und wer im Team übernimmt welche Aufgabe?'],['Wie?','Das ist unsere Idee','Welchen Unterschlupf bauen wir: A oder B?'],['Was?','Das machen wir konkret','Welches Material brauchen wir? Wann machen wir was?']].map(([a,b,c2])=>`<div class="v4"><b>${a}</b><small>${b}</small><span>${c2}</span></div>`).join('')+`</div>`+
    `<div class="ideen"><div class="idee"><span class="rbadge">A</span><b>Laub- und Reisighaufen</b><p>Material: Totholz, Reisig und Laub.</p><p>Ort: ruhige, geschützte Ecke, zum Beispiel bei einer Hecke oder einem Holzstapel.</p></div><div class="idee"><span class="rbadge">B</span><b>Igelhaus</b><p>Ein Haus aus Holz. Es steht auf zwei kurzen Dachlatten. Dann hat der Igel keine nassen Füsse.</p><p>Kein Stroh und kein Heu hineinlegen. Nimm trockenes Laub.</p></div></div>`+
    `<div class="note"><b>Wichtig:</b><p>Ein Unterschlupf wird im Winter <b>nicht mehr verschoben</b>. Wählt den Ort gut. Eure Lehrperson hilft euch dabei.</p></div>`+chk(id,3,c<3))}
  /* Etappe 4 */
- if(c>=4){h+=kap(id,4)+box('4 · Einsatz',ol(['Sammelt Material (Laub, Reisig, Totholz). Fragt vorher, wo ihr es nehmen dürft.','Baut euren Unterschlupf am gewählten Ort.','Eure Lehrperson macht ein <b>Beweisfoto</b>.','Lasst den Unterschlupf danach in Ruhe. Nicht mehr verschieben!'])+`<div class="note warn"><b>Achtung:</b><p>Zieh Handschuhe an. Wenn du einen Igel siehst: <b>nicht anfassen.</b> Sag es sofort deiner Lehrperson.</p></div>`+chk(id,4,c<4))}
+ if(c>=4){h+=kap(id,4)+box('4 · Einsatz',ol(['Sammelt Material (Laub, Reisig, Totholz). Fragt vorher, wo ihr es nehmen dürft.','Baut euren Unterschlupf am gewählten Ort.','Eure Lehrperson macht ein <b>Foto</b>.','Lasst den Unterschlupf danach in Ruhe. Nicht mehr verschieben!'])+`<div class="note warn"><b>Achtung:</b><p>Zieh Handschuhe an. Wenn du einen Igel siehst: <b>nicht anfassen.</b> Sag es sofort deiner Lehrperson.</p></div>`+chk(id,4,c<4))}
  /* Etappe 5 */
- if(c>=5){h+=kap(id,5)+box('5 · Bericht',ol(['Schreibt in eurer Akte (Etappe 5) Stichworte für euren Bericht.','Übt: Jedes Kind sagt etwas. Es dauert höchstens 2 Minuten.','Zeigt der Klasse das Beweisfoto und erzählt: Warum? Wer? Wie? Was?','Sagt auch: Das haben wir gelernt.'])+chk(id,5,c<5));
-   h+=`<div class="beweis"><span class="bwtag">Beweisstück</span><h3 class="bwh">Das haben wir herausgefunden</h3><div class="merk"><b>Das merkst du dir:</b><ul>${e.merk.map(m=>`<li>${m}</li>`).join('')}</ul></div><p class="quelle">Quellen: ${e.quellen.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(', ')}</p></div>`}
- if(c>5)h+=`<div class="fb"><span class="stp">Fall gelöst</span><strong>Gut ermittelt!</strong><p>Euer Team hat den Igel-Einsatz geschafft.</p></div>`;
+ if(c>=5){h+=kap(id,5)+box('5 · Bericht',ol(['Schreibt in eurem Logbuch (Etappe 5) Stichworte für euren Bericht.','Übt: Jedes Kind sagt etwas. Es dauert höchstens 2 Minuten.','Zeigt der Klasse das Foto und erzählt: Warum? Wer? Wie? Was?','Sagt auch: Das haben wir gelernt.'])+chk(id,5,c<5));
+   h+=`<div class="beweis"><span class="bwtag">Gelernt</span><h3 class="bwh">Das haben wir herausgefunden</h3><div class="merk"><b>Das merkst du dir:</b><ul>${e.merk.map(m=>`<li>${m}</li>`).join('')}</ul></div><p class="quelle">Quellen: ${e.quellen.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(', ')}</p></div>`}
+ if(c>5)h+=`<div class="fb"><span class="stp">Geschafft</span><strong>Gut gemacht!</strong><p>Euer Team hat den Igel-Einsatz geschafft.</p></div>`;
  h+=`<div class="actions"><button class="btn" data-act="home">Zurück zu allen Einsätzen</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div></div>`;
  return h}
 function render(){$('#app').innerHTML=S.view==='home'?viewHome():viewEinsatz(S.view)}
