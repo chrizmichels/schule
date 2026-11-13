@@ -99,7 +99,7 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
 .tile .what:hover{background:var(--fg);color:var(--bg)}.tile .what:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 .startlink{color:inherit;font-size:16px;font-weight:700;text-decoration:underline;display:inline-block;margin-bottom:4px}
 
-/* Wetterstation-Look: blau, rund, Messgerät (passend zur Startseite). Grün bleibt nur für die vier Kacheln zum Abschreiben. */
+/* Wetterstation-Look: blau, rund, Messgerät (passend zur Startseite). Die vier Kacheln zum Abschreiben sind kräftig blau. */
 :root{--w:#1f6fb5;--w-ink:#0d2b47;--lav:#dcebf8}
 :root[data-theme="dark"]{--w:#2d7fc7;--lav:#1b3047}
 header{background:var(--w);color:#fff;border-radius:28px}
@@ -130,6 +130,15 @@ aside li.on{background:var(--w);color:#fff}
  header .ctl button{white-space:normal}
  .past{gap:8px}
 }
+
+/* Ganz in Blau: Abschreib-Kacheln, Live-Punkt, Karte */
+.tile.copy{background:var(--w);color:#fff}.tile.copy p{color:#fff}.tile.copy h2{background:#fff;color:var(--w-ink)}
+.tile.copy .what{background:#fff;color:var(--w-ink);border-color:#fff}.tile.copy .what:hover{background:var(--w-ink);color:#fff}
+.pill.live{background:var(--w);color:#fff}
+:root{--ok:#1f6fb5;--tile:#e8f1fa}
+:root[data-theme="dark"]{--tile:#1b2736}
+.tile:not(.copy) h2{background:#cfe2f5}
+aside,.tv,.past,.ort{background:var(--tile)}
 </style>
 <div class="wrap">
  <header>
@@ -158,14 +167,14 @@ aside li.on{background:var(--w);color:#fff}
    <ol id="bft"></ol>
   </aside>
  </div>
- <p class="hint" id="tilehint" style="margin:0">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung. Tippe auf das «?» in einer Kachel: Dann erklärt dir das Klexikon, was du siehst.</p>
+ <p class="hint" id="tilehint" style="margin:0">Blaue Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung. Tippe auf das «?» in einer Kachel: Dann erklärt dir das Klexikon, was du siehst.</p>
  <div class="past">
   <label for="d">Tag verpasst?</label>
   <input type="date" id="d" min="2026-10-26"><input type="time" id="t" value="08:30" step="600">
   <button id="go">Anzeigen</button>
   <p class="hint" id="pasthint">Normal zeigt die Seite den Wert von 8:30 (Messzeit). Für einen verpassten Tag: Datum wählen.</p>
  </div>
- <div class="note">So nutzen wir die Seite: Zuerst selbst beobachten: Thermometer, Himmel, Wind am Baum, Regen. Dann die vier grünen Kacheln vom Beamer daneben eintragen. Wo sind wir gleich, wo anders?</div>
+ <div class="note">So nutzen wir die Seite: Zuerst selbst beobachten: Thermometer, Himmel, Wind am Baum, Regen. Dann die vier blauen Kacheln vom Beamer daneben eintragen. Wo sind wir gleich, wo anders?</div>
  <div id="warn" class="warn" hidden></div>
  <div class="conn"><i></i><span id="msg">Verbinde …</span></div>
 </div>
@@ -295,7 +304,7 @@ function drawTV(){
   tx+='<text class="m hl" x="'+(L-8)+'" y="'+(T-14)+'" text-anchor="end" font-size="14">'+M.u+'</text>';
   box.innerHTML=ttl+'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+M.n+' über den Tag">'+g+tx+'</svg>'}
 
-const ORTE=[{k:'lug',n:'Lugano',kt:'Tessin',h:273,c:'#e8a33d'},{k:'sma',n:'Zürich',kt:'Zürich',h:556,c:'#28c6a4'},{k:'zer',n:'Zermatt',kt:'Wallis',h:1638,c:'#5b7cd6'}];
+const ORTE=[{k:'lug',n:'Lugano',kt:'Tessin',h:273,c:'#e8a33d'},{k:'sma',n:'Zürich',kt:'Zürich',h:556,c:'#1f6fb5'},{k:'zer',n:'Zermatt',kt:'Wallis',h:1638,c:'#8a5cc4'}];
 let ORTV=0;
 const OLL={lug:[46.0,8.9603],sma:[47.3778,8.5657],zer:[46.0295,7.7525]};let OMAP=null;const OMK={};
 function drawOMap(vals){
@@ -368,7 +377,7 @@ const PL={fluntern:{n:'Zürich-Fluntern',s:'MeteoSchweiz · 556 m ü. M.',ll:[47
 let LMAP=null;const LMK={};
 function pinIcon(c){return L.divIcon({className:'pin',html:'<i style="background:'+c+'"></i>',iconSize:[28,28],iconAnchor:[14,28],tooltipAnchor:[0,-18]})}
 function km(a,b){const R=6371,r=Math.PI/180,dl=(b[0]-a[0])*r,dn=(b[1]-a[1])*r,x=Math.sin(dl/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dn/2)**2;return 2*R*Math.asin(Math.sqrt(x))}
-function mapSel(){if(!LMAP)return;for(const k of ['fluntern','mythenquai'])LMK[k].setIcon(pinIcon(k===station?'#28c6a4':'#14211f')).setZIndexOffset(k===station?500:0)}
+function mapSel(){if(!LMAP)return;for(const k of ['fluntern','mythenquai'])LMK[k].setIcon(pinIcon(k===station?'#1f6fb5':'#14211f')).setZIndexOffset(k===station?500:0)}
 function showMap(){
  if(!window.L){$('maptxt').textContent='Die Karte konnte nicht geladen werden (keine Internetverbindung).';return}
  if(!LMAP){
@@ -378,7 +387,7 @@ function showMap(){
   L.control.layers({'Luftbild':lb,'Karte':lk},null,{collapsed:false,position:'topright'}).addTo(LMAP);
   for(const k in PL){const p=PL[k];LMK[k]=L.marker(p.ll,{icon:pinIcon(k==='schule'?'#e5322d':'#14211f'),keyboard:false}).addTo(LMAP).bindTooltip('<span>'+p.n+'</span><small>'+p.s+'</small>',{permanent:true,direction:p.d,className:'lbl'})}
   const f=km(PL.schule.ll,PL.fluntern.ll),m=km(PL.schule.ll,PL.mythenquai.ll);
-  $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Grün = Station, die gerade angezeigt wird. Die Temperaturen gelten für die Zeit, die oben steht.'
+  $('maptxt').textContent='Luftlinie von unserer Schule: bis Zürich-Fluntern '+f.toFixed(1).replace('.',',')+' km, bis Mythenquai '+m.toFixed(1).replace('.',',')+' km. Blau = Station, die gerade angezeigt wird. Die Temperaturen gelten für die Zeit, die oben steht.'
  }
  mapTemps();
  LMAP.invalidateSize();LMAP.fitBounds(L.latLngBounds(Object.values(PL).map(p=>p.ll)),{padding:[60,60]});mapSel()}
