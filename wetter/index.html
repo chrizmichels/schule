@@ -88,6 +88,7 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
 .pin i{display:block;width:22px;height:22px;margin:2px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.55)}
 .leaflet-tooltip.lbl{font-family:inherit;font-weight:700;font-size:15px;line-height:1.25;color:#14211f;border:2px solid #14211f;border-radius:8px;padding:3px 9px;box-shadow:none}
 .leaflet-tooltip.lbl .tt{display:block;font-style:normal;font-weight:800;font-size:22px;line-height:1.15}.leaflet-tooltip.lbl small{display:block;font-weight:400;font-size:12.5px}
+.main.full{grid-template-columns:minmax(0,1fr)}#omap{height:clamp(300px,46vh,480px);margin-top:16px;border-radius:12px;overflow:hidden;background:#dfe6e4;z-index:0}
 .orte{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:700px){.orte{grid-template-columns:minmax(0,1fr)}}
 .ort{background:var(--tile);border-radius:18px;padding:14px 20px 16px}.ort h3{margin:0;font-size:26px}.ort .ov{font-size:clamp(44px,6vw,84px);font-weight:700;line-height:1.1;margin:6px 0;white-space:nowrap}.ort p{margin:0;font-size:19px;color:var(--muted)}
 </style>
@@ -257,9 +258,21 @@ function drawTV(){
 
 const ORTE=[{k:'lug',n:'Lugano',kt:'Tessin',h:273,c:'#e8a33d'},{k:'sma',n:'Zürich',kt:'Zürich',h:556,c:'#28c6a4'},{k:'zer',n:'Zermatt',kt:'Wallis',h:1638,c:'#5b7cd6'}];
 let ORTV=0;
+const OLL={lug:[46.0,8.9603],sma:[47.3778,8.5657],zer:[46.0295,7.7525]};let OMAP=null;const OMK={};
+function drawOMap(vals){
+  if(!window.L){return}
+  if(!OMAP){
+    OMAP=L.map('omap',{scrollWheelZoom:false});
+    L.tileLayer('https://wmts.geo.admin.ch/1.0.0/ch.swisstopo.pixelkarte-farbe/default/current/3857/{z}/{x}/{y}.jpeg',{maxZoom:18,attribution:'© swisstopo'}).addTo(OMAP);
+    ORTE.forEach(o=>{OMK[o.k]=L.marker(OLL[o.k],{icon:pinIcon(o.c),keyboard:false}).addTo(OMAP).bindTooltip('',{permanent:true,direction:'top',className:'lbl'})});
+  }
+  ORTE.forEach((o,i)=>{const v=vals[i];OMK[o.k].setTooltipContent('<span>'+o.n+'</span><em class="tt">'+fT(v&&v.T)+'</em>')});
+  OMAP.invalidateSize();OMAP.fitBounds(L.latLngBounds(Object.values(OLL)),{padding:[50,50]});
+}
+
 async function showOrte(){
   const box=$('ov'),my=++ORTV,t=curTarget();
-  if(!box.dataset.ready){box.innerHTML='<h2>Orte vergleichen</h2><p class="hint" style="margin:0 0 10px">Gleicher Zeitpunkt, drei Orte in der Schweiz.</p><div id="orte" class="orte"></div><p class="hint" id="ortetxt" style="margin:10px 0 0"></p>';box.dataset.ready='1'}
+  if(!box.dataset.ready){box.innerHTML='<h2>Orte vergleichen</h2><p class="hint" style="margin:0 0 10px">Gleicher Zeitpunkt, drei Orte in der Schweiz.</p><div id="orte" class="orte"></div><div id="omap"></div><p class="hint" id="ortetxt" style="margin:10px 0 0"></p>';box.dataset.ready='1'}
   $('orte').innerHTML=ORTE.map(o=>'<div class="ort" style="border-top:10px solid '+o.c+'"><h3>'+o.n+'</h3><div class="ov">…</div><p>Kanton '+o.kt+'<br>Station: '+String(o.h).replace(/(\d)(\d{3})$/,"$1'$2")+' m ü. M.</p></div>').join('');
   const res=await Promise.allSettled(ORTE.map(o=>loadFl(t,o.k)));
   if(my!==ORTV)return;
@@ -267,9 +280,10 @@ async function showOrte(){
   const cards=$('orte').children;
   vals.forEach((v,i)=>{cards[i].querySelector('.ov').textContent=v&&v.T!=null?fT(v.T):'–'});
   const ok=vals.filter(v=>v&&v.T!=null);
+  drawOMap(vals);
   $('ortetxt').textContent=ok.length?('Zeitpunkt: '+dm(ok[0].ts)+'. Daten: MeteoSchweiz.'):'Keine Daten. Bitte später nochmals versuchen.';
 }
-function setTab(t){tab=t;['w','v','m','o'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';$('ov').hidden=t!=='o';if(t==='v')drawTV();if(t==='m')showMap();if(t==='o')showOrte();if(t==='m')otherTemp(station)}
+function setTab(t){tab=t;['w','v','m','o'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';$('ov').hidden=t!=='o';document.querySelector('aside').hidden=t==='o';document.querySelector('.main').classList.toggle('full',t==='o');if(t==='v')drawTV();if(t==='m')showMap();if(t==='o')showOrte();if(t==='m')otherTemp(station)}
 function syncMode(){$('std').setAttribute('aria-pressed',String(mode==='std'));$('now').setAttribute('aria-pressed',String(mode==='now'))}
 const TEMPS={fluntern:null,mythenquai:null};
 function fT(v){return v==null?'–':String(Math.round(v*10)/10).replace('.',',')+' °C'}
