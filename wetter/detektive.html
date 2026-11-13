@@ -139,6 +139,7 @@ td.l{text-align:left;font-weight:700;white-space:nowrap;background:var(--paper)}
 .note{border:2px dashed var(--muted);border-radius:10px;background:#fffdf2;padding:12px 16px;margin:18px 0;font-family:var(--f-type);font-size:1.02rem}
 .note>b:first-child{display:block;margin-bottom:4px;font-family:var(--f-display);font-size:1.3rem}
 .note p{margin:6px 0;line-height:1.7}
+.need{background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 16px;align-self:stretch}.need ul{margin:6px 0 2px 20px;padding:0}.need li{margin:5px 0;line-height:1.5}
 .beweis{position:relative;background:var(--paper);border:2px solid var(--folder-edge);border-left:8px solid var(--stamp);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 14px;margin:14px 0 20px}
 .bwtag{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(-2deg)}
 .beweis .bwh{font-family:var(--f-display);font-size:1.4rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 6px}
@@ -279,7 +280,7 @@ const loading=()=>`<div class="load" role="status">Spuren werden gesucht …</di
 const failBox=()=>`<div class="fail" role="alert"><b>Die Messwerte kommen gerade nicht an.</b><p>Warte kurz. Tippe dann auf «Nochmals».</p><button class="btn" data-act="retry">Nochmals</button><details><summary>Für die Lehrperson</summary><p class="muted">${esc(DIAG.slice(-8).join(' | ')||'–')}<br>${esc(S.err||'')}</p></details></div>`;
 const BW={"1": {"t": "Wer macht die Luft warm?", "p": ["Spur gefunden! Der Täter ist <b>die Sonne</b>.", "Ihre Strahlen treffen auf den Boden. Der Boden wird warm. Dann wärmt der warme Boden die Luft darüber. Warme Luft steigt auf.", "Am Morgen ist der Boden noch kalt von der Nacht. Darum ist die Luft kühl. Mittags scheint die Sonne am stärksten. Der Boden wird noch weiter warm, auch nach dem Mittag. Darum ist es oft erst am <b>Nachmittag</b> am wärmsten. Am Abend scheint die Sonne kaum noch. Der Boden gibt Wärme ab. Die Luft wird kühler."], "m": ["Die Sonne wärmt den Boden.", "Der Boden wärmt die Luft.", "Am wärmsten ist es oft am Nachmittag."], "s": ["Wind"]}, "2": {"t": "Wolken, Wind und Nebel", "p": ["Zwei Tage, zwei Kurven. Wer hat den Unterschied gemacht? Es gibt drei Verdächtige:", "<b>Wolken:</b> Sie bestehen aus winzigen Wassertröpfchen. Sie halten die Sonnenstrahlen ab. Dann kommt weniger Wärme zum Boden. Der Tag bleibt kühler.", "<b>Wind:</b> Er bringt Luft von anderswo. Kommt sie aus dem kalten Norden, wird es kälter. Kommt sie aus dem warmen Süden, wird es wärmer.", "<b>Nebel:</b> Nebel ist eine Wolke direkt am Boden. Im Herbst liegt oft Nebel über Zürich. Die Sonne kommt kaum durch. Dann bleibt es kühl."], "m": ["Viel Sonne: wärmer. Wolken oder Nebel: kühler.", "Der Wind bringt warme oder kalte Luft."], "s": ["Wind", "Wolke", "Nebel"]}, "3": {"t": "Warum wird es oben kälter?", "p": ["Drei Hinweise:", "<b>Hinweis 1:</b> Je höher du kommst, desto kleiner ist der Luftdruck: Es drückt weniger Luft von oben. Luft, die aufsteigt, dehnt sich darum aus. Dabei wird sie <b>kälter</b>. (Beim Velopumpen ist es umgekehrt: Wird Luft zusammengedrückt, wird sie warm.) Dazu kommt: Die Wärme kommt vom Boden. Oben ist die Luft dünner und behält weniger davon.", "<b>Hinweis 2:</b> Pro 100 Meter höher wird es etwa <b>0,6 °C</b> kälter. Von Lugano (273 m) bis Zermatt (1638 m) sind es etwa 1400 Meter. Das gibt rund <b>8 °C</b> Unterschied.", "<b>Hinweis 3:</b> Lugano liegt im Tessin, südlich der Alpen. Die Berge halten oft kalte Luft aus dem Norden ab. Darum ist es dort oft milder."], "m": ["Je höher, desto kälter.", "Aufsteigende Luft dehnt sich aus und wird kälter.", "Pro 100 m etwa 0,6 °C kälter."], "s": ["Wolke", "Atmosphäre"]}};
 const beweis=(n,k)=>`<div class="beweis"><span class="bwtag">Beweisstück ${n}</span><h3 class="bwh">${BW[k].t}</h3>${BW[k].p.map(x=>`<p>${x}</p>`).join('')}<div class="merk"><b>Das merkst du dir:</b><ul>${BW[k].m.map(x=>`<li>${x}</li>`).join('')}</ul></div><p class="quelle">Mehr dazu im Klexikon: ${BW[k].s.map(x=>`<a href="https://klexikon.zum.de/wiki/${encodeURIComponent(x)}" target="_blank" rel="noopener">${x}</a>`).join(', ')}</p></div>`;
-const noteBox=(lines,t)=>`<div class="note"><b>✏ ${t||'Das schreibst du auf dein Blatt:'}</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
+const noteBox=(lines,t)=>`<div class="note"><b>✏ ${t||'Das schreibst du in deine Akte (Papier):'}</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
 const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div>`;
 const FB=(cls,t,body,id)=>`<div class="fb ${cls}" ${id?'id="fb"':''} tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
 const winTxt=(hit)=>hit?'Stimmt! Gut vermutet.':'';
@@ -290,6 +291,7 @@ function viewHome(){
  return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Wetter</div>
  <h1><span>Klima-Kommissariat 4b</span>Klimadetektive</h1>
  <p>Du ermittelst in drei Akten. Erst vermutest du. Dann liest du die Messwerte ab. Zum Schluss prüfst du deine Vermutung.</p>
+ <div class="need"><b>Das brauchst du (Papier):</b><ul><li><b>Deine Akte:</b> Zu jedem Fall gehört eine Akte (Akte 01, 02, 03). Dort schreibst du bei Schritt 1, 2, 3 …</li><li><b>KM 54.2:</b> Hier trägst du Temperaturen ein und malst die Kurven (Akte 01 und 02).</li><li><b>KM 54.3:</b> Hier stehen die Höhen der Orte (Akte 03).</li><li><b>Stifte:</b> Bleistift, <span class="rot">rot</span> und <span class="blau">blau</span>.</li></ul></div>
  <div id="now" class="now" aria-live="off"><small>Jetzt in Zürich …</small></div></section>
  <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
  ${n===3?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}`}
@@ -306,7 +308,7 @@ const stepV=(f,lines,arr)=>box('1 · Vermuten',ol(lines)+checks(f,arr));
 const stationBody=(f,fn)=>{const st=S['f'+f];if(S.loading&&!st.res)return loading();if(S.err&&!st.res)return failBox();return st.res?fn(st.res):''};
 const solveBtn=f=>{const ok=taskOK(f);return S['f'+f].show?'':`<div class="actions"><button class="btn" data-act="show" data-v="${f}" ${ok?'':'disabled'}>Lösung zeigen</button>${ok?'':'<span class="muted">Hake zuerst alles ab.</span>'}</div>`};
 function selfBox(f,q){const st=S['f'+f];
- let h=`<h3>Prüfe dich</h3><p class="q">${q}</p><p class="muted">Tippe hier. Kreuze auch auf dem Blatt an.</p><div class="opts two">`+[['j','Ja'],['f','Fast'],['n','Nein']].map(([k,l])=>`<button class="opt" data-act="self" data-f="${f}" data-v="${k}" aria-pressed="${st.self===k}">${l}</button>`).join('')+`</div>`;
+ let h=`<h3>Prüfe dich</h3><p class="q">${q}</p><p class="muted">Tippe hier. Kreuze es auch in deiner Akte an (Papier).</p><div class="opts two">`+[['j','Ja'],['f','Fast'],['n','Nein']].map(([k,l])=>`<button class="opt" data-act="self" data-f="${f}" data-v="${k}" aria-pressed="${st.self===k}">${l}</button>`).join('')+`</div>`;
  if(st.self==='j')h+=FB('','Gut ermittelt!','<p>Deine Vermutung stimmte.</p>');
  else if(st.self==='f')h+=FB('near','Fast!','<p>Schau nochmals: Was war anders?</p>');
  else if(st.self==='n')h+=FB('no','Auch Detektive irren sich.','<p>Das ist normal. Was hast du jetzt gelernt?</p>');
@@ -317,9 +319,9 @@ const emptyBox=m=>FB('no','Hier fehlt die Spur.',`<p>${m}</p>`);
 
 /* ----- Akte 1 ----- */
 function viewF1(){const f=S.f1,ok=vermOK(1),st=f.c;
- let h=head(1,'Der warme Tag')+stepper(stepOf(1),L4)+stepV(1,['Wir messen von <b>8 Uhr</b> bis <b>20 Uhr</b>.','Schreib auf dein Blatt: <b>Um wie viel Uhr ist es am wärmsten?</b> Am Morgen, am Mittag oder am Abend?','Schreib: <b>Ich vermute: Um … Uhr, weil …</b>'],[['a','Ich habe meine Vermutung aufgeschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 1</b>).'])+stationBody(1,st1)+(f.res&&!f.res.empty?checks(1,[['b','Ich habe die Temperaturen eingetragen.']]):'')+explore('Anderen Tag wählen (Tag verpasst?)',chipsFor('f1',f.day),'e1'));
- if(ok&&f.res&&!f.res.empty&&st.b)h+=box('3 · Kurve malen',ol([`Male auf <b>KM 54.2</b> deine <span class="rot">rote Kurve</span> (Tag 1).`])+checks(1,[['c','Ich habe die rote Kurve gemalt.']])+solveBtn(1));
+ let h=head(1,'Der warme Tag')+stepper(stepOf(1),L4)+stepV(1,['Wir messen von <b>8 Uhr</b> bis <b>20 Uhr</b>.','Nimm deine <b>Akte 01</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Um wie viel Uhr ist es am wärmsten?</b> Am Morgen, am Mittag oder am Abend?','So schreibst du: <b>Ich vermute: Um … Uhr, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 1</b>).'])+stationBody(1,st1)+(f.res&&!f.res.empty?checks(1,[['b','Ich habe die Temperaturen auf KM 54.2 eingetragen.']]):'')+explore('Anderen Tag wählen (Tag verpasst?)',chipsFor('f1',f.day),'e1'));
+ if(ok&&f.res&&!f.res.empty&&st.b)h+=box('3 · Kurve malen',ol([`Male auf <b>KM 54.2</b> deine <span class="rot">rote Kurve</span> (Tag 1).`])+checks(1,[['c','Ich habe die rote Kurve auf KM 54.2 gemalt.']])+solveBtn(1));
  if(f.show&&f.res&&!f.res.empty)h+=sol1(f.res);
  return h}
 function st1(r){if(r.empty)return emptyBox('Für diesen Tag gibt es keine Messwerte. Wähle einen anderen Tag.');
@@ -336,9 +338,9 @@ function sol1(r){const f=S.f1;
 
 /* ----- Akte 2 ----- */
 function viewF2(){const f=S.f2,ok=vermOK(2),st=f.c;
- let h=head(2,'Zwei Tage')+stepper(stepOf(2),L4)+stepV(2,['Du kennst Tag 1 schon (rote Kurve).','Schreib auf dein Blatt: <b>Tag 1 oder Tag 2: Welcher Tag war wärmer?</b>','Schreib: <b>Ich vermute: Tag … war wärmer, weil …</b>'],[['a','Ich habe meine Vermutung aufgeschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen von <b>Tag 2</b> ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 2</b>).'])+stationBody(2,st2)+(f.res&&!f.res.empty?checks(2,[['b','Ich habe die Temperaturen eingetragen.']]):'')+explore('Andere Tage wählen (Tag verpasst?)',`<h3>Tag 1</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Tag 2</h3>`+chipsFor('f2b',f.b,f.a),'e2'));
- if(ok&&f.res&&!f.res.empty&&st.b)h+=box('3 · Kurve malen',ol([`Male auf <b>KM 54.2</b> deine <span class="blau">blaue Kurve</span> (Tag 2).`])+checks(2,[['c','Ich habe die blaue Kurve gemalt.']])+solveBtn(2));
+ let h=head(2,'Zwei Tage')+stepper(stepOf(2),L4)+stepV(2,['Du kennst Tag 1 schon (rote Kurve).','Nimm deine <b>Akte 02</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Tag 1 oder Tag 2: Welcher Tag war wärmer?</b>','So schreibst du: <b>Ich vermute: Tag … war wärmer, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen von <b>Tag 2</b> ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 2</b>).'])+stationBody(2,st2)+(f.res&&!f.res.empty?checks(2,[['b','Ich habe die Temperaturen auf KM 54.2 eingetragen.']]):'')+explore('Andere Tage wählen (Tag verpasst?)',`<h3>Tag 1</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Tag 2</h3>`+chipsFor('f2b',f.b,f.a),'e2'));
+ if(ok&&f.res&&!f.res.empty&&st.b)h+=box('3 · Kurve malen',ol([`Male auf <b>KM 54.2</b> deine <span class="blau">blaue Kurve</span> (Tag 2).`])+checks(2,[['c','Ich habe die blaue Kurve auf KM 54.2 gemalt.']])+solveBtn(2));
  if(f.show&&f.res&&!f.res.empty)h+=sol2(f.res);
  return h}
 function st2(r){if(r.empty)return emptyBox(`Für ${esc(r.empty)} gibt es keine Messwerte. Wähle einen anderen Tag.`);
@@ -352,15 +354,15 @@ function sol2(r){const f=S.f2,A='Tag 1 ('+dlabel(f.a)+')',B='Tag 2 ('+dlabel(f.b
  h+=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#d62828'},{pts:r.sB,color:'#1d4ed8',dash:true}],dots:[...r.sA.map(p=>({m:p.m,T:p.T,color:'#d62828'})),...r.sB.map(p=>({m:p.m,T:p.T,color:'#1d4ed8'}))],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: rot '+A+', blau '+B+'.'})}<div class="legend"><span><i></i>Tag 1 (rot): ${dlabel(f.a)}</span><span><i class="b"></i>Tag 2 (blau): ${dlabel(f.b)}</span></div></div><p class="muted">Sehen deine Kurven auch so aus?</p>`;
  h+=selfBox(2,'Hat deine Vermutung gestimmt?');
  h+=spuren2(f);
- h+=noteBox([`Prüfe auf <b>KM 54.2</b>: Frage 3: Tag <span class="blank">${tr==='A'?'1':tr==='B'?'2':'gleich'}</span> war wärmer.`,r.p12?`Frage 4: <span class="blank">${fT(Math.abs(r.p12.a-r.p12.b))}</span> °C Unterschied um 12 Uhr.`:'',`Schritt 5: Lies das Beweisstück unten. Denk nach: <b>Was war an den Tagen anders?</b> Sonne? Wolken? Wind? Schau auch bei «Spuren vom Wetter».`].filter(Boolean),'Das prüfst und schreibst du:');
+ h+=noteBox([`Auf <b>KM 54.2</b>, Frage 3: Tag <span class="blank">${tr==='A'?'1':tr==='B'?'2':'gleich'}</span> war wärmer.`,r.p12?`Auf KM 54.2, Frage 4: <span class="blank">${fT(Math.abs(r.p12.a-r.p12.b))}</span> °C Unterschied um 12 Uhr.`:'',`In deiner Akte, Schritt 5: Lies das Beweisstück unten. Denk nach: <b>Was war an den Tagen anders?</b> Sonne? Wolken? Wind? Schau auch bei «Spuren vom Wetter».`].filter(Boolean),'Das prüfst du auf KM 54.2 und schreibst du in deine Akte:');
  h+='<h3>5 · Beweisstück lesen</h3>'+beweis(2,2);
  return h+doneBtns('2')}
 
 function timeChips(){const f=S.f3,t=todayKey();const o=[...(f.day===t?[['now','Jetzt']]:[]),['08','8 Uhr'],['12','12 Uhr'],['16','16 Uhr']];
  return `<div class="chips" role="group" aria-label="Zeit wählen">`+o.map(([k,l])=>`<button class="chip" data-act="time" data-v="${k}" aria-pressed="${f.time===k}">${l}</button>`).join('')+`</div>`}
 function viewF3(){const f=S.f3,ok=vermOK(3);
- let h=head(3,'Drei Orte')+stepper(stepOf(3),L3)+stepV(3,['Du brauchst die Höhen aus <b>KM 54.3</b> (Aufgabe 1).','Schreib auf dein Blatt: <b>Wo ist es am kältesten?</b> Lugano, Zürich oder Zermatt?','Schreib auf: <b>Je höher der Ort, desto …?</b>'],[['a','Ich habe meine erste Vermutung aufgeschrieben.'],['b','Ich habe meine zweite Vermutung aufgeschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Wähle den Tag und die Zeit.','Lies die Temperaturen ab.','Schreib sie in die Tabelle auf deinem Blatt.'])+`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`+stationBody(3,st3)+(f.res&&!f.res.empty&&f.res.n>=2?checks(3,[['c','Ich habe die Temperaturen eingetragen.']])+solveBtn(3):''));
+ let h=head(3,'Drei Orte')+stepper(stepOf(3),L3)+stepV(3,['Du brauchst die Höhen aus <b>KM 54.3</b> (Aufgabe 1).','Nimm deine <b>Akte 03</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Wo ist es am kältesten?</b> Lugano, Zürich oder Zermatt?','Schreib auch auf: <b>Je höher der Ort, desto …</b> (kälter, wärmer oder gleich?)'],[['a','Ich habe meine erste Vermutung in meine Akte geschrieben.'],['b','Ich habe meine zweite Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Wähle den Tag und die Zeit.','Lies die Temperaturen ab.','Schreib sie in die Tabelle in deiner <b>Akte 03</b> (Schritt 2).'])+`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`+stationBody(3,st3)+(f.res&&!f.res.empty&&f.res.n>=2?checks(3,[['c','Ich habe die Temperaturen in meine Akte eingetragen.']])+solveBtn(3):''));
  if(f.show&&f.res&&f.res.n>=2)h+=sol3(f.res);
  return h}
 function st3(r){const f=S.f3,v=r.v;
@@ -370,7 +372,7 @@ function sol3(r){
  const v=r.v,have=['lug','sma','zer'].filter(k=>v[k]!=null);
  const cold=have.reduce((a,b)=>v[b]<v[a]?b:a),warm=have.reduce((a,b)=>v[b]>v[a]?b:a);
  let h='<h3>3 · Die Lösung</h3>'+FB('info','Am kältesten ist es in '+ST[cold].n+'.',`<p><b>${fT(v[cold])} °C</b>. Am wärmsten: ${ST[warm].n}, ${fT(v[warm])} °C.</p>`,1);
- h+=`<div class="fig">${mountain(v)}</div><p class="muted">Stimmen die Höhen mit deinem Blatt (KM 54.3)?</p>`;
+ h+=`<div class="fig">${mountain(v)}</div><p class="muted">Stimmen die Höhen mit deinen Höhen aus KM 54.3?</p>`;
  const t=have.length===3?(v.lug-v.sma>=0.3&&v.sma-v.zer>=0.3?'k':v.sma-v.lug>=0.3&&v.zer-v.sma>=0.3?'w':'m'):'m';
  h+='<h3>Je höher der Ort …</h3>';
  if(t==='k')h+=FB('info','Je höher, desto kälter.','<p>Die Luft wird oben kälter.</p>');
