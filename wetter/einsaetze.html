@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FreiDay-Einsätze 4b</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Klimadetektive: Stil «Kommissariat» (Schreibtisch, Aktenmappen, Stempel). Eine Akte = eine Frage. Erst vermuten, dann die Spur (Messwerte) prüfen, dann ins Heft schreiben. */
+:root{--desk:#dde3de;--folder:#e7d6ae;--folder-edge:#cdb886;--paper:#fbfaf6;--ink:#1c2420;--muted:#5b6660;--rule:#d4d9d3;--stamp:#b3302a;--ok:#1d7f4c;--ok-soft:#ddf0e3;--bad:#b3302a;--bad-soft:#f8e1dd;--hl:#f2d24b;--hl-soft:#f7ebb0;--blue:#2d62c4;--orange:#c9661a;--cold:#cfe0f7;
+ --f-display:"Zilla Slab",Rockwell,Georgia,serif;--f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;--f-type:"Courier Prime","Courier New",ui-monospace,monospace;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5}
+main{max-width:1000px;margin:0 auto;padding:30px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:6px 0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.muted{color:var(--muted);font-size:.9rem}
+.lbl{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Titelblatt */
+.cover{background:var(--folder);border:1px solid var(--folder-edge);border-radius:4px 14px 14px 14px;padding:26px clamp(18px,4vw,40px) 26px;position:relative;display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.cover::before{content:"Aktenzeichen 4b.K.1";position:absolute;top:-30px;left:-1px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:10px 10px 0 0;padding:5px 16px 4px;font-family:var(--f-type);font-size:13px;color:var(--muted)}
+.cover h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,8vw,72px);line-height:.98;letter-spacing:-.01em}
+.cover h1 span{display:block;font-size:.34em;letter-spacing:.14em;text-transform:uppercase;font-family:var(--f-type);font-weight:700;color:var(--muted);margin-bottom:8px}
+.cover p{max-width:44ch;margin:0}
+.bigstamp{position:absolute;right:clamp(14px,4vw,40px);top:22px;border:4px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:clamp(13px,2.2vw,19px);letter-spacing:.12em;padding:6px 12px;border-radius:6px;transform:rotate(-9deg);text-align:center;line-height:1.15;opacity:.85;animation:slam .5s cubic-bezier(.3,1.4,.6,1)}
+.bigstamp b{display:block;font-size:2em;letter-spacing:.04em}
+@keyframes slam{0%{transform:rotate(-9deg) scale(2.2);opacity:0}60%{transform:rotate(-9deg) scale(.94);opacity:.95}100%{transform:rotate(-9deg) scale(1);opacity:.85}}
+@media (prefers-reduced-motion:reduce){.bigstamp{animation:none}}
+@media (max-width:620px){.bigstamp{position:static;align-self:flex-start;transform:rotate(-4deg);animation:none}}
+.now{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 14px;align-self:flex-start}
+.now b{font-family:var(--f-display);font-size:1.7rem;line-height:1}
+.now small{color:var(--muted);font-family:var(--f-type);font-size:13px}
+
+/* Akten (Fälle) */
+.files{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 18px;margin-top:34px}
+@media (max-width:860px){.files{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.files{grid-template-columns:1fr}}
+.file{position:relative;background:var(--folder);border:1px solid var(--folder-edge);border-radius:0 10px 10px 10px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.file .tab{position:absolute;top:-25px;left:-1px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:8px 8px 0 0;padding:3px 14px 2px;font-family:var(--f-type);font-size:13px;font-weight:700}
+.file h3{font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1.05;text-transform:none;letter-spacing:0;color:var(--ink);margin:0}
+.file p{margin:0;color:var(--muted);font-size:17px}
+.file .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:8px}
+.stars{font-size:26px;line-height:1;color:var(--folder-edge)}
+.stars.on{color:var(--stamp)}
+.open{background:var(--ink);color:var(--paper);border:0;border-radius:8px;padding:11px 16px;font-weight:700;min-height:46px}
+.open:hover{filter:brightness(1.2)}
+.solvedst{position:absolute;right:12px;top:10px;border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:14px;letter-spacing:.12em;padding:2px 8px;border-radius:4px;transform:rotate(8deg);opacity:.85}
+
+/* Spielleiste und Karte */
+.gbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--folder);border:1px solid var(--folder-edge);border-radius:12px;padding:12px 16px;margin-bottom:16px}
+.gbar .ttl{font-family:var(--f-display);font-weight:700;font-size:28px;flex:1;min-width:0;line-height:1.1}
+.gbar .ttl small{display:block;font-family:var(--f-type);font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:400}
+.back{background:var(--paper);border:1px solid var(--folder-edge);border-radius:8px;padding:10px 14px;min-height:46px;font-weight:700}
+.back:hover{border-color:var(--ink)}
+.qcard{background:var(--paper);border:1px solid var(--rule);border-radius:4px 14px 14px 14px;padding:clamp(16px,3.5vw,30px);box-shadow:0 1px 0 var(--rule),0 8px 24px rgba(20,30,25,.08)}
+h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 0 6px}
+.q{font-family:var(--f-display);font-size:clamp(24px,3.6vw,30px);font-weight:700;line-height:1.2;margin:20px 0 6px}
+.steps{display:flex;gap:6px;margin:0 0 4px;padding:0;list-style:none}
+.steps li{flex:1;display:flex;flex-direction:column;gap:5px;font-family:var(--f-type);font-size:13px;font-weight:700;color:var(--muted)}
+.steps li::before{content:"";height:10px;border-radius:3px;background:var(--rule)}
+.steps li.done::before{background:var(--ok)}
+.steps li.on::before{background:var(--ink)}
+.steps li.on{color:var(--ink)}
+.steps li i{display:none}
+
+/* Auswahl */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:52px;padding:6px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);font-weight:700;line-height:1.15;font-size:18px}
+.chip small{font-weight:400;font-size:13px;color:var(--muted);font-family:var(--f-type)}
+.chip:hover:not(:disabled){border-color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip[aria-pressed=true] small{color:#cfd6d1}
+.chip:disabled{opacity:.4;cursor:not-allowed}
+.chips input[type=date]{font:inherit;min-height:52px;border:2px solid var(--rule);border-radius:10px;padding:4px 10px;background:var(--desk);color:var(--ink)}
+.opts{display:grid;gap:10px;margin:10px 0}
+.opts.two{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);text-align:left;font-weight:700;font-size:20px;line-height:1.2;transition:transform .08s}
+.opt small{display:block;font-family:var(--f-type);font-weight:400;font-size:14px;color:var(--muted)}
+.opt:hover{border-color:var(--ink);transform:translateY(-1px)}
+.opt[aria-pressed=true]{border-color:var(--ink);background:var(--hl-soft);box-shadow:inset 6px 0 0 var(--ink)}
+.load{padding:18px;border:2px dashed var(--muted);border-radius:12px;text-align:center;font-family:var(--f-type);font-weight:700;margin:16px 0}
+
+/* Rückmeldung wie ein Stempel auf dem Blatt */
+.fb{position:relative;border:2px solid var(--ok);border-radius:10px;padding:12px 16px;margin:16px 0 8px;background:var(--ok-soft)}
+.fb.near{border-color:var(--folder-edge);background:var(--hl-soft)}
+.fb.no{border-color:var(--bad);background:var(--bad-soft)}
+.fb strong{display:block;font-family:var(--f-display);font-size:26px;line-height:1.15;padding-right:0}
+.fb .stp{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--ok);color:var(--ok);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(4deg)}
+.fb:focus{outline:none}
+.fb.info{background:#fff;border-color:var(--ink)}
+.rot{color:#d62828;font-weight:700}.blau{color:#1d4ed8;font-weight:700}
+.auftrag{border:2px solid var(--ink);border-radius:10px;padding:6px 16px 14px;background:#fff;margin:14px 0}
+.auftrag ol{margin:6px 0 10px;padding-left:24px;display:flex;flex-direction:column;gap:8px;font-size:1.05rem}
+.chk{display:flex;align-items:center;gap:12px;padding:10px 14px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);margin:8px 0;cursor:pointer;font-weight:700;min-height:54px}
+.chk input{width:28px;height:28px;flex:none;accent-color:var(--ink);margin:0}
+.chk:has(input:checked){background:var(--ok-soft);border-color:var(--ok)}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.explore{border:1px dashed var(--muted);border-radius:10px;padding:6px 14px;margin:16px 0}
+.orte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
+.ort{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;text-align:center;background:#fff;display:flex;flex-direction:column;gap:2px}
+.ort b{font-family:var(--f-display);font-size:1.25rem}
+.ort small{color:var(--muted);font-family:var(--f-type);font-size:12px}
+.ort .t{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,5vw,34px);line-height:1.2}
+.day.a{border-top:8px solid #d62828}.day.b{border-top:8px solid #1d4ed8}
+.day.win.a{border-top-color:#d62828}.day.win.b{border-top-color:#1d4ed8}
+
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}}}
+.fail{border:2px solid var(--bad);border-radius:10px;padding:12px 16px;background:var(--bad-soft);margin:16px 0}
+.btn{min-height:50px;padding:10px 20px;border:0;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:700}
+.btn:hover{filter:brightness(1.2)}
+.btn.light{background:var(--paper);color:var(--ink);border:2px solid var(--rule)}
+.btn.light:hover{border-color:var(--ink);filter:none}
+.fig{border:1px solid var(--rule);border-radius:10px;padding:8px;margin:12px 0;background:#fff}
+.fig svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 0;font-weight:700;font-size:.95rem}
+.legend i{display:inline-block;width:26px;height:0;border-top:5px solid #d62828;vertical-align:middle;margin-right:6px;border-radius:3px}
+.legend i.b{border-top:5px dashed #1d4ed8}
+.cells{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.cell{min-width:68px;flex:1 1 68px;text-align:center;border:1px solid var(--folder-edge);border-radius:8px;padding:4px 6px;background:var(--folder)}
+.cell span{display:block;font-family:var(--f-type);font-size:12px;color:var(--muted)}
+.cell b{font-family:var(--f-type);font-size:1.25rem}
+.tabs{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px;margin:6px 0;font-family:var(--f-type)}
+th,td{border:1px solid var(--folder-edge);padding:6px;text-align:center}
+th{background:var(--folder);font-size:.85rem}
+td.l{text-align:left;font-weight:700;white-space:nowrap;background:var(--paper)}
+.two-days{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.day{border:2px solid var(--rule);border-radius:10px;padding:10px 12px;text-align:center;background:var(--paper)}
+.day.win{background:var(--hl-soft);border-color:var(--ink)}
+.day h4{margin:0;font-family:var(--f-type);font-size:.95rem}
+.day .big{font-family:var(--f-display);font-size:2.1rem;font-weight:700;line-height:1.2}
+.day small{display:block;color:var(--muted);font-size:.9rem}
+.note{border:2px dashed var(--muted);border-radius:10px;background:#fffdf2;padding:12px 16px;margin:18px 0;font-family:var(--f-type);font-size:1.02rem}
+.note>b:first-child{display:block;margin-bottom:4px;font-family:var(--f-display);font-size:1.3rem}
+.note p{margin:6px 0;line-height:1.7}
+.tagb{display:inline-block;background:var(--hl-soft);border:2px solid var(--ink);border-radius:8px;padding:6px 14px;margin:6px 0;font-size:1.1rem}
+.kap{position:relative;background:#fffdf2;border:2px solid var(--folder-edge);border-left:8px solid var(--ink);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 12px;margin:30px 0 18px}
+.kaptag{position:absolute;right:12px;top:-14px;background:var(--ink);color:var(--paper);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:2px 10px;border-radius:4px}
+.kap .kaph{font-family:var(--f-display);font-size:1.4rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 6px}
+.kap p{margin:8px 0;line-height:1.7;font-size:1.05rem}
+.need{background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 16px;align-self:stretch}.need ul{margin:6px 0 2px 20px;padding:0}.need li{margin:5px 0;line-height:1.5}
+.beweis{position:relative;background:var(--paper);border:2px solid var(--folder-edge);border-left:8px solid var(--stamp);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 14px;margin:14px 0 20px}
+.bwtag{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(-2deg)}
+.beweis .bwh{font-family:var(--f-display);font-size:1.4rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 6px}
+.beweis p{margin:8px 0;line-height:1.7;font-size:1.05rem}
+.beweis .quelle{font-size:.95rem;margin:12px 0 0;color:var(--muted)}.beweis .quelle a{color:var(--ink);font-weight:700}
+.merk{background:var(--hl-soft);border-radius:8px;padding:8px 14px;margin-top:12px}
+.merk ul{margin:4px 0 2px 18px;padding:0}.merk li{margin:3px 0;line-height:1.5}
+.spur{border:2px dashed var(--muted);border-radius:10px;background:#fff;padding:6px 16px;margin:10px 0}
+.spur p{margin:8px 0;line-height:1.6}
+.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--ink);text-align:center;padding:0 6px;font-weight:700}
+.think{border-left:6px solid var(--stamp);padding:4px 12px;margin:12px 0;font-family:var(--f-display);font-size:1.3rem;font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 4px}
+#map{height:320px;border:1px solid var(--rule);border-radius:10px;margin:8px 0}
+.leaflet-tooltip.lbl{font-family:var(--f-body);font-weight:700;font-size:15px;color:#14211f;border:2px solid #14211f;border-radius:8px;text-transform:none;letter-spacing:0}
+details{margin:10px 0}
+tr.dim td{color:var(--muted)}
+summary{cursor:pointer;font-weight:700;min-height:36px}
+footer{max-width:1000px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.85rem;font-family:var(--f-type)}
+footer a{color:inherit}
+@media (max-width:520px){body{font-size:17px}.two-days{grid-template-columns:1fr}}
+
+/* FreiDay-Einsätze */
+.cover::before{content:"Einsatzakte 4b.E"!important}
+.todo{margin:8px 0 12px 22px;padding:0}.todo li{margin:6px 0;line-height:1.55}
+.klx{display:inline-block;background:var(--ink);color:var(--paper)!important;text-decoration:none;font-weight:700;padding:8px 14px;border-radius:8px;margin:4px 0}
+.rollen{display:grid;gap:14px;margin:12px 0}
+.rolle{position:relative;border:2px solid var(--ink);border-radius:10px;padding:12px 16px 8px 64px;background:#fff}
+.rbadge{position:absolute;left:14px;top:12px;width:38px;height:38px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-weight:700;font-size:1.3rem}
+.fr{margin:6px 0 4px 20px;padding:0}.fr li{margin:5px 0}
+.vier{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+@media(max-width:560px){.vier{grid-template-columns:1fr}}
+.v4{border:2px solid var(--ink);border-radius:10px;padding:8px 14px;background:#fff}.v4 b{font-family:var(--f-display);font-size:1.4rem;display:block}.v4 small{display:block;font-family:var(--f-type);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ideen{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+@media(max-width:560px){.ideen{grid-template-columns:1fr}}
+.idee{position:relative;border:2px dashed var(--muted);border-radius:10px;padding:10px 14px 6px 64px;background:#fff}
+.note.warn{border-color:var(--stamp);background:#fdf0ee}
+.sdgchip{display:flex;align-items:center;gap:8px;font-family:var(--f-type);font-weight:700;font-size:.9rem}.sdgchip i{display:inline-block;width:14px;height:14px;border-radius:3px}
+</style>
+
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<script>
+/* FreiDay-Einsätze: Detektivgeschichte mit SDG-Bezug. Pro Team ein Einsatz, fünf Etappen, Klexikon als Recherche. */
+const KLX=t=>`<a class="klx" href="https://klexikon.zum.de/wiki/${encodeURIComponent(t)}" target="_blank" rel="noopener">Klexikon: ${t} ↗</a>`;
+const EINS={
+ igel:{nr:1,t:'Der Igel-Einsatz',frage:'Wie kommt der Igel durch den Winter?',sdg:15,sdgn:'Leben an Land',sdgt:'Wir schützen Tiere und ihren Lebensraum an Land.',
+  kap:[
+   {t:'Der Hilferuf',p:['Mitte November. Der erste Frost kommt. <b>Tim Thermo</b> rennt ins Kommissariat. «Chefin! Im Laub liegt ein Igel. Er ist klein und dünn. Und er hat noch kein Nest!»',
+     '<b>Klara Klima</b> hört gut zu. «Ohne Nest und ohne Fettpolster wird der Winter für ihn schwer. Das ist ein Fall für uns.»',
+     'Sie legt eine Karte auf den Tisch: <b>SDG 15: Leben an Land</b>. «Wir schützen Tiere an Land. Auch Igel.»']},
+   {t:'Spuren sichern',p:['«Wir brauchen Beweise», sagt Klara Klima. «Was weiss man über Igel? Tim, du liest im Klexikon. Und ihr drei auch.»','«Jeder liest eine andere Seite. Dann erklärt ihr es den anderen. So wird niemand allein klug.»']},
+   {t:'Der Plan',p:['Tim kratzt sich am Kopf. «Und wie helfen wir dem Igel?»','Klara Klima zeigt auf vier Wörter an der Tafel: <b>Warum? Wer? Wie? Was?</b> «Ein guter Plan beantwortet alle vier.»']},
+   {t:'Der Einsatz',p:['Der Plan steht. Klara Klima zieht Handschuhe an. «Los geht’s!»','«Aber leise», flüstert Tim. «Ein Igel braucht Ruhe.»']},
+   {t:'Der Bericht',p:['Am Abend sitzen alle im Kommissariat. Die Lehrperson zeigt das Beweisfoto. Tim strahlt. «Der Igel hat ein Versteck!»','Klara Klima stempelt die Akte: <b>Fall gelöst</b>. «Und jetzt erzählt ihr der Klasse, wie ihr das geschafft habt.»']}],
+  rollen:[
+   {k:'A',t:'Igel: Leben und Essen',lk:'Igel',lies:'Lies den Anfang und den Abschnitt <b>«Wie leben unsere Igel und was fressen sie?»</b>',q:['Was frisst der Igel?','Wo schläft der Igel am Tag?','Was macht der Igel bei Gefahr?'],
+    a:['Vor allem Insekten (Käfer, Raupen, Ameisen). Auch Regenwürmer und Schnecken.','In einem Nest aus Laub und Ästen.','Er rollt sich zu einer Kugel zusammen.']},
+   {k:'B',t:'Winterschlaf',lk:'Winterschlaf',lies:'Lies den Anfang vom Artikel <b>«Winterschlaf»</b>.',q:['Warum halten manche Tiere Winterschlaf?','Was passiert dabei im Körper?','Wovon leben die Tiere im Winter?'],
+    a:['Im Winter ist es kalt und es gibt wenig zu fressen.','Die Körpertemperatur sinkt. Atmung und Herzschlag werden langsamer. Das Tier braucht wenig Energie.','Vom Fettvorrat. Sie fressen ihn im Herbst an.']},
+   {k:'C',t:'Igel helfen',lk:'Igel',lies:'Lies den Abschnitt <b>«Soll man Igel füttern?»</b>',q:['Was hilft Igeln am besten?','Was darf man einem Igel füttern?','Wann darf man einen Igel füttern?'],
+    a:['Ein naturnaher Garten mit genug Futter und Verstecken.','Nur Katzenfutter. Nasses ist besser als trockenes.','Nur wenn es nötig ist. Zum Beispiel wenn er zu früh aufwacht oder ein junger Igel im Herbst noch nicht ein gutes halbes Kilo wiegt.']}],
+  merk:['Igel halten Winterschlaf. Dafür brauchen sie im Herbst ein Fettpolster und ein trockenes Versteck.','Am besten hilft ein naturnaher Garten mit Laub, Reisig und Verstecken.','Füttern nur wenn nötig, nur Katzenfutter. Einen Unterschlupf nicht mehr verschieben.'],
+  quellen:[['Igel','https://klexikon.zum.de/wiki/Igel'],['Winterschlaf','https://klexikon.zum.de/wiki/Winterschlaf'],['NABU: Unterschlupf für Igel im Winter','https://www.nabu.de/aktiv-werden/naturnah-gaertnern/tiere-im-garten/winterquartiere/unterschlupf-fuer-igel-im-winter']]}
+};
+const ET=['Hilferuf','Spuren sichern','Plan','Einsatz','Bericht'];
+const CK={1:'Wir haben die Warum-Frage in unsere Akte geschrieben.',2:'Alle drei haben ihre Seite dem Team erklärt.',3:'Die Lehrperson hat unseren Plan angeschaut.',4:'Wir haben unseren Unterschlupf gebaut.',5:'Wir haben der Klasse berichtet.'};
+let ST={};try{ST=JSON.parse(localStorage.getItem('fd_einsatz')||'{}')||{}}catch(e){}
+const save=()=>{try{localStorage.setItem('fd_einsatz',JSON.stringify(ST))}catch(e){}};
+const S={view:'home',open:{}};
+const done=(id,n)=>!!(ST[id]&&ST[id]['c'+n]);
+const cur=id=>{for(let n=1;n<=5;n++)if(!done(id,n))return n;return 6};
+const kap=(id,n)=>{const k=EINS[id].kap[n-1];return `<div class="kap"><span class="kaptag">Kapitel ${n}</span><h3 class="kaph">${k.t}</h3>${k.p.map(x=>`<p>${x}</p>`).join('')}</div>`};
+const ol=l=>`<ol class="todo">${l.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+const box=(t,inner)=>`<div class="auftrag"><h3>${t}</h3>${inner}</div>`;
+const chk=(id,n,locked)=>`<label class="chk"><input type="checkbox" data-act="chk" data-id="${id}" data-n="${n}" ${done(id,n)?'checked':''} ${locked?'disabled':''}><span>${CK[n]}</span></label>`;
+const stepper=(id)=>{const c=cur(id);return `<ol class="steps" aria-label="Etappen">`+ET.map((t,i)=>`<li class="${i+1===c?'on':i+1<c?'done':''}"><i>${i+1}</i>${t}</li>`).join('')+`</ol>`};
+const details=(key,sum,inner)=>`<details class="explore" data-k="${key}" ${S.open[key]?'open':''}><summary>${sum}</summary>${inner}</details>`;
+
+function viewHome(){
+ const n=Object.keys(EINS).filter(id=>done(id,5)).length;
+ return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Winter</div>
+ <h1><span>Klima-Kommissariat 4b</span>FreiDay-Einsätze</h1>
+ <p>Klara Klima und Tim Thermo brauchen Hilfe. Euer Team übernimmt einen Einsatz. Ihr geht in fünf Etappen vor: Hilferuf, Spuren sichern, Plan, Einsatz, Bericht.</p>
+ <div class="need"><b>Das braucht euer Team:</b><ul><li><b>Eure Einsatz-Akte</b> (Papier): Eine pro Team. Dort schreibt ihr.</li><li><b>Diese App:</b> Geschichte, Klexikon-Links und Aufgaben.</li></ul></div></section>
+ <div class="files">${Object.entries(EINS).map(([id,e])=>`<div class="file"><span class="tab">Einsatz 0${e.nr}</span><h3>${e.t}</h3><p>${e.frage}</p><p class="sdgchip"><i style="background:#56c02b"></i>SDG ${e.sdg} · ${e.sdgn}</p><div class="foot"><span class="stars ${done(id,5)?'on':''}" aria-label="${done(id,5)?'gelöst':'offen'}">${done(id,5)?'★':'☆'}</span><button class="open" data-act="open" data-v="${id}">Einsatz öffnen</button></div>${done(id,5)?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
+ <p class="muted" style="margin-top:22px">Mehr Einsätze folgen. Quelle für die Recherche: <a href="https://klexikon.zum.de" target="_blank" rel="noopener">Klexikon</a>.</p>`}
+
+function viewEinsatz(id){
+ const e=EINS[id],c=cur(id);let h=`<div class="gbar"><button class="back" data-act="home">← Alle Einsätze</button><div class="ttl"><small>Einsatz 0${e.nr} · SDG ${e.sdg}: ${e.sdgn}</small>${e.t}</div></div><div class="qcard">`+stepper(id);
+ /* Etappe 1 */
+ h+=kap(id,1)+box('1 · Hilferuf',ol([`Öffnet eure <b>Einsatz-Akte</b> (Papier) bei <b>Etappe 1</b>.`,`Lest zusammen die Karte: <b>SDG ${e.sdg} · ${e.sdgn}</b>. ${e.sdgt}`,`Schreibt in eure Akte: <b>Warum braucht der Igel Hilfe?</b> Das ist eure Vermutung.`])+chk(id,1));
+ /* Etappe 2 */
+ if(c>=2){h+=kap(id,2)+box('2 · Spuren sichern',ol(['Ihr seid zu dritt. Verteilt die Buchstaben <b>A</b>, <b>B</b> und <b>C</b>.','Öffne den Link bei deinem Buchstaben und lies deine Seite.','Beantworte in deiner Akte (Etappe 2) die 3 Fragen bei deinem Buchstaben.','Prüfe deine Antworten mit «Antworten prüfen».','Erkläre dem Team in 1 Minute, was du gelesen hast.'])+
+   `<div class="rollen">`+e.rollen.map(r=>`<div class="rolle"><span class="rbadge">${r.k}</span><b>${r.t}</b><p>${r.lies}</p><p><a class="klx" href="https://klexikon.zum.de/wiki/${encodeURIComponent(r.lk)}" target="_blank" rel="noopener">Klexikon: ${r.lk} ↗</a></p><ol class="fr">${r.q.map(q=>`<li>${q}</li>`).join('')}</ol>${details('r'+r.k,'Antworten prüfen',`<ol class="fr">${r.a.map(a=>`<li>${a}</li>`).join('')}</ol>`)}</div>`).join('')+`</div>`+chk(id,2,c<2))}
+ /* Etappe 3 */
+ if(c>=3){h+=kap(id,3)+box('3 · Plan',ol(['Beantwortet in eurer Akte (Etappe 3) die vier Fragen.','Wählt eure Idee: <b>A</b> oder <b>B</b> (siehe unten).','Fragt eure Lehrperson: <b>Wo</b> dürfen wir bauen? Schreibt den Ort in eure Akte.','Zeigt eurer Lehrperson den Plan.'])+
+   `<div class="vier">`+[['Warum?','Unser Problem','Warum braucht der Igel Hilfe?'],['Wer?','Wem helfen wir? Wer macht was?','Der Igel. Und wer im Team übernimmt welche Aufgabe?'],['Wie?','Das ist unsere Idee','Welchen Unterschlupf bauen wir: A oder B?'],['Was?','Das machen wir konkret','Welches Material brauchen wir? Wann machen wir was?']].map(([a,b,c2])=>`<div class="v4"><b>${a}</b><small>${b}</small><span>${c2}</span></div>`).join('')+`</div>`+
+   `<div class="ideen"><div class="idee"><span class="rbadge">A</span><b>Laub- und Reisighaufen</b><p>Material: Totholz, Reisig und Laub.</p><p>Ort: ruhige, geschützte Ecke, zum Beispiel bei einer Hecke oder einem Holzstapel.</p></div><div class="idee"><span class="rbadge">B</span><b>Igelhaus</b><p>Ein Haus aus Holz. Es steht auf zwei kurzen Dachlatten. Dann hat der Igel keine nassen Füsse.</p><p>Kein Stroh und kein Heu hineinlegen. Nimm trockenes Laub.</p></div></div>`+
+   `<div class="note"><b>Wichtig:</b><p>Ein Unterschlupf wird im Winter <b>nicht mehr verschoben</b>. Wählt den Ort gut. Eure Lehrperson hilft euch dabei.</p></div>`+chk(id,3,c<3))}
+ /* Etappe 4 */
+ if(c>=4){h+=kap(id,4)+box('4 · Einsatz',ol(['Sammelt Material (Laub, Reisig, Totholz). Fragt vorher, wo ihr es nehmen dürft.','Baut euren Unterschlupf am gewählten Ort.','Eure Lehrperson macht ein <b>Beweisfoto</b>.','Lasst den Unterschlupf danach in Ruhe. Nicht mehr verschieben!'])+`<div class="note warn"><b>Achtung:</b><p>Zieh Handschuhe an. Wenn du einen Igel siehst: <b>nicht anfassen.</b> Sag es sofort deiner Lehrperson.</p></div>`+chk(id,4,c<4))}
+ /* Etappe 5 */
+ if(c>=5){h+=kap(id,5)+box('5 · Bericht',ol(['Schreibt in eurer Akte (Etappe 5) Stichworte für euren Bericht.','Übt: Jedes Kind sagt etwas. Es dauert höchstens 2 Minuten.','Zeigt der Klasse das Beweisfoto und erzählt: Warum? Wer? Wie? Was?','Sagt auch: Das haben wir gelernt.'])+chk(id,5,c<5));
+   h+=`<div class="beweis"><span class="bwtag">Beweisstück</span><h3 class="bwh">Das haben wir herausgefunden</h3><div class="merk"><b>Das merkst du dir:</b><ul>${e.merk.map(m=>`<li>${m}</li>`).join('')}</ul></div><p class="quelle">Quellen: ${e.quellen.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(', ')}</p></div>`}
+ if(c>5)h+=`<div class="fb"><span class="stp">Fall gelöst</span><strong>Gut ermittelt!</strong><p>Euer Team hat den Igel-Einsatz geschafft.</p></div>`;
+ h+=`<div class="actions"><button class="btn" data-act="home">Zurück zu allen Einsätzen</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div></div>`;
+ return h}
+function render(){$('#app').innerHTML=S.view==='home'?viewHome():viewEinsatz(S.view)}
+const $=s=>document.querySelector(s);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const a=b.dataset.act,v=b.dataset.v;
+ if(a==='home'){S.view='home';render();scrollTo(0,0)}
+ else if(a==='open'){S.view=v;render();scrollTo(0,0)}
+ else if(a==='again'){delete ST[v];save();S.open={};render();scrollTo(0,0)}});
+document.addEventListener('change',e=>{const i=e.target;if(i.dataset.act!=='chk')return;const id=i.dataset.id,n=+i.dataset.n;ST[id]=ST[id]||{};
+ if(i.checked)ST[id]['c'+n]=true;else for(let k=n;k<=5;k++)delete ST[id]['c'+k];save();render();
+ const nx=document.querySelector('.kap:last-of-type');if(i.checked&&n<5){const k=document.querySelectorAll('.kap');const last=k[k.length-1];if(last)try{last.scrollIntoView({behavior:'smooth',block:'start'})}catch(x){}}});
+document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('explore'))S.open[d.dataset.k]=d.open},true);
+render();
+</script>
+</body>
+</html>
