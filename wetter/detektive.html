@@ -139,6 +139,14 @@ td.l{text-align:left;font-weight:700;white-space:nowrap;background:var(--paper)}
 .note{border:2px dashed var(--muted);border-radius:10px;background:#fffdf2;padding:12px 16px;margin:18px 0;font-family:var(--f-type);font-size:1.02rem}
 .note>b:first-child{display:block;margin-bottom:4px;font-family:var(--f-display);font-size:1.3rem}
 .note p{margin:6px 0;line-height:1.7}
+.beweis{position:relative;background:var(--paper);border:2px solid var(--folder-edge);border-left:8px solid var(--stamp);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 14px;margin:14px 0 20px}
+.bwtag{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(-2deg)}
+.beweis .bwh{font-family:var(--f-display);font-size:1.4rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 6px}
+.beweis p{margin:8px 0;line-height:1.7;font-size:1.05rem}
+.merk{background:var(--hl-soft);border-radius:8px;padding:8px 14px;margin-top:12px}
+.merk ul{margin:4px 0 2px 18px;padding:0}.merk li{margin:3px 0;line-height:1.5}
+.spur{border:2px dashed var(--muted);border-radius:10px;background:#fff;padding:6px 16px;margin:10px 0}
+.spur p{margin:8px 0;line-height:1.6}
 .blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--ink);text-align:center;padding:0 6px;font-weight:700}
 .think{border-left:6px solid var(--stamp);padding:4px 12px;margin:12px 0;font-family:var(--f-display);font-size:1.3rem;font-weight:700}
 .actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 4px}
@@ -268,6 +276,8 @@ const stepper=(n,l)=>{return `<ol class="steps" aria-label="Schritte">`+l.map((t
 const head=(n,t)=>`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Akte 0${n}</small>${t}</div></div><div class="qcard">`;
 const loading=()=>`<div class="load" role="status">Spuren werden gesucht …</div>`;
 const failBox=()=>`<div class="fail" role="alert"><b>Die Messwerte kommen gerade nicht an.</b><p>Warte kurz. Tippe dann auf «Nochmals».</p><button class="btn" data-act="retry">Nochmals</button><details><summary>Für die Lehrperson</summary><p class="muted">${esc(DIAG.slice(-8).join(' | ')||'–')}<br>${esc(S.err||'')}</p></details></div>`;
+const BW={"1": {"t": "Wer macht die Luft warm?", "p": ["Spur gefunden! Der Täter ist <b>die Sonne</b>.", "Ihre Strahlen treffen auf den Boden. Der Boden wird warm. Dann wärmt der warme Boden die Luft darüber.", "Am Morgen ist der Boden noch kalt von der Nacht. Darum ist die Luft kühl. Mittags scheint die Sonne am stärksten. Der Boden wird noch weiter warm, auch nach dem Mittag. Darum ist es oft erst am <b>Nachmittag</b> am wärmsten. Am Abend scheint die Sonne kaum noch. Der Boden gibt Wärme ab. Die Luft wird kühler."], "m": ["Die Sonne wärmt den Boden.", "Der Boden wärmt die Luft.", "Am wärmsten ist es oft am Nachmittag."]}, "2": {"t": "Wolken, Wind und Nebel", "p": ["Zwei Tage, zwei Kurven. Wer hat den Unterschied gemacht? Es gibt drei Verdächtige:", "<b>Wolken:</b> Sie halten die Sonnenstrahlen ab. Dann kommt weniger Wärme zum Boden. Der Tag bleibt kühler.", "<b>Wind:</b> Er bringt Luft von anderswo. Kommt sie aus dem kalten Norden, wird es kälter. Kommt sie aus dem warmen Süden, wird es wärmer.", "<b>Nebel:</b> Im Herbst liegt oft Nebel über Zürich. Die Sonne kommt kaum durch. Dann bleibt es kühl."], "m": ["Viel Sonne: wärmer. Wolken oder Nebel: kühler.", "Der Wind bringt warme oder kalte Luft."]}, "3": {"t": "Warum wird es oben kälter?", "p": ["Drei Hinweise:", "<b>Hinweis 1:</b> Oben in den Bergen ist die Luft dünner. Dünne Luft kann Wärme schlecht festhalten. Darum ist es dort kälter.", "<b>Hinweis 2:</b> Pro 100 Meter höher wird es etwa <b>0,6 °C</b> kälter. Von Lugano (273 m) bis Zermatt (1638 m) sind es etwa 1400 Meter. Das gibt rund <b>8 °C</b> Unterschied.", "<b>Hinweis 3:</b> Lugano liegt im Tessin, südlich der Alpen. Die Berge halten oft kalte Luft aus dem Norden ab. Darum ist es dort oft milder."], "m": ["Je höher, desto kälter.", "Pro 100 m etwa 0,6 °C kälter.", "Auch Sonne, Wolken und Nebel machen einen Unterschied."]}};
+const beweis=(n,k)=>`<div class="beweis"><span class="bwtag">Beweisstück ${n}</span><h3 class="bwh">${BW[k].t}</h3>${BW[k].p.map(x=>`<p>${x}</p>`).join('')}<div class="merk"><b>Das merkst du dir:</b><ul>${BW[k].m.map(x=>`<li>${x}</li>`).join('')}</ul></div></div>`;
 const noteBox=(lines,t)=>`<div class="note"><b>✏ ${t||'Das schreibst du auf dein Blatt:'}</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
 const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div>`;
 const FB=(cls,t,body,id)=>`<div class="fb ${cls}" ${id?'id="fb"':''} tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
@@ -319,7 +329,8 @@ function sol1(r){const f=S.f1;
  const dots=r.s.map(p=>{const v=r1(p.T);return{m:p.m,T:p.T,label:fT(p.T),big:v===r.mxT,color:v===r.mxT?'#f2d24b':'#fff'}});
  h+=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#d62828'}],dots,aria:'Temperatur am '+dlabel(f.day)+', gemessen alle 2 Stunden von 8 bis 20 Uhr. Am wärmsten um '+hs(r.mxH)+', '+fT(r.mxT)+' Grad.'})}</div><p class="muted">Gelb: am wärmsten. Sieht deine rote Kurve auch so aus?</p>`;
  h+=selfBox(1,'Hat deine Vermutung gestimmt?');
- h+=noteBox([`Schritt 4: Am wärmsten war es um <span class="blank">${r.mxH.join(' und ')}</span> Uhr: <span class="blank">${fT(r.mxT)}</span> °C.`,`Schritt 5: Denk nach: <b>Was macht die Luft warm?</b>`]);
+ h+=noteBox([`Schritt 4: Am wärmsten war es um <span class="blank">${r.mxH.join(' und ')}</span> Uhr: <span class="blank">${fT(r.mxT)}</span> °C.`,`Schritt 5: Lies das Beweisstück unten. Denk nach: <b>Was macht die Luft warm?</b> Schreib es mit eigenen Worten.`]);
+ h+='<h3>5 · Beweisstück lesen</h3>'+beweis(1,1);
  return h+doneBtns('1')}
 
 /* ----- Akte 2 ----- */
@@ -339,7 +350,9 @@ function sol2(r){const f=S.f2,A='Tag 1 ('+dlabel(f.a)+')',B='Tag 2 ('+dlabel(f.b
  if(r.p12){const d=Math.abs(r.p12.a-r.p12.b);h+=`<p class="muted" style="margin-top:12px">Das ist Frage 4 auf KM 54.2</p><div class="fb info"><strong>Um 12 Uhr: ${fT(d)} °C Unterschied.</strong><p>Tag 1: ${fT(r.p12.a)} °C · Tag 2: ${fT(r.p12.b)} °C</p></div>`}
  h+=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#d62828'},{pts:r.sB,color:'#1d4ed8',dash:true}],dots:[...r.sA.map(p=>({m:p.m,T:p.T,color:'#d62828'})),...r.sB.map(p=>({m:p.m,T:p.T,color:'#1d4ed8'}))],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: rot '+A+', blau '+B+'.'})}<div class="legend"><span><i></i>Tag 1 (rot): ${dlabel(f.a)}</span><span><i class="b"></i>Tag 2 (blau): ${dlabel(f.b)}</span></div></div><p class="muted">Sehen deine Kurven auch so aus?</p>`;
  h+=selfBox(2,'Hat deine Vermutung gestimmt?');
- h+=noteBox([`Prüfe auf <b>KM 54.2</b>: Frage 3: Tag <span class="blank">${tr==='A'?'1':tr==='B'?'2':'gleich'}</span> war wärmer.`,r.p12?`Frage 4: <span class="blank">${fT(Math.abs(r.p12.a-r.p12.b))}</span> °C Unterschied um 12 Uhr.`:'',`Schritt 5 auf deinem Blatt: Denk nach: <b>Was war an den Tagen anders?</b> Sonne? Wolken? Wind?`].filter(Boolean),'Das prüfst und schreibst du:');
+ h+=spuren2(f);
+ h+=noteBox([`Prüfe auf <b>KM 54.2</b>: Frage 3: Tag <span class="blank">${tr==='A'?'1':tr==='B'?'2':'gleich'}</span> war wärmer.`,r.p12?`Frage 4: <span class="blank">${fT(Math.abs(r.p12.a-r.p12.b))}</span> °C Unterschied um 12 Uhr.`:'',`Schritt 5: Lies das Beweisstück unten. Denk nach: <b>Was war an den Tagen anders?</b> Sonne? Wolken? Wind? Schau auch bei «Spuren vom Wetter».`].filter(Boolean),'Das prüfst und schreibst du:');
+ h+='<h3>5 · Beweisstück lesen</h3>'+beweis(2,2);
  return h+doneBtns('2')}
 
 function timeChips(){const f=S.f3,t=todayKey();const o=[...(f.day===t?[['now','Jetzt']]:[]),['08','8 Uhr'],['12','12 Uhr'],['16','16 Uhr']];
@@ -364,7 +377,8 @@ function sol3(r){
  else{const pair=have.length===3&&v.zer>=v.sma-0.3?'Zermatt ist nicht kälter als Zürich.':v.sma>v.lug-0.3?'Zürich ist nicht kälter als Lugano.':'Die Werte passen nicht ganz zur Höhe.';
   h+=FB('near','Heute passt es nicht ganz.',`<p>${pair} Meistens gilt: Je höher, desto kälter.</p>${v.zer>=v.sma-0.3&&have.length===3?'<p class="muted">Bei Nebel im Mittelland kann das vorkommen.</p>':''}`)}
  h+=selfBox(3,'Haben deine Vermutungen gestimmt?');
- h+=noteBox([`Am kältesten ist es in <span class="blank">${ST[cold].n}</span>.`,`Je höher der Ort, desto <span class="blank">${t==='k'?'kälter':t==='w'?'wärmer':'…'}</span>.`,`Denk nach: <b>Warum ist es oben anders als unten?</b> Das ist auch Frage 3 auf <b>KM 54.3</b>.`]);
+ h+=noteBox([`Am kältesten ist es in <span class="blank">${ST[cold].n}</span>.`,`Je höher der Ort, desto <span class="blank">${t==='k'?'kälter':t==='w'?'wärmer':'…'}</span>.`,`Schritt 4: Lies das Beweisstück unten. Denk nach: <b>Warum ist es oben anders als unten?</b> Das ist auch Frage 3 auf <b>KM 54.3</b>.`]);
+ h+='<h3>4 · Beweisstück lesen</h3>'+beweis(3,3)+(v.lug!=null&&v.zer!=null?`<div class="spur"><p><b>Spur von heute:</b> Lugano ${fT(v.lug)} °C, Zermatt ${fT(v.zer)} °C. Der Unterschied ist <b>${fT(v.lug-v.zer)} °C</b>.</p></div>`:'');
  return h+doneBtns('3')}
 
 function render(){
@@ -402,12 +416,17 @@ async function calc1(){const f=S.f1,mp=await station('sma',f.day);
  if(s.length<3)return{empty:true};
  const mxT=Math.max(...s.map(p=>r1(p.T))),mnT=Math.min(...s.map(p=>r1(p.T)));
  return{s,h2,mxT,mnT,mxH:s.filter(p=>r1(p.T)===mxT).map(p=>p.m/60),mnH:s.filter(p=>r1(p.T)===mnT).map(p=>p.m/60),partial:partialDay(f.day)}}
+const wx=(mp,day)=>{const w=[],g=[];for(let m=480;m<=1200;m+=10){const r=mp.get(day+'T'+p2(m/60|0)+':'+p2(m%60));if(r){if(r[2]!=null)w.push(r[2]*3.6);if(r[7]!=null)g.push(r[7])}}const av=a=>a.length>=30?a.reduce((x,y)=>x+y,0)/a.length:null;return{w:av(w),g:av(g)}};
+function spuren2(f){const r=f.res,L=[];
+ if(r.gA!=null&&r.gB!=null){const d=Math.abs(r.gA-r.gB)/Math.max(r.gA,r.gB,1);L.push(d<.15?'<b>Sonne:</b> An beiden Tagen schien die Sonne etwa gleich stark.':`<b>Sonne:</b> An <b>Tag ${r.gA>r.gB?1:2}</b> schien die Sonne stärker. Am anderen Tag gab es mehr Wolken oder Nebel.`)}
+ if(r.wA!=null&&r.wB!=null){const a=Math.round(r.wA),b=Math.round(r.wB);L.push(Math.abs(r.wA-r.wB)<3?`<b>Wind:</b> An beiden Tagen etwa gleich viel Wind (${a} und ${b} km/h).`:`<b>Wind:</b> An <b>Tag ${r.wA>r.wB?1:2}</b> war es windiger (Tag 1: ${a} km/h, Tag 2: ${b} km/h).`)}
+ return L.length?`<h3>Spuren vom Wetter</h3><div class="spur">${L.map(x=>`<p>${x}</p>`).join('')}</div>`:''}
 async function calc2(){const f=S.f2,[ma,mb]=await Promise.all([station('sma',f.a),station('sma',f.b)]);
  const hA=hser(ma,f.a),hB=hser(mb,f.b),sA=spts(hA),sB=spts(hB);
  if(sA.length<3)return{empty:dlabel(f.a)};if(sB.length<3)return{empty:dlabel(f.b)};
  const pairs=H2.map((h,i)=>hA[i]!=null&&hB[i]!=null?{h,a:hA[i],b:hB[i]}:null).filter(Boolean);
  const nA=pairs.filter(p=>r1(p.a)>r1(p.b)).length,nB=pairs.filter(p=>r1(p.b)>r1(p.a)).length;
- return{sA,sB,hA,hB,pairs,n:pairs.length,nA,nB,truth:nA>nB?'A':nB>nA?'B':'eq',p12:pairs.find(p=>p.h===12)||null,partial:partialDay(f.a)||partialDay(f.b)}}
+ return{sA,sB,hA,hB,pairs,n:pairs.length,nA,nB,truth:nA>nB?'A':nB>nA?'B':'eq',p12:pairs.find(p=>p.h===12)||null,wA:wx(ma,f.a).w,wB:wx(mb,f.b).w,gA:wx(ma,f.a).g,gB:wx(mb,f.b).g,partial:partialDay(f.a)||partialDay(f.b)}}
 async function calc3(){const f=S.f3,codes=['lug','sma','zer'];
  const res=await Promise.allSettled(codes.map(c=>station(c,f.day)));
  const mps={};res.forEach((x,i)=>{if(x.status==='fulfilled')mps[codes[i]]=x.value});
