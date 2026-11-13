@@ -5,114 +5,136 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Klimadetektive 4b</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
 <style>
-/* Klimadetektive: kindgerechte Version der Wetter-Anzeige. Ein Fall = eine Frage. Erst vermuten, dann die Spur (Messwerte) prüfen, dann ins Heft schreiben. */
-:root{--teal:#28c6a4;--ink:#14211f;--lav:#d8e1f9;--grey:#f0f2f2;--warm:#ffe3a3;--ok:#d3f5ea;--near:#fff0c2;--no:#fde3d8;--muted:#44544f;--a:#0e8a72;--b:#d9780a;
- --font:'Andika','Trebuchet MS',Verdana,sans-serif;color-scheme:light}
+/* Klimadetektive: Stil «Kommissariat» (Schreibtisch, Aktenmappen, Stempel). Eine Akte = eine Frage. Erst vermuten, dann die Spur (Messwerte) prüfen, dann ins Heft schreiben. */
+:root{--desk:#dde3de;--folder:#e7d6ae;--folder-edge:#cdb886;--paper:#fbfaf6;--ink:#1c2420;--muted:#5b6660;--rule:#d4d9d3;--stamp:#b3302a;--ok:#1d7f4c;--ok-soft:#ddf0e3;--bad:#b3302a;--bad-soft:#f8e1dd;--hl:#f2d24b;--hl-soft:#f7ebb0;--blue:#2d62c4;--orange:#c9661a;--cold:#cfe0f7;
+ --f-display:"Zilla Slab",Rockwell,Georgia,serif;--f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;--f-type:"Courier Prime","Courier New",ui-monospace,monospace;color-scheme:light}
 *{box-sizing:border-box}
-html{font-size:18px;-webkit-text-size-adjust:100%}
-body{margin:0;font-family:var(--font);color:var(--ink);background:#fff;line-height:1.4;font-size:1.05rem}
-.band{background:var(--teal);border-bottom:3px solid var(--ink);padding:12px 16px}
-.band .in{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px}
-.band svg{flex:none}
-.band h1{margin:0;font-size:1.55rem;line-height:1.1}
-.band p{margin:2px 0 0;font-size:.95rem}
-main{max-width:860px;margin:0 auto;padding:16px 16px 48px}
-h2{font-size:1.35rem;margin:18px 0 8px;line-height:1.2}
-h3{font-size:1.1rem;margin:16px 0 6px}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5}
+main{max-width:1000px;margin:0 auto;padding:30px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
 p{margin:6px 0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .muted{color:var(--muted);font-size:.9rem}
-button{font:inherit;color:inherit}
-button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:4px solid #5b6cff;outline-offset:2px}
-.now{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;background:var(--grey);border:2px solid var(--ink);border-radius:14px;padding:10px 14px;margin:6px 0 14px}
-.now b{font-size:1.5rem}
-.now small{color:var(--muted)}
-.steps{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px;padding:0;list-style:none}
-.steps li{display:flex;align-items:center;gap:8px;border:2px solid var(--ink);border-radius:999px;padding:4px 12px 4px 4px;background:#fff;font-size:.9rem;font-weight:700}
-.steps li i{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--grey);border:2px solid var(--ink);font-style:normal}
-.steps li.on{background:var(--teal)}
-.steps li.on i{background:#fff}
-.steps li.done i{background:var(--ink);color:#fff}
-.cards{display:grid;gap:12px;margin:10px 0}
-.card{display:flex;align-items:center;gap:14px;width:100%;min-height:84px;padding:12px 16px;border:3px solid var(--ink);border-radius:18px;background:#fff;text-align:left;cursor:pointer}
-.card:hover{background:var(--lav)}
-.card .n{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--teal);border:3px solid var(--ink);font-weight:700;font-size:1.3rem}
-.card.solved .n{background:var(--warm)}
-.card b{display:block;font-size:1.2rem}
-.card span{color:var(--muted);font-size:.95rem}
-.card .star{margin-left:auto;font-size:1.6rem}
-.back{border:0;background:none;padding:8px 0;font-weight:700;cursor:pointer;text-decoration:underline;font-size:1rem;min-height:44px}
+.lbl{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Titelblatt */
+.cover{background:var(--folder);border:1px solid var(--folder-edge);border-radius:4px 14px 14px 14px;padding:26px clamp(18px,4vw,40px) 26px;position:relative;display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.cover::before{content:"Aktenzeichen 4b.K.1";position:absolute;top:-30px;left:-1px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:10px 10px 0 0;padding:5px 16px 4px;font-family:var(--f-type);font-size:13px;color:var(--muted)}
+.cover h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,8vw,72px);line-height:.98;letter-spacing:-.01em}
+.cover h1 span{display:block;font-size:.34em;letter-spacing:.14em;text-transform:uppercase;font-family:var(--f-type);font-weight:700;color:var(--muted);margin-bottom:8px}
+.cover p{max-width:44ch;margin:0}
+.bigstamp{position:absolute;right:clamp(14px,4vw,40px);top:22px;border:4px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:clamp(13px,2.2vw,19px);letter-spacing:.12em;padding:6px 12px;border-radius:6px;transform:rotate(-9deg);text-align:center;line-height:1.15;opacity:.85;animation:slam .5s cubic-bezier(.3,1.4,.6,1)}
+.bigstamp b{display:block;font-size:2em;letter-spacing:.04em}
+@keyframes slam{0%{transform:rotate(-9deg) scale(2.2);opacity:0}60%{transform:rotate(-9deg) scale(.94);opacity:.95}100%{transform:rotate(-9deg) scale(1);opacity:.85}}
+@media (prefers-reduced-motion:reduce){.bigstamp{animation:none}}
+@media (max-width:620px){.bigstamp{position:static;align-self:flex-start;transform:rotate(-4deg);animation:none}}
+.now{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 14px;align-self:flex-start}
+.now b{font-family:var(--f-display);font-size:1.7rem;line-height:1}
+.now small{color:var(--muted);font-family:var(--f-type);font-size:13px}
+
+/* Akten (Fälle) */
+.files{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 18px;margin-top:34px}
+@media (max-width:860px){.files{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.files{grid-template-columns:1fr}}
+.file{position:relative;background:var(--folder);border:1px solid var(--folder-edge);border-radius:0 10px 10px 10px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.file .tab{position:absolute;top:-25px;left:-1px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:8px 8px 0 0;padding:3px 14px 2px;font-family:var(--f-type);font-size:13px;font-weight:700}
+.file h3{font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1.05;text-transform:none;letter-spacing:0;color:var(--ink);margin:0}
+.file p{margin:0;color:var(--muted);font-size:17px}
+.file .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:8px}
+.stars{font-size:26px;line-height:1;color:var(--folder-edge)}
+.stars.on{color:var(--stamp)}
+.open{background:var(--ink);color:var(--paper);border:0;border-radius:8px;padding:11px 16px;font-weight:700;min-height:46px}
+.open:hover{filter:brightness(1.2)}
+.solvedst{position:absolute;right:12px;top:10px;border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:14px;letter-spacing:.12em;padding:2px 8px;border-radius:4px;transform:rotate(8deg);opacity:.85}
+
+/* Spielleiste und Karte */
+.gbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--folder);border:1px solid var(--folder-edge);border-radius:12px;padding:12px 16px;margin-bottom:16px}
+.gbar .ttl{font-family:var(--f-display);font-weight:700;font-size:28px;flex:1;min-width:0;line-height:1.1}
+.gbar .ttl small{display:block;font-family:var(--f-type);font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:400}
+.back{background:var(--paper);border:1px solid var(--folder-edge);border-radius:8px;padding:10px 14px;min-height:46px;font-weight:700}
+.back:hover{border-color:var(--ink)}
+.qcard{background:var(--paper);border:1px solid var(--rule);border-radius:4px 14px 14px 14px;padding:clamp(16px,3.5vw,30px);box-shadow:0 1px 0 var(--rule),0 8px 24px rgba(20,30,25,.08)}
+h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 0 6px}
+.q{font-family:var(--f-display);font-size:clamp(24px,3.6vw,30px);font-weight:700;line-height:1.2;margin:20px 0 6px}
+.steps{display:flex;gap:6px;margin:0 0 4px;padding:0;list-style:none}
+.steps li{flex:1;display:flex;flex-direction:column;gap:5px;font-family:var(--f-type);font-size:13px;font-weight:700;color:var(--muted)}
+.steps li::before{content:"";height:10px;border-radius:3px;background:var(--rule)}
+.steps li.done::before{background:var(--ok)}
+.steps li.on::before{background:var(--ink)}
+.steps li.on{color:var(--ink)}
+.steps li i{display:none}
+
+/* Auswahl */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
-.chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:50px;padding:6px 14px;border:3px solid var(--ink);border-radius:14px;background:#fff;cursor:pointer;font-weight:700;line-height:1.15}
-.chip small{font-weight:400;font-size:.78rem;color:var(--muted)}
-.chip:hover:not(:disabled){background:var(--lav)}
-.chip[aria-pressed=true]{background:var(--teal)}
-.chip[aria-pressed=true] small{color:var(--ink)}
+.chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:52px;padding:6px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);font-weight:700;line-height:1.15;font-size:18px}
+.chip small{font-weight:400;font-size:13px;color:var(--muted);font-family:var(--f-type)}
+.chip:hover:not(:disabled){border-color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip[aria-pressed=true] small{color:#cfd6d1}
 .chip:disabled{opacity:.4;cursor:not-allowed}
-.chips input[type=date]{font:inherit;min-height:50px;border:3px solid var(--ink);border-radius:14px;padding:4px 10px;background:#fff}
-.opts{display:grid;gap:10px;margin:8px 0}
-.opts.two{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
-.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 16px;border:3px solid var(--ink);border-radius:16px;background:#fff;text-align:left;cursor:pointer;font-weight:700;font-size:1.1rem}
-.opt small{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
-.opt:hover{background:var(--lav)}
-.opt[aria-pressed=true]{background:var(--teal)}
-.opt[aria-pressed=true] small{color:var(--ink)}
-.opt svg{flex:none}
-.q{font-size:1.25rem;font-weight:700;margin:14px 0 4px}
-.load{padding:18px;border:3px dashed var(--ink);border-radius:16px;text-align:center;font-weight:700;margin:14px 0}
-.fb{border:3px solid var(--ink);border-radius:16px;padding:12px 16px;margin:14px 0 8px;background:var(--ok)}
-.fb.near{background:var(--near)}
-.fb.no{background:var(--no)}
-.fb strong{display:block;font-size:1.25rem}
+.chips input[type=date]{font:inherit;min-height:52px;border:2px solid var(--rule);border-radius:10px;padding:4px 10px;background:var(--desk);color:var(--ink)}
+.opts{display:grid;gap:10px;margin:10px 0}
+.opts.two{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);text-align:left;font-weight:700;font-size:20px;line-height:1.2;transition:transform .08s}
+.opt small{display:block;font-family:var(--f-type);font-weight:400;font-size:14px;color:var(--muted)}
+.opt:hover{border-color:var(--ink);transform:translateY(-1px)}
+.opt[aria-pressed=true]{border-color:var(--ink);background:var(--hl-soft);box-shadow:inset 6px 0 0 var(--ink)}
+.load{padding:18px;border:2px dashed var(--muted);border-radius:12px;text-align:center;font-family:var(--f-type);font-weight:700;margin:16px 0}
+
+/* Rückmeldung wie ein Stempel auf dem Blatt */
+.fb{position:relative;border:2px solid var(--ok);border-radius:10px;padding:12px 16px;margin:16px 0 8px;background:var(--ok-soft)}
+.fb.near{border-color:var(--folder-edge);background:var(--hl-soft)}
+.fb.no{border-color:var(--bad);background:var(--bad-soft)}
+.fb strong{display:block;font-family:var(--f-display);font-size:26px;line-height:1.15;padding-right:0}
+.fb .stp{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--ok);color:var(--ok);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(4deg)}
 .fb:focus{outline:none}
-.fail{border:3px solid var(--ink);border-radius:16px;padding:12px 16px;background:var(--no);margin:14px 0}
-.btn{min-height:50px;padding:8px 20px;border:3px solid var(--ink);border-radius:14px;background:var(--teal);font-weight:700;cursor:pointer;font-size:1.05rem}
-.btn:hover{background:#4dd9ba}
-.btn.light{background:#fff}
-.btn.light:hover{background:var(--lav)}
-.fig{border:2px solid var(--ink);border-radius:14px;padding:8px;margin:10px 0;background:#fff}
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}}}
+.fail{border:2px solid var(--bad);border-radius:10px;padding:12px 16px;background:var(--bad-soft);margin:16px 0}
+.btn{min-height:50px;padding:10px 20px;border:0;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:700}
+.btn:hover{filter:brightness(1.2)}
+.btn.light{background:var(--paper);color:var(--ink);border:2px solid var(--rule)}
+.btn.light:hover{border-color:var(--ink);filter:none}
+.fig{border:1px solid var(--rule);border-radius:10px;padding:8px;margin:12px 0;background:#fff}
 .fig svg{display:block;width:100%;height:auto}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 0;font-weight:700;font-size:.95rem}
-.legend i{display:inline-block;width:26px;height:0;border-top:5px solid var(--a);vertical-align:middle;margin-right:6px;border-radius:3px}
-.legend i.b{border-top:5px dashed var(--b)}
+.legend i{display:inline-block;width:26px;height:0;border-top:5px solid var(--blue);vertical-align:middle;margin-right:6px;border-radius:3px}
+.legend i.b{border-top:5px dashed var(--orange)}
 .cells{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
-.cell{min-width:68px;flex:1 1 68px;text-align:center;border:2px solid var(--ink);border-radius:12px;padding:4px 6px;background:var(--grey)}
-.cell span{display:block;font-size:.78rem;color:var(--muted)}
-.cell b{font-size:1.2rem}
+.cell{min-width:68px;flex:1 1 68px;text-align:center;border:1px solid var(--folder-edge);border-radius:8px;padding:4px 6px;background:var(--folder)}
+.cell span{display:block;font-family:var(--f-type);font-size:12px;color:var(--muted)}
+.cell b{font-family:var(--f-type);font-size:1.25rem}
 .tabs{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:480px;margin:6px 0}
-th,td{border:2px solid var(--ink);padding:5px 6px;text-align:center}
-th{background:var(--grey);font-size:.85rem}
-td.l{text-align:left;font-weight:700;white-space:nowrap}
-.two-days{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
-.day{border:3px solid var(--ink);border-radius:16px;padding:10px 12px;text-align:center;background:#fff}
-.day.win{background:var(--warm)}
-.day h4{margin:0;font-size:1rem}
-.day .big{font-size:1.8rem;font-weight:700;line-height:1.2}
-.day small{display:block;color:var(--muted)}
-.note{border:3px solid var(--ink);border-radius:16px;background:var(--lav);padding:12px 16px;margin:16px 0}
-.note>b:first-child{display:block;margin-bottom:4px}
-.note p{margin:4px 0}
-.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--ink);text-align:center;padding:0 6px}
-.think{border-left:6px solid var(--teal);padding:4px 12px;margin:10px 0;font-weight:700}
-.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
-#map{height:320px;border:2px solid var(--ink);border-radius:14px;margin:8px 0}
-.leaflet-tooltip.lbl{font-family:inherit;font-weight:700;font-size:15px;color:#14211f;border:2px solid #14211f;border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:480px;margin:6px 0;font-family:var(--f-type)}
+th,td{border:1px solid var(--folder-edge);padding:6px;text-align:center}
+th{background:var(--folder);font-size:.85rem}
+td.l{text-align:left;font-weight:700;white-space:nowrap;background:var(--paper)}
+.two-days{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.day{border:2px solid var(--rule);border-radius:10px;padding:10px 12px;text-align:center;background:var(--paper)}
+.day.win{background:var(--hl-soft);border-color:var(--ink)}
+.day h4{margin:0;font-family:var(--f-type);font-size:.95rem}
+.day .big{font-family:var(--f-display);font-size:2.1rem;font-weight:700;line-height:1.2}
+.day small{display:block;color:var(--muted);font-size:.9rem}
+.note{border:2px dashed var(--muted);border-radius:10px;background:#fffdf2;padding:12px 16px;margin:18px 0;font-family:var(--f-type);font-size:1.02rem}
+.note>b:first-child{display:block;margin-bottom:4px;font-family:var(--f-display);font-size:1.3rem}
+.note p{margin:6px 0;line-height:1.7}
+.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--ink);text-align:center;padding:0 6px;font-weight:700}
+.think{border-left:6px solid var(--stamp);padding:4px 12px;margin:12px 0;font-family:var(--f-display);font-size:1.3rem;font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 4px}
+#map{height:320px;border:1px solid var(--rule);border-radius:10px;margin:8px 0}
+.leaflet-tooltip.lbl{font-family:var(--f-body);font-weight:700;font-size:15px;color:#14211f;border:2px solid #14211f;border-radius:8px;text-transform:none;letter-spacing:0}
 details{margin:10px 0}
 summary{cursor:pointer;font-weight:700;min-height:36px}
-footer{max-width:860px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.85rem}
+footer{max-width:1000px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.85rem;font-family:var(--f-type)}
 footer a{color:inherit}
-.sr{position:absolute;left:-9999px}
-@media (max-width:520px){html{font-size:17px}.two-days{grid-template-columns:1fr}.band h1{font-size:1.35rem}}
-@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}}}
+@media (max-width:520px){body{font-size:17px}.two-days{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="band"><div class="in">
- <svg width="46" height="46" viewBox="0 0 46 46" aria-hidden="true"><circle cx="19" cy="19" r="13" fill="#fff" stroke="#14211f" stroke-width="4"/><path d="M29 29l12 12" stroke="#14211f" stroke-width="6" stroke-linecap="round"/><path d="M13 21l4-5 4 3 4-6" fill="none" stroke="#14211f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
- <div><h1>Klimadetektive</h1><p>Wir lösen Wetter-Fälle mit echten Messwerten.</p></div>
-</div></div>
 <main id="app" aria-live="polite"></main>
 <footer>Messwerte: MeteoSchweiz. <a href="./">Alle Messwerte (Wetter-Anzeige)</a></footer>
 
@@ -195,7 +217,7 @@ function lineChart(o){
  while(hi-lo<4){hi++;if(hi-lo<4)lo--}
  const step=(hi-lo)<=8?1:(hi-lo)<=16?2:5;lo=Math.floor(lo/step)*step;hi=Math.ceil(hi/step)*step;
  const X=m=>L+(m-x0)/(x1-x0)*(W-L-R),Y=t=>T0+(hi-t)/(hi-lo)*(H-T0-B);
- let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria)}" font-family="Andika,Trebuchet MS,Verdana,sans-serif">`;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria)}" font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif">`;
  for(let t=lo;t<=hi;t+=step){s+=`<line x1="${L}" x2="${W-R}" y1="${Y(t)}" y2="${Y(t)}" stroke="${t===0?'#14211f':'#c9d1d0'}" stroke-width="${t===0?2.5:1.5}"/><text x="${L-8}" y="${Y(t)+6}" text-anchor="end" font-size="18" fill="#14211f">${String(t).replace('-','−')}</text>`}
  for(let m=x0;m<=x1;m+=120){s+=`<line x1="${X(m)}" x2="${X(m)}" y1="${T0}" y2="${H-B}" stroke="#e3e8e7" stroke-width="1.5"/><text x="${X(m)}" y="${H-B+24}" text-anchor="middle" font-size="18" fill="#14211f">${m/60}</text>`}
  s+=`<text x="${L}" y="20" font-size="17" font-weight="700" fill="#14211f">°C</text><text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="17" fill="#44544f">Uhrzeit</text>`;
@@ -210,34 +232,36 @@ function mountain(vals){
  const L=ST.lug,Z=ST.sma,M=ST.zer,px={lug:136,sma:278,zer:480};
  const ok=['lug','sma','zer'].filter(k=>vals[k]!=null);
  const cold=ok.length>1?ok.reduce((a,b)=>vals[b]<vals[a]?b:a):null,warm=ok.length>1?ok.reduce((a,b)=>vals[b]>vals[a]?b:a):null;
- let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Berg mit drei Orten: Lugano ${fT(vals.lug)} Grad, Zürich ${fT(vals.sma)} Grad, Zermatt ${fT(vals.zer)} Grad" font-family="Andika,Trebuchet MS,Verdana,sans-serif">`;
- s+=`<rect width="${W}" height="${H}" fill="#eaf4ff" rx="10"/>`;
+ let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Berg mit drei Orten: Lugano ${fT(vals.lug)} Grad, Zürich ${fT(vals.sma)} Grad, Zermatt ${fT(vals.zer)} Grad" font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif">`;
+ s+=`<rect width="${W}" height="${H}" fill="#eef3f0" rx="10"/>`;
  [500,1000,1500].forEach(h=>{s+=`<line x1="8" x2="${W-8}" y1="${yy(h)}" y2="${yy(h)}" stroke="#9db4c8" stroke-width="2" stroke-dasharray="6 7"/><text x="10" y="${yy(h)-6}" font-size="16" fill="#44544f">${h} m</text>`});
- s+=`<path d="M0,${base} L0,${yy(150)} L${px.lug},${yy(L.h)} L${px.sma},${yy(Z.h)} L370,${yy(1100)} L${px.zer},${yy(M.h)} L545,${yy(2000)} L640,${yy(750)} L640,${base} Z" fill="#b9c9a4" stroke="#14211f" stroke-width="4" stroke-linejoin="round"/>`;
+ s+=`<path d="M0,${base} L0,${yy(150)} L${px.lug},${yy(L.h)} L${px.sma},${yy(Z.h)} L370,${yy(1100)} L${px.zer},${yy(M.h)} L545,${yy(2000)} L640,${yy(750)} L640,${base} Z" fill="#c5d3ae" stroke="#1c2420" stroke-width="4" stroke-linejoin="round"/>`;
  s+=`<path d="M545,${yy(2000)} L${517},${yy(1790)} L530,${yy(1760)} L540,${yy(1800)} L550,${yy(1700)} L560,${yy(1790)} Z" fill="#fff" stroke="#14211f" stroke-width="3" stroke-linejoin="round"/>`;
- [['lug',L],['sma',Z],['zer',M]].forEach(([k,o])=>{const x=px[k],y=yy(o.h),bx=x-68,by=y-84,fill=k===cold?'#d8e1f9':k===warm?'#ffe3a3':'#fff';
+ [['lug',L],['sma',Z],['zer',M]].forEach(([k,o])=>{const x=px[k],y=yy(o.h),bx=x-68,by=y-84,fill=k===cold?'#cfe0f7':k===warm?'#f7e08a':'#fff';
   s+=`<line x1="${x}" y1="${by+60}" x2="${x}" y2="${y}" stroke="#14211f" stroke-width="3"/><rect x="${bx}" y="${by}" width="136" height="60" rx="12" fill="${fill}" stroke="#14211f" stroke-width="3.5"/>
   <text x="${x}" y="${by+22}" text-anchor="middle" font-size="19" font-weight="700" fill="#14211f">${o.n}</text><text x="${x}" y="${by+49}" text-anchor="middle" font-size="26" font-weight="700" fill="#14211f">${fT(vals[k])} °C</text>
-  <circle cx="${x}" cy="${y}" r="9" fill="#e8453c" stroke="#14211f" stroke-width="3"/><text x="${x}" y="${y+28}" text-anchor="middle" font-size="17" fill="#14211f" stroke="#b9c9a4" stroke-width="5" paint-order="stroke">${o.h} m</text>`});
+  <circle cx="${x}" cy="${y}" r="9" fill="#b3302a" stroke="#1c2420" stroke-width="3"/><text x="${x}" y="${y+28}" text-anchor="middle" font-size="17" fill="#14211f" stroke="#c5d3ae" stroke-width="5" paint-order="stroke">${o.h} m</text>`});
  return s+'</svg>'}
 
 /* ---------- Ansichten ---------- */
 const stepper=n=>{const l=['Vermuten','Spur prüfen','Aufschreiben'];return `<ol class="steps" aria-label="Schritte">`+l.map((t,i)=>`<li class="${i+1===n?'on':i+1<n?'done':''}"><i>${i+1<n?'✓':i+1}</i>${t}</li>`).join('')+`</ol>`};
-const head=(n,t,q)=>`<button class="back" data-act="home">← Alle Fälle</button><h2>Fall ${n}: ${t}</h2>`;
+const head=(n,t)=>`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Akte 0${n}</small>${t}</div></div><div class="qcard">`;
 const loading=()=>`<div class="load" role="status">Spuren werden gesucht …</div>`;
 const failBox=()=>`<div class="fail" role="alert"><b>Die Messwerte kommen gerade nicht an.</b><p>Warte kurz. Tippe dann auf «Nochmals».</p><button class="btn" data-act="retry">Nochmals</button><details><summary>Für die Lehrperson</summary><p class="muted">${esc(DIAG.slice(-8).join(' | ')||'–')}<br>${esc(S.err||'')}</p></details></div>`;
-const noteBox=(lines)=>`<div class="note"><b>✏️ Schreib in dein Heft:</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
-const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Fall gelöst ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals mit anderem Tag</button></div>`;
-const FB=(cls,t,body)=>`<div class="fb ${cls}" id="fb" tabindex="-1" role="status"><strong>${t}</strong>${body}</div>`;
+const noteBox=(lines)=>`<div class="note"><b>✏ Schreib in dein Heft:</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
+const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals mit anderem Tag</button></div>`;
+const FB=(cls,t,body)=>`<div class="fb ${cls}" id="fb" tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
 const winTxt=(hit)=>hit?'Stimmt! Gut vermutet.':'';
 
 function viewHome(){
  const n=Object.keys(solved).filter(k=>solved[k]).length;
- return `<div id="now" class="now" aria-live="off"><small>Jetzt in Zürich …</small></div>
- <p><b>So geht's:</b> Zuerst vermutest du. Dann prüfst du die Spur mit den Messwerten. Zum Schluss schreibst du es ins Heft.</p>
- <div class="cards">
- ${[['1','Der warme Tag','Wann ist es am wärmsten?'],['2','Zwei Tage','Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?']].map(([i,t,q])=>`<button class="card ${solved[i]?'solved':''}" data-act="open" data-v="${i}"><span class="n">${i}</span><div><b>${t}</b><span>${q}</span></div>${solved[i]?'<span class="star" aria-label="gelöst">⭐</span>':''}</button>`).join('')}
- </div>${n===3?`<div class="fb"><strong>Alle Fälle gelöst!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div>`:''}`}
+ const A=[['1','Der warme Tag','Wann ist es am wärmsten?'],['2','Zwei Tage','Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?']];
+ return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Wetter</div>
+ <h1><span>Klima-Kommissariat 4b</span>Klimadetektive</h1>
+ <p>Du ermittelst in drei Akten. Erst vermutest du. Dann prüfst du die Spur mit echten Messwerten. Zum Schluss schreibst du ins Heft.</p>
+ <div id="now" class="now" aria-live="off"><small>Jetzt in Zürich …</small></div></section>
+ <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
+ ${n===3?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}`}
 
 function viewF1(){
  const f=S.f1;let h=head(1,'Der warme Tag');
@@ -254,8 +278,8 @@ function res1(r){
  let fb=hit?FB('', 'Stimmt! Gut vermutet.',`<p>Am wärmsten war es um ${hm(r.mx.m)} Uhr: <b>${fT(r.mx.T)} °C</b>.</p>`)
   :FB(near?'near':'no',near?'Knapp daneben.':'Nicht ganz.',`<p>Du hast <b>${SLOTS[g].a}</b> vermutet. Am wärmsten war es <b>${SLOTS[tg].a}</b>, um ${hm(r.mx.m)} Uhr: <b>${fT(r.mx.T)} °C</b>.</p>`);
  if(r.partial)fb+=`<p class="muted">Der Tag ist noch nicht zu Ende. Schau am Abend nochmals.</p>`;
- const fig=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#0e8a72'}],dots:r.dots,flags:[{m:r.mx.m,T:r.mx.T,text:fT(r.mx.T)+' °C',color:'#ffb347',pos:'up'},{m:r.mn.m,T:r.mn.T,text:fT(r.mn.T)+' °C',color:'#d8e1f9',pos:'down'}],aria:'Temperatur am '+dlabel(S.f1.day)+' von 8 bis 20 Uhr. Am wärmsten um '+hm(r.mx.m)+' Uhr, '+fT(r.mx.T)+' Grad.'})}</div>
-  <p class="muted">Orange: am wärmsten. Blau: am kältesten.</p>`;
+ const fig=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#2d62c4'}],dots:r.dots,flags:[{m:r.mx.m,T:r.mx.T,text:fT(r.mx.T)+' °C',color:'#f2d24b',pos:'up'},{m:r.mn.m,T:r.mn.T,text:fT(r.mn.T)+' °C',color:'#cfe0f7',pos:'down'}],aria:'Temperatur am '+dlabel(S.f1.day)+' von 8 bis 20 Uhr. Am wärmsten um '+hm(r.mx.m)+' Uhr, '+fT(r.mx.T)+' Grad.'})}</div>
+  <p class="muted">Gelb: am wärmsten. Blau: am kältesten.</p>`;
  const cells=`<h3>Zum Abschreiben</h3><p class="muted">Temperatur alle 2 Stunden, in °C</p><div class="cells">`+[8,10,12,14,16,18,20].map((hh,i)=>`<div class="cell"><span>${hh} Uhr</span><b>${fT(r.h2[i])}</b></div>`).join('')+`</div>`;
  const note=noteBox([`Am <b>${dlabel(S.f1.day)}</b> war es um <span class="blank">${hm(r.mx.m)}</span> Uhr am wärmsten: <span class="blank">${fT(r.mx.T)}</span> °C.`,`Ich habe <span class="blank">richtig / nicht ganz richtig</span> vermutet.`])+`<p class="think">Denk nach: Was macht die Luft warm?</p>`;
  return fb+fig+cells+note+doneBtns('1')}
@@ -282,7 +306,7 @@ function res2(r){
  if(r.partial)fb+=`<p class="muted">Ein Tag ist noch nicht zu Ende. Der Vergleich ist noch nicht fair.</p>`;
  const cardsH=`<div class="two-days"><div class="day ${truth==='A'?'win':''}"><h4>A: ${A}</h4><div class="big">${fT(r.avgA)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxA)} °C</small></div><div class="day ${truth==='B'?'win':''}"><h4>B: ${B}</h4><div class="big">${fT(r.avgB)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxB)} °C</small></div></div>
  <p class="muted">Schnitt = ein typischer Wert für den ganzen Tag (8 bis 20 Uhr).</p>`;
- const fig=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#0e8a72'},{pts:r.sB,color:'#d9780a',dash:true}],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: '+A+' und '+B+'.'})}<div class="legend"><span><i></i>A: ${A}</span><span><i class="b"></i>B: ${B}</span></div></div>`;
+ const fig=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#2d62c4'},{pts:r.sB,color:'#c9661a',dash:true}],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: '+A+' und '+B+'.'})}<div class="legend"><span><i></i>A: ${A}</span><span><i class="b"></i>B: ${B}</span></div></div>`;
  const tbl=`<h3>Zum Abschreiben</h3><div class="tabs"><table><thead><tr><th>Uhr</th>${[8,10,12,14,16,18,20].map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody><tr><td class="l">A: ${A}</td>${r.hA.map(v=>`<td>${fT(v)}</td>`).join('')}</tr><tr><td class="l">B: ${B}</td>${r.hB.map(v=>`<td>${fT(v)}</td>`).join('')}</tr></tbody></table></div>`;
  const note=noteBox([truth==='eq'?`Am <b>${A}</b> und am <b>${B}</b> war es fast gleich warm.`:`Am <b>${warmer}</b> war es wärmer: im Schnitt <span class="blank">${fT(ad)}</span> °C mehr.`,`Ich vermute, dass … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> weil … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`])+`<p class="think">Denk nach: Was war an den Tagen anders? Sonne? Wolken? Wind?</p>`;
  return fb+cardsH+fig+tbl+note+doneBtns('2')}
@@ -322,7 +346,7 @@ function res3(r){
 
 function render(){
  const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3}[S.view]||viewHome;
- $('#app').innerHTML=m();
+ $('#app').innerHTML=m()+(S.view==='home'?'':'</div>');
  if(S.view==='home')showNow();
  if(S.view==='3'&&S.f3.map&&S.f3.res)drawMap();
 }
@@ -331,7 +355,7 @@ function render(){
 async function showNow(){
  try{const mp=await station('sma',todayKey()),k=newest(mp),r=mp.get(k),lag=Math.round((kms(zurichKey(Date.now()))-kms(k))/60000),el=$('#now');
   if(!el)return;
-  el.innerHTML=`<span>Jetzt in Zürich:</span><b>${fT(r[1])} °C</b><span>${windWord(r[2])}</span><small>Stand ${k.slice(11)} Uhr${lag>90?' (Daten sind verspätet)':''}</small>`}
+  el.innerHTML=`<small>Jetzt in Zürich:</small><b>${fT(r[1])} °C</b><span>${windWord(r[2])}</span><small>Stand ${k.slice(11)} Uhr${lag>90?' (Daten sind verspätet)':''}</small>`}
  catch(e){const el=$('#now');if(el)el.remove()}}
 let LEAF=null;
 function loadLeaflet(){if(window.L)return Promise.resolve();if(LEAF)return LEAF;
