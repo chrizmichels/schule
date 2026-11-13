@@ -235,7 +235,7 @@ function chipsFor(g,sel,block){
 const S={view:'home',loading:false,err:null,cust:null,
  f1:{day:FIX[0],c:{a:false,b:false,c:false},show:false,res:null,self:null},
  f2:{a:FIX[0],b:FIX[1],c:{a:false,b:false,c:false},show:false,res:null,self:null},
- f3:{day:todayKey(),time:'now',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
+ f3:{day:FIX[0],time:'12',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
 let solved={};try{solved=JSON.parse(localStorage.getItem('kd_solved')||'{}')||{}}catch(e){}
 const saveSolved=()=>{try{localStorage.setItem('kd_solved',JSON.stringify(solved))}catch(e){}};
 let TOKEN=0;
@@ -365,7 +365,7 @@ function timeChips(){const f=S.f3,t=todayKey();const o=[...(f.day===t?[['now','J
  return `<div class="chips" role="group" aria-label="Zeit wählen">`+o.map(([k,l])=>`<button class="chip" data-act="time" data-v="${k}" aria-pressed="${f.time===k}">${l}</button>`).join('')+`</div>`}
 function viewF3(){const f=S.f3,ok=vermOK(3);
  let h=head(3,'Drei Orte')+stepper(stepOf(3),L3)+stepV(3,['Du brauchst die Höhen aus <b>KM 54.3</b> (Aufgabe 1).','Nimm deine <b>Akte 03</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Wo ist es am kältesten?</b> Lugano, Zürich oder Zermatt?','Schreib auch auf: <b>Je höher der Ort, desto …</b> (kälter, wärmer oder gleich?)'],[['a','Ich habe meine erste Vermutung in meine Akte geschrieben.'],['b','Ich habe meine zweite Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Wähle <b>einen Tag</b> und <b>eine Zeit</b> (zum Beispiel: Heute, Jetzt).','Schreib Tag und Zeit in deine <b>Akte 03</b> (Schritt 2).','Lies die Temperaturen der drei Orte ab. Schreib sie in die Tabelle in deiner Akte.'])+`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`+stationBody(3,st3)+(f.res&&!f.res.empty&&f.res.n>=2?checks(3,[['c','Ich habe die Temperaturen in meine Akte eingetragen.']])+solveBtn(3):''));
+ if(ok)h+=box('2 · Spuren sichern',ol([`Dein Messzeitpunkt: <b>${f.day===FIX[0]?'Tag 1 · ':f.day===FIX[1]?'Tag 2 · ':''}${dlong(f.day)}, ${f.time==='now'?'jetzt':+f.time+' Uhr'}</b>.`,'Lies die Temperaturen der drei Orte ab.','Schreib Tag, Zeit und Temperaturen in die Tabelle in deiner <b>Akte 03</b> (Schritt 2).'])+stationBody(3,st3)+(f.res&&!f.res.empty&&f.res.n>=2?checks(3,[['c','Ich habe die Temperaturen in meine Akte eingetragen.']])+solveBtn(3):'')+explore('Anderen Tag oder andere Zeit wählen (nur wenn deine Lehrperson es sagt)',`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`,'e3'));
  if(f.show&&f.res&&f.res.n>=2)h+=sol3(f.res);
  return h}
 function st3(r){const f=S.f3,v=r.v;
@@ -384,7 +384,7 @@ function sol3(r){
   h+=FB('near','Heute passt es nicht ganz.',`<p>${pair} Meistens gilt: Je höher, desto kälter.</p>${v.zer>=v.sma-0.3&&have.length===3?'<p class="muted">Bei Nebel im Mittelland kann das vorkommen.</p>':''}`)}
  h+=selfBox(3,'Haben deine Vermutungen gestimmt?');
  h+=noteBox([`Am kältesten ist es in <span class="blank">${ST[cold].n}</span>.`,`Je höher der Ort, desto <span class="blank">${t==='k'?'kälter':t==='w'?'wärmer':'…'}</span>.`,`Schritt 4: Lies das Beweisstück unten. Denk nach: <b>Warum ist es oben anders als unten?</b> Das ist auch Frage 3 auf <b>KM 54.3</b>.`]);
- h+='<h3>4 · Beweisstück lesen</h3>'+beweis(3,3)+(v.lug!=null&&v.zer!=null?`<div class="spur"><p><b>Spur von heute:</b> Lugano ${fT(v.lug)} °C, Zermatt ${fT(v.zer)} °C. Der Unterschied ist <b>${fT(v.lug-v.zer)} °C</b>.</p></div>`:'');
+ h+='<h3>4 · Beweisstück lesen</h3>'+beweis(3,3)+(v.lug!=null&&v.zer!=null?`<div class="spur"><p><b>Spur aus deiner Messung:</b> Lugano ${fT(v.lug)} °C, Zermatt ${fT(v.zer)} °C. Der Unterschied ist <b>${fT(v.lug-v.zer)} °C</b>.</p></div>`:'');
  return h+doneBtns('3')}
 
 function render(){
@@ -470,7 +470,7 @@ document.addEventListener('click',e=>{
  else if(a==='map'){S.f3.map=!S.f3.map;render()}
  else if(a==='retry'){const w=+S.view;S.err=null;if(w&&vermOK(w))run(w,false)}
  else if(a==='solve'){solved[v]=true;saveSolved();S.view='home';render();scrollTo(0,0)}
- else if(a==='again'){restart(v);delete solved[v];saveSolved();EXP.e1=false;EXP.e2=false;render();scrollTo(0,0)}
+ else if(a==='again'){restart(v);delete solved[v];saveSolved();EXP.e1=false;EXP.e2=false;EXP.e3=false;render();scrollTo(0,0)}
 });
 document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('explore'))EXP[d.dataset.id]=d.open},true);
 document.addEventListener('change',e=>{const i=e.target;
