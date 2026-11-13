@@ -93,6 +93,18 @@ h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:
 .fb strong{display:block;font-family:var(--f-display);font-size:26px;line-height:1.15;padding-right:0}
 .fb .stp{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--ok);color:var(--ok);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(4deg)}
 .fb:focus{outline:none}
+.fb.info{background:#fff;border-color:var(--ink)}
+.rot{color:#d62828;font-weight:700}.blau{color:#1d4ed8;font-weight:700}
+.auftrag{border:2px solid var(--ink);border-radius:10px;padding:6px 16px 14px;background:#fff;margin:14px 0}
+.auftrag ol{margin:6px 0 10px;padding-left:24px;display:flex;flex-direction:column;gap:8px;font-size:1.05rem}
+.chk{display:flex;align-items:center;gap:12px;padding:10px 14px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);margin:8px 0;cursor:pointer;font-weight:700;min-height:54px}
+.chk input{width:28px;height:28px;flex:none;accent-color:var(--ink);margin:0}
+.chk:has(input:checked){background:var(--ok-soft);border-color:var(--ok)}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.explore{border:1px dashed var(--muted);border-radius:10px;padding:6px 14px;margin:16px 0}
+.day.a{border-top:8px solid #d62828}.day.b{border-top:8px solid #1d4ed8}
+.day.win.a{border-top-color:#d62828}.day.win.b{border-top-color:#1d4ed8}
+
 @media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}}}
 .fail{border:2px solid var(--bad);border-radius:10px;padding:12px 16px;background:var(--bad-soft);margin:16px 0}
 .btn{min-height:50px;padding:10px 20px;border:0;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:700}
@@ -102,8 +114,8 @@ h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:
 .fig{border:1px solid var(--rule);border-radius:10px;padding:8px;margin:12px 0;background:#fff}
 .fig svg{display:block;width:100%;height:auto}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 0;font-weight:700;font-size:.95rem}
-.legend i{display:inline-block;width:26px;height:0;border-top:5px solid var(--blue);vertical-align:middle;margin-right:6px;border-radius:3px}
-.legend i.b{border-top:5px dashed var(--orange)}
+.legend i{display:inline-block;width:26px;height:0;border-top:5px solid #d62828;vertical-align:middle;margin-right:6px;border-radius:3px}
+.legend i.b{border-top:5px dashed #1d4ed8}
 .cells{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
 .cell{min-width:68px;flex:1 1 68px;text-align:center;border:1px solid var(--folder-edge);border-radius:8px;padding:4px 6px;background:var(--folder)}
 .cell span{display:block;font-family:var(--f-type);font-size:12px;color:var(--muted)}
@@ -202,9 +214,9 @@ function chipsFor(g,sel,block){
 
 /* ---------- Zustand ---------- */
 const S={view:'home',loading:false,err:null,cust:null,
- f1:{day:FIX[0],guess:null,res:null},
- f2:{a:FIX[0],b:FIX[1],guess:null,res:null},
- f3:{day:todayKey(),time:'now',guess:null,res:null,g2:null,map:false}};
+ f1:{day:FIX[0],c:{a:false,b:false},show:false,res:null,self:null},
+ f2:{a:FIX[0],b:FIX[1],c:{a:false,b:false,c:false},show:false,res:null,self:null},
+ f3:{day:todayKey(),time:'now',c:{a:false,b:false},show:false,res:null,self:null,map:false}};
 let solved={};try{solved=JSON.parse(localStorage.getItem('kd_solved')||'{}')||{}}catch(e){}
 const saveSolved=()=>{try{localStorage.setItem('kd_solved',JSON.stringify(solved))}catch(e){}};
 let TOKEN=0;
@@ -244,13 +256,13 @@ function mountain(vals){
  return s+'</svg>'}
 
 /* ---------- Ansichten ---------- */
-const stepper=n=>{const l=['Vermuten','Spur prüfen','Aufschreiben'];return `<ol class="steps" aria-label="Schritte">`+l.map((t,i)=>`<li class="${i+1===n?'on':i+1<n?'done':''}"><i>${i+1<n?'✓':i+1}</i>${t}</li>`).join('')+`</ol>`};
+const stepper=n=>{const l=['Auftrag','Spur prüfen','Aufschreiben'];return `<ol class="steps" aria-label="Schritte">`+l.map((t,i)=>`<li class="${i+1===n?'on':i+1<n?'done':''}"><i>${i+1<n?'✓':i+1}</i>${t}</li>`).join('')+`</ol>`};
 const head=(n,t)=>`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Akte 0${n}</small>${t}</div></div><div class="qcard">`;
 const loading=()=>`<div class="load" role="status">Spuren werden gesucht …</div>`;
 const failBox=()=>`<div class="fail" role="alert"><b>Die Messwerte kommen gerade nicht an.</b><p>Warte kurz. Tippe dann auf «Nochmals».</p><button class="btn" data-act="retry">Nochmals</button><details><summary>Für die Lehrperson</summary><p class="muted">${esc(DIAG.slice(-8).join(' | ')||'–')}<br>${esc(S.err||'')}</p></details></div>`;
 const noteBox=(lines)=>`<div class="note"><b>✏ Schreib in dein Heft:</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
-const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals mit anderem Tag</button></div>`;
-const FB=(cls,t,body)=>`<div class="fb ${cls}" id="fb" tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
+const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div>`;
+const FB=(cls,t,body,id)=>`<div class="fb ${cls}" ${id?'id="fb"':''} tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
 const winTxt=(hit)=>hit?'Stimmt! Gut vermutet.':'';
 
 function viewHome(){
@@ -263,86 +275,73 @@ function viewHome(){
  <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
  ${n===3?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}`}
 
-function viewF1(){
- const f=S.f1;let h=head(1,'Der warme Tag');
- h+=stepper(f.res?3:f.guess?2:1);
- h+=`<h3>Welcher Tag?</h3>`+chipsFor('f1',f.day);
- h+=`<p class="q">Wann ist es am wärmsten? Tippe deine Vermutung.</p><div class="opts two">`+SLOTS.map((s,i)=>`<button class="opt" data-act="g1" data-v="${i}" aria-pressed="${f.guess===i}"><span><span>${s.n}</span><small>${s.t}</small></span></button>`).join('')+`</div>`;
- if(S.loading&&f.guess!=null)return h+loading();
- if(S.err&&f.guess!=null)return h+failBox();
- if(f.res)h+=res1(f.res);
+const chkRow=(f,k,t)=>`<label class="chk"><input type="checkbox" data-act="chk" data-f="${f}" data-k="${k}" ${S['f'+f].c[k]?'checked':''} ${S['f'+f].show?'disabled':''}><span>${t}</span></label>`;
+const ready=f=>Object.values(S['f'+f].c).every(Boolean);
+function auftrag(f,lines,checks,extra){const st=S['f'+f],ok=ready(f);
+ return `<div class="auftrag"><h3>Dein Auftrag</h3><ol>${lines.map(l=>`<li>${l}</li>`).join('')}</ol>${checks.map(([k,t])=>chkRow(f,k,t)).join('')}${extra||''}${st.show?'':`<div class="actions"><button class="btn" data-act="show" data-v="${f}" ${ok?'':'disabled'}>Lösung zeigen</button>${ok?'':'<span class="muted">Hake zuerst alles ab.</span>'}</div>`}</div>`}
+function selfBox(f,q){const st=S['f'+f];
+ let h=`<h3>Prüfe dich</h3><p class="q">${q}</p><div class="opts two">`+[['j','Ja'],['f','Fast'],['n','Nein']].map(([k,l])=>`<button class="opt" data-act="self" data-f="${f}" data-v="${k}" aria-pressed="${st.self===k}">${l}</button>`).join('')+`</div>`;
+ if(st.self==='j')h+=FB('','Gut ermittelt!','<p>Deine Vermutung stimmte.</p>');
+ else if(st.self==='f')h+=FB('near','Fast!','<p>Schau nochmals: Was war anders?</p>');
+ else if(st.self==='n')h+=FB('no','Auch Detektive irren sich.','<p>Das ist normal. Was hast du jetzt gelernt?</p>');
  return h}
-function res1(r){
- if(r.empty)return FB('no','Hier fehlt die Spur.','<p>Für diesen Tag gibt es keine Messwerte. Wähle einen anderen Tag.</p>');
- const g=S.f1.guess,tg=slotOf(r.mx.m),hit=g===tg,near=Math.abs(g-tg)===1;
- let fb=hit?FB('', 'Stimmt! Gut vermutet.',`<p>Am wärmsten war es um ${hm(r.mx.m)} Uhr: <b>${fT(r.mx.T)} °C</b>.</p>`)
-  :FB(near?'near':'no',near?'Knapp daneben.':'Nicht ganz.',`<p>Du hast <b>${SLOTS[g].a}</b> vermutet. Am wärmsten war es <b>${SLOTS[tg].a}</b>, um ${hm(r.mx.m)} Uhr: <b>${fT(r.mx.T)} °C</b>.</p>`);
- if(r.partial)fb+=`<p class="muted">Der Tag ist noch nicht zu Ende. Schau am Abend nochmals.</p>`;
- const fig=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#2d62c4'}],dots:r.dots,flags:[{m:r.mx.m,T:r.mx.T,text:fT(r.mx.T)+' °C',color:'#f2d24b',pos:'up'},{m:r.mn.m,T:r.mn.T,text:fT(r.mn.T)+' °C',color:'#cfe0f7',pos:'down'}],aria:'Temperatur am '+dlabel(S.f1.day)+' von 8 bis 20 Uhr. Am wärmsten um '+hm(r.mx.m)+' Uhr, '+fT(r.mx.T)+' Grad.'})}</div>
-  <p class="muted">Gelb: am wärmsten. Blau: am kältesten.</p>`;
- const cells=`<h3>Zum Abschreiben</h3><p class="muted">Temperatur alle 2 Stunden, in °C</p><div class="cells">`+[8,10,12,14,16,18,20].map((hh,i)=>`<div class="cell"><span>${hh} Uhr</span><b>${fT(r.h2[i])}</b></div>`).join('')+`</div>`;
- const note=noteBox([`Am <b>${dlabel(S.f1.day)}</b> war es um <span class="blank">${hm(r.mx.m)}</span> Uhr am wärmsten: <span class="blank">${fT(r.mx.T)}</span> °C.`,`Ich habe <span class="blank">richtig / nicht ganz richtig</span> vermutet.`])+`<p class="think">Denk nach: Was macht die Luft warm?</p>`;
- return fb+fig+cells+note+doneBtns('1')}
+const explore=(t,inner,open)=>`<details class="explore" ${open?'open':''}><summary>${t}</summary>${inner}</details>`;
+const sol=(f,fn)=>{const st=S['f'+f];if(!st.show)return '';if(S.loading)return loading();if(S.err)return failBox();return st.res?fn(st.res):''};
+const stepOf=f=>{const st=S['f'+f];return !st.show?1:st.self?3:2};
 
-function viewF2(){
- const f=S.f2;let h=head(2,'Zwei Tage');
- h+=stepper(f.res?3:f.guess?2:1);
- h+=`<h3>Tag A</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Tag B</h3>`+chipsFor('f2b',f.b,f.a);
- h+=`<p class="q">Welcher Tag war wärmer? Tippe deine Vermutung.</p><div class="opts two">
-  <button class="opt" data-act="g2" data-v="A" aria-pressed="${f.guess==='A'}">${dlabel(f.a)} (A)</button>
-  <button class="opt" data-act="g2" data-v="B" aria-pressed="${f.guess==='B'}">${dlabel(f.b)} (B)</button>
-  <button class="opt" data-act="g2" data-v="eq" aria-pressed="${f.guess==='eq'}">Gleich warm</button></div>`;
- if(S.loading&&f.guess)return h+loading();
- if(S.err&&f.guess)return h+failBox();
- if(f.res)h+=res2(f.res);
- return h}
-function res2(r){
- if(r.empty)return FB('no','Hier fehlt eine Spur.',`<p>Für ${esc(r.empty)} gibt es keine Messwerte. Wähle einen anderen Tag.</p>`);
- const g=S.f2.guess,A=dlabel(S.f2.a),B=dlabel(S.f2.b),d=r.avgA-r.avgB,ad=Math.abs(d),truth=ad<0.5?'eq':d>0?'A':'B',hit=g===truth;
- const warmer=truth==='A'?A:B;
- let body=truth==='eq'?`<p>Die Tage waren fast gleich warm. Der Unterschied ist nur <b>${fT(ad)} °C</b>.</p>`:`<p><b>${warmer}</b> war im Schnitt <b>${fT(ad)} °C</b> wärmer.</p>`;
- let title=hit?'Stimmt! Gut vermutet.':(g==='eq'||truth==='eq')?'Knapp daneben.':'Nicht ganz.';
- let fb=FB(hit?'':(g==='eq'||truth==='eq')?'near':'no',title,body);
- if(r.partial)fb+=`<p class="muted">Ein Tag ist noch nicht zu Ende. Der Vergleich ist noch nicht fair.</p>`;
- const cardsH=`<div class="two-days"><div class="day ${truth==='A'?'win':''}"><h4>A: ${A}</h4><div class="big">${fT(r.avgA)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxA)} °C</small></div><div class="day ${truth==='B'?'win':''}"><h4>B: ${B}</h4><div class="big">${fT(r.avgB)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxB)} °C</small></div></div>
- <p class="muted">Schnitt = ein typischer Wert für den ganzen Tag (8 bis 20 Uhr).</p>`;
- const fig=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#2d62c4'},{pts:r.sB,color:'#c9661a',dash:true}],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: '+A+' und '+B+'.'})}<div class="legend"><span><i></i>A: ${A}</span><span><i class="b"></i>B: ${B}</span></div></div>`;
- const tbl=`<h3>Zum Abschreiben</h3><div class="tabs"><table><thead><tr><th>Uhr</th>${[8,10,12,14,16,18,20].map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody><tr><td class="l">A: ${A}</td>${r.hA.map(v=>`<td>${fT(v)}</td>`).join('')}</tr><tr><td class="l">B: ${B}</td>${r.hB.map(v=>`<td>${fT(v)}</td>`).join('')}</tr></tbody></table></div>`;
- const note=noteBox([truth==='eq'?`Am <b>${A}</b> und am <b>${B}</b> war es fast gleich warm.`:`Am <b>${warmer}</b> war es wärmer: im Schnitt <span class="blank">${fT(ad)}</span> °C mehr.`,`Ich vermute, dass … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> weil … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`])+`<p class="think">Denk nach: Was war an den Tagen anders? Sonne? Wolken? Wind?</p>`;
- return fb+cardsH+fig+tbl+note+doneBtns('2')}
+function viewF1(){const f=S.f1;
+ return head(1,'Der warme Tag')+stepper(stepOf(1))+
+ auftrag(1,['Nimm das Arbeitsblatt <b>KM 54.2</b>.',`Male deine <span class="rot">rote Kurve</span> (Tag 1: ${dlabel(FIX[0])}).`,'Schreib auf: <b>Wann ist es am wärmsten?</b> Ich vermute: …'],[['a','Ich habe die rote Kurve gemalt.'],['b','Ich habe meine Vermutung aufgeschrieben.']])+
+ sol(1,res1)}
+function res1(r){const f=S.f1;
+ const more=explore('Anderen Tag erforschen',chipsFor('f1',f.day),r.empty);
+ if(r.empty)return FB('no','Hier fehlt die Spur.','<p>Für diesen Tag gibt es keine Messwerte. Wähle einen anderen Tag.</p>')+more;
+ let h='<h3>Die Spur</h3>'+FB('info','Am wärmsten war es um '+hm(r.mx.m)+' Uhr.',`<p><b>${fT(r.mx.T)} °C</b> (${dlabel(f.day)}) Am kältesten: ${hm(r.mn.m)} Uhr, ${fT(r.mn.T)} °C.</p>`,1);
+ if(r.partial)h+=`<p class="muted">Der Tag ist noch nicht zu Ende. Schau am Abend nochmals.</p>`;
+ h+=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#d62828'}],dots:r.dots,flags:[{m:r.mx.m,T:r.mx.T,text:fT(r.mx.T)+' °C',color:'#f2d24b',pos:'up'},{m:r.mn.m,T:r.mn.T,text:fT(r.mn.T)+' °C',color:'#cfe0f7',pos:'down'}],aria:'Temperatur am '+dlabel(f.day)+' von 8 bis 20 Uhr. Am wärmsten um '+hm(r.mx.m)+' Uhr, '+fT(r.mx.T)+' Grad.'})}</div><p class="muted">Gelb: am wärmsten. Blau: am kältesten. Vergleiche mit deiner roten Kurve.</p>`;
+ h+=`<h3>Zum Abschreiben</h3><p class="muted">Temperatur alle 2 Stunden, in °C</p><div class="cells">`+[8,10,12,14,16,18,20].map((hh,i)=>`<div class="cell"><span>${hh} Uhr</span><b>${fT(r.h2[i])}</b></div>`).join('')+`</div>`;
+ h+=selfBox(1,'Hat deine Vermutung gestimmt?');
+ h+=noteBox([`Am <b>${dlabel(f.day)}</b> war es um <span class="blank">${hm(r.mx.m)}</span> Uhr am wärmsten: <span class="blank">${fT(r.mx.T)}</span> °C.`,`Meine Vermutung war <span class="blank">richtig / nicht ganz richtig</span>.`])+`<p class="think">Denk nach: Was macht die Luft warm?</p>`;
+ return h+doneBtns('1')+more}
+
+function viewF2(){const f=S.f2;
+ return head(2,'Zwei Tage')+stepper(stepOf(2))+
+ auftrag(2,[`Male auf <b>KM 54.2</b> die <span class="rot">rote Kurve</span> (Tag 1: ${dlabel(FIX[0])}) und die <span class="blau">blaue Kurve</span> (Tag 2: ${dlabel(FIX[1])}).`,'Schreib auf: <b>Welcher Tag war wärmer?</b> Ich vermute: …'],[['a','Ich habe die rote Kurve gemalt.'],['b','Ich habe die blaue Kurve gemalt.'],['c','Ich habe meine Vermutung aufgeschrieben.']])+
+ sol(2,res2)}
+function res2(r){const f=S.f2;
+ const more=explore('Andere Tage erforschen',`<h3>Rote Kurve</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Blaue Kurve</h3>`+chipsFor('f2b',f.b,f.a),r.empty);
+ if(r.empty)return FB('no','Hier fehlt eine Spur.',`<p>Für ${esc(r.empty)} gibt es keine Messwerte. Wähle einen anderen Tag.</p>`)+more;
+ const A=dlabel(f.a),B=dlabel(f.b),d=r.avgA-r.avgB,ad=Math.abs(d),truth=ad<0.5?'eq':d>0?'A':'B',warmer=truth==='A'?A:B;
+ let h='<h3>Die Spur</h3>'+(truth==='eq'?FB('info','Fast gleich warm.',`<p>Der Unterschied ist nur <b>${fT(ad)} °C</b>.</p>`,1):FB('info',warmer+' war wärmer.',`<p>Im Schnitt <b>${fT(ad)} °C</b> mehr.</p>`,1));
+ if(r.partial)h+=`<p class="muted">Ein Tag ist noch nicht zu Ende. Der Vergleich ist noch nicht fair.</p>`;
+ h+=`<div class="two-days"><div class="day a ${truth==='A'?'win':''}"><h4><span class="rot">Rot</span>: ${A}</h4><div class="big">${fT(r.avgA)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxA)} °C</small></div><div class="day b ${truth==='B'?'win':''}"><h4><span class="blau">Blau</span>: ${B}</h4><div class="big">${fT(r.avgB)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxB)} °C</small></div></div><p class="muted">Schnitt = ein typischer Wert für den ganzen Tag (8 bis 20 Uhr).</p>`;
+ h+=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#d62828'},{pts:r.sB,color:'#1d4ed8',dash:true}],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: rot '+A+', blau '+B+'.'})}<div class="legend"><span><i></i>Rot: ${A}</span><span><i class="b"></i>Blau: ${B}</span></div></div><p class="muted">Vergleiche mit deinen Kurven auf KM 54.2.</p>`;
+ h+=`<h3>Zum Abschreiben</h3><div class="tabs"><table><thead><tr><th>Uhr</th>${[8,10,12,14,16,18,20].map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody><tr><td class="l"><span class="rot">Rot</span>: ${A}</td>${r.hA.map(v=>`<td>${fT(v)}</td>`).join('')}</tr><tr><td class="l"><span class="blau">Blau</span>: ${B}</td>${r.hB.map(v=>`<td>${fT(v)}</td>`).join('')}</tr></tbody></table></div>`;
+ h+=selfBox(2,'Hat deine Vermutung gestimmt?');
+ h+=noteBox([truth==='eq'?`Am <b>${A}</b> und am <b>${B}</b> war es fast gleich warm.`:`Am <b>${warmer}</b> war es wärmer: im Schnitt <span class="blank">${fT(ad)}</span> °C mehr.`,`Ich vermute, dass … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> weil … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`])+`<p class="think">Denk nach: Was war an den Tagen anders? Sonne? Wolken? Wind?</p>`;
+ return h+doneBtns('2')+more}
 
 function timeChips(){const f=S.f3,t=todayKey();const o=[...(f.day===t?[['now','Jetzt']]:[]),['08','8 Uhr'],['12','12 Uhr'],['16','16 Uhr']];
  return `<div class="chips" role="group" aria-label="Zeit wählen">`+o.map(([k,l])=>`<button class="chip" data-act="time" data-v="${k}" aria-pressed="${f.time===k}">${l}</button>`).join('')+`</div>`}
-function viewF3(){
- const f=S.f3;let h=head(3,'Drei Orte');
- h+=stepper(f.res?(f.g2?3:2):1);
- h+=`<h3>Welcher Tag?</h3>`+chipsFor('f3',f.day)+`<h3>Welche Zeit?</h3>`+timeChips();
- h+=`<p class="q">Wo ist es am kältesten? Tippe deine Vermutung.</p><div class="opts two">`+['lug','sma','zer'].map(k=>`<button class="opt" data-act="g3" data-v="${k}" aria-pressed="${f.guess===k}"><span><span>${ST[k].n}</span><small>${ST[k].kt}</small></span></button>`).join('')+`</div>`;
- if(S.loading&&f.guess)return h+loading();
- if(S.err&&f.guess)return h+failBox();
- if(f.res)h+=res3(f.res);
- return h}
+function viewF3(){const f=S.f3;
+ return head(3,'Drei Orte')+stepper(stepOf(3))+
+ auftrag(3,['Schreib auf: <b>Wo ist es am kältesten?</b> Lugano, Zürich oder Zermatt? Ich vermute: …','Schreib auf: <b>Je höher der Ort, desto …?</b> Ich vermute: …'],[['a','Ich habe meine erste Vermutung aufgeschrieben.'],['b','Ich habe meine zweite Vermutung aufgeschrieben.']],`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`)+
+ sol(3,res3)}
 function res3(r){
  const f=S.f3,v=r.v,have=['lug','sma','zer'].filter(k=>v[k]!=null);
  if(have.length<2)return FB('no','Hier fehlt eine Spur.','<p>Von einem Ort gibt es keine Messwerte. Wähle eine andere Zeit.</p>');
- const cold=have.reduce((a,b)=>v[b]<v[a]?b:a),warm=have.reduce((a,b)=>v[b]>v[a]?b:a),hit=f.guess===cold,missing=have.length<3;
- let fb=hit?FB('','Stimmt! Gut vermutet.',`<p>Am kältesten ist es in <b>${ST[cold].n}</b>: <b>${fT(v[cold])} °C</b>.</p>`)
-  :FB('no','Nicht ganz.',`<p>Du hast <b>${ST[f.guess].n}</b> vermutet. Am kältesten ist es in <b>${ST[cold].n}</b>: <b>${fT(v[cold])} °C</b>.</p>`);
- if(missing)fb+=`<p class="muted">Von einem Ort fehlen die Messwerte.</p>`;
- const mt=`<div class="fig">${mountain(v)}</div><p class="muted">Blau: am kältesten. Gelb: am wärmsten. Zeit: ${dlabel(r.day)}, ${hm(+r.key.slice(11,13)*60+ +r.key.slice(14,16))} Uhr.</p>
- <button class="btn light" data-act="map">${f.map?'Karte zudecken':'Wo liegen die Orte? Karte zeigen'}</button>${f.map?`<div id="map" role="img" aria-label="Karte mit Lugano, Zürich und Zermatt"></div>`:''}`;
- let q2=`<p class="q">Was fällt dir auf? Je höher der Ort, desto …</p><div class="opts two">`+[['k','kälter'],['w','wärmer'],['g','gleich warm']].map(([k,l])=>`<button class="opt" data-act="g3b" data-v="${k}" aria-pressed="${f.g2===k}">${l}</button>`).join('')+`</div>`;
- let fb2='',note='';
- if(f.g2){
-  const t=have.length===3?(v.lug-v.sma>=0.3&&v.sma-v.zer>=0.3?'k':v.sma-v.lug>=0.3&&v.zer-v.sma>=0.3?'w':'m'):'m';
-  if(f.g2==='k'&&t==='k')fb2=FB('','Stimmt! Je höher, desto kälter.','<p>Die Luft wird oben kälter.</p>');
-  else if(t==='k')fb2=FB('no','Nicht ganz.','<p>Hier wird es mit der Höhe <b>kälter</b>.</p>');
-  else if(t==='w')fb2=FB(f.g2==='w'?'':'no',f.g2==='w'?'Stimmt für diese Zeit!':'Nicht ganz.','<p>Heute ist es oben <b>wärmer</b>. Das ist selten.</p>');
-  else {const pair=have.length===3&&v.zer>=v.sma-0.3?'Zermatt ist nicht kälter als Zürich.':v.sma>v.lug-0.3?'Zürich ist nicht kälter als Lugano.':'Die Werte passen nicht ganz zur Höhe.';
-   fb2=FB('near',f.g2==='k'?'Meistens stimmt das. Heute nicht ganz.':'Nicht ganz.',`<p>${pair} Meistens gilt: Je höher, desto kälter.</p>${v.zer>=v.sma-0.3&&have.length===3?'<p class="muted">Bei Nebel im Mittelland kann das vorkommen.</p>':''}`)}
-  note=noteBox([`<b>Lugano</b> (273 m): <span class="blank">${fT(v.lug)}</span> °C · <b>Zürich</b> (556 m): <span class="blank">${fT(v.sma)}</span> °C · <b>Zermatt</b> (1638 m): <span class="blank">${fT(v.zer)}</span> °C`,`Je höher der Ort, desto <span class="blank">${t==='k'?'kälter':t==='w'?'wärmer':'…'}</span>.`,`Ich vermute, dass … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> weil … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`])+doneBtns('3');
- }
- return fb+mt+q2+fb2+note}
+ const cold=have.reduce((a,b)=>v[b]<v[a]?b:a),warm=have.reduce((a,b)=>v[b]>v[a]?b:a);
+ let h='<h3>Die Spur</h3>'+FB('info','Am kältesten ist es in '+ST[cold].n+'.',`<p><b>${fT(v[cold])} °C</b>. Am wärmsten: ${ST[warm].n}, ${fT(v[warm])} °C.${have.length<3?' Von einem Ort fehlen die Messwerte.':''}</p>`,1);
+ h+=`<div class="fig">${mountain(v)}</div><p class="muted">Blau: am kältesten. Gelb: am wärmsten. Zeit: ${dlabel(r.day)}, ${hm(+r.key.slice(11,13)*60+ +r.key.slice(14,16))} Uhr.</p><button class="btn light" data-act="map">${f.map?'Karte zudecken':'Wo liegen die Orte? Karte zeigen'}</button>${f.map?`<div id="map" role="img" aria-label="Karte mit Lugano, Zürich und Zermatt"></div>`:''}`;
+ const t=have.length===3?(v.lug-v.sma>=0.3&&v.sma-v.zer>=0.3?'k':v.sma-v.lug>=0.3&&v.zer-v.sma>=0.3?'w':'m'):'m';
+ h+='<h3>Je höher der Ort …</h3>';
+ if(t==='k')h+=FB('info','Je höher, desto kälter.','<p>Die Luft wird oben kälter.</p>');
+ else if(t==='w')h+=FB('info','Heute ist es oben wärmer.','<p>Das ist selten.</p>');
+ else{const pair=have.length===3&&v.zer>=v.sma-0.3?'Zermatt ist nicht kälter als Zürich.':v.sma>v.lug-0.3?'Zürich ist nicht kälter als Lugano.':'Die Werte passen nicht ganz zur Höhe.';
+  h+=FB('near','Heute passt es nicht ganz.',`<p>${pair} Meistens gilt: Je höher, desto kälter.</p>${v.zer>=v.sma-0.3&&have.length===3?'<p class="muted">Bei Nebel im Mittelland kann das vorkommen.</p>':''}`)}
+ h+=selfBox(3,'Haben deine Vermutungen gestimmt?');
+ h+=noteBox([`<b>Lugano</b> (273 m): <span class="blank">${fT(v.lug)}</span> °C · <b>Zürich</b> (556 m): <span class="blank">${fT(v.sma)}</span> °C · <b>Zermatt</b> (1638 m): <span class="blank">${fT(v.zer)}</span> °C`,`Je höher der Ort, desto <span class="blank">${t==='k'?'kälter':t==='w'?'wärmer':'…'}</span>.`,`Ich vermute, dass … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> weil … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`]);
+ return h+doneBtns('3')}
 
 function render(){
  const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3}[S.view]||viewHome;
@@ -397,35 +396,32 @@ async function run(which){
  catch(e){if(my!==TOKEN)return;S.err=e.message||'Fehler'}
  S.loading=false;render();
  const fb=$('#fb');if(fb){try{fb.scrollIntoView({block:'start',behavior:'smooth'});fb.focus({preventScroll:true})}catch(e){}}}
-function reset(which){TOKEN++;S.loading=false;S.err=null;const f=S['f'+which];f.guess=null;f.res=null;if(which==='3'){f.g2=null}}
+function afterChange(w){const f=S['f'+w];f.self=null;f.res=null;if(f.show)run(+w);else{TOKEN++;S.loading=false;S.err=null;render()}}
+function restart(w){TOKEN++;S.loading=false;S.err=null;const f=S['f'+w];f.show=false;f.res=null;f.self=null;Object.keys(f.c).forEach(k=>f.c[k]=false)}
+const setDay=(g,v)=>{S.cust=null;const t=todayKey();
+ if(g==='f1'){S.f1.day=v;afterChange(1)}
+ else if(g==='f2a'){S.f2.a=v;afterChange(2)}
+ else if(g==='f2b'){S.f2.b=v;afterChange(2)}
+ else if(g==='f3'){S.f3.day=v;if(v!==t&&S.f3.time==='now')S.f3.time='12';afterChange(3)}};
 
 /* ---------- Klicks ---------- */
 document.addEventListener('click',e=>{
  const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const a=b.dataset.act,v=b.dataset.v,g=b.dataset.g;
  if(a==='home'){TOKEN++;S.view='home';S.loading=false;S.err=null;S.cust=null;render();scrollTo(0,0)}
  else if(a==='open'){S.view=v;render();scrollTo(0,0)}
- else if(a==='day'){S.cust=null;
-  if(g==='f1'){S.f1.day=v;reset('1')}
-  else if(g==='f2a'){S.f2.a=v;reset('2')}
-  else if(g==='f2b'){S.f2.b=v;reset('2')}
-  else if(g==='f3'){S.f3.day=v;if(v!==todayKey()&&S.f3.time==='now')S.f3.time='12';reset('3')}
-  render()}
+ else if(a==='day')setDay(g,v);
  else if(a==='cust'){S.cust=S.cust===g?null:g;render();const i=document.querySelector('input[type=date]');if(i)i.focus()}
- else if(a==='time'){S.f3.time=v;reset('3');render()}
- else if(a==='g1'){S.f1.guess=+v;S.f1.res=null;run(1)}
- else if(a==='g2'){S.f2.guess=v;S.f2.res=null;run(2)}
- else if(a==='g3'){S.f3.guess=v;S.f3.res=null;S.f3.g2=null;run(3)}
- else if(a==='g3b'){S.f3.g2=v;render();const n=document.querySelectorAll('.fb');const l=n[n.length-1];if(l)try{l.scrollIntoView({block:'center',behavior:'smooth'})}catch(x){}}
+ else if(a==='time'){S.f3.time=v;afterChange(3)}
+ else if(a==='show'){if(!ready(+v))return;S['f'+v].show=true;run(+v)}
+ else if(a==='self'){S['f'+b.dataset.f].self=v;render()}
  else if(a==='map'){S.f3.map=!S.f3.map;render()}
- else if(a==='retry'){const w=S.view;S.err=null;if(w==='1'&&S.f1.guess!=null)run(1);else if(w==='2'&&S.f2.guess)run(2);else if(w==='3'&&S.f3.guess)run(3)}
+ else if(a==='retry'){const w=+S.view;S.err=null;if(w&&S['f'+w].show)run(w)}
  else if(a==='solve'){solved[v]=true;saveSolved();S.view='home';render();scrollTo(0,0)}
- else if(a==='again'){reset(v);render();scrollTo(0,0)}
+ else if(a==='again'){restart(v);render();scrollTo(0,0)}
 });
-document.addEventListener('change',e=>{const i=e.target;if(i.dataset.act!=='cday'||!i.value)return;const g=i.dataset.g,v=i.value,t=todayKey();
- if(v>t)return;S.cust=g;
- if(g==='f1'){S.f1.day=v;reset('1')}else if(g==='f2a'){S.f2.a=v;reset('2')}else if(g==='f2b'){S.f2.b=v;reset('2')}
- else if(g==='f3'){S.f3.day=v;if(v!==t&&S.f3.time==='now')S.f3.time='12';reset('3')}
- render()});
+document.addEventListener('change',e=>{const i=e.target;
+ if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;render();const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus();return}
+ if(i.dataset.act!=='cday'||!i.value)return;const v=i.value;if(v>todayKey())return;setDay(i.dataset.g,v);S.cust=i.dataset.g;render()});
 render();
 </script>
 </body>
