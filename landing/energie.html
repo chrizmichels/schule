@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Energiedetektive 4b</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap">
+<style>
+/* Energiedetektive (Fall 2 des Klima-Kommissariats): Stil «Kommissariat» (Schreibtisch, Aktenmappen, Stempel). Eine Akte = eine Frage. Erst vermuten, dann die Spur (Messwerte) prüfen, dann ins Heft schreiben. */
+:root{--desk:#dde3de;--folder:#e7d6ae;--folder-edge:#cdb886;--paper:#fbfaf6;--ink:#1c2420;--muted:#5b6660;--rule:#d4d9d3;--stamp:#b3302a;--ok:#1d7f4c;--ok-soft:#ddf0e3;--bad:#b3302a;--bad-soft:#f8e1dd;--hl:#f2d24b;--hl-soft:#f7ebb0;--blue:#2d62c4;--orange:#c9661a;--cold:#cfe0f7;
+ --f-display:"Zilla Slab",Rockwell,Georgia,serif;--f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;--f-type:"Courier Prime","Courier New",ui-monospace,monospace;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.5}
+main{max-width:1000px;margin:0 auto;padding:30px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:6px 0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.muted{color:var(--muted);font-size:.9rem}
+.lbl{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* Titelblatt */
+.cover{background:var(--folder);border:1px solid var(--folder-edge);border-radius:4px 14px 14px 14px;padding:26px clamp(18px,4vw,40px) 26px;position:relative;display:flex;flex-direction:column;gap:14px;margin-top:30px}
+.cover::before{content:"Aktenzeichen 4b.K.1";position:absolute;top:-30px;left:-1px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:10px 10px 0 0;padding:5px 16px 4px;font-family:var(--f-type);font-size:13px;color:var(--muted)}
+.cover h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,8vw,72px);line-height:.98;letter-spacing:-.01em}
+.cover h1 span{display:block;font-size:.34em;letter-spacing:.14em;text-transform:uppercase;font-family:var(--f-type);font-weight:700;color:var(--muted);margin-bottom:8px}
+.cover p{max-width:44ch;margin:0}
+.bigstamp{position:absolute;right:clamp(14px,4vw,40px);top:22px;border:4px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:clamp(13px,2.2vw,19px);letter-spacing:.12em;padding:6px 12px;border-radius:6px;transform:rotate(-9deg);text-align:center;line-height:1.15;opacity:.85;animation:slam .5s cubic-bezier(.3,1.4,.6,1)}
+.bigstamp b{display:block;font-size:2em;letter-spacing:.04em}
+@keyframes slam{0%{transform:rotate(-9deg) scale(2.2);opacity:0}60%{transform:rotate(-9deg) scale(.94);opacity:.95}100%{transform:rotate(-9deg) scale(1);opacity:.85}}
+@media (prefers-reduced-motion:reduce){.bigstamp{animation:none}}
+@media (max-width:620px){.bigstamp{position:static;align-self:flex-start;transform:rotate(-4deg);animation:none}}
+.now{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 14px;align-self:flex-start}
+.now b{font-family:var(--f-display);font-size:1.7rem;line-height:1}
+.now small{color:var(--muted);font-family:var(--f-type);font-size:13px}
+
+/* Akten (Fälle) */
+.files{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:34px 18px;margin-top:34px}
+@media (max-width:860px){.files{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:540px){.files{grid-template-columns:1fr}}
+.file{position:relative;background:var(--folder);border:1px solid var(--folder-edge);border-radius:0 10px 10px 10px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.file .tab{position:absolute;top:-25px;left:-1px;background:var(--folder);border:1px solid var(--folder-edge);border-bottom:0;border-radius:8px 8px 0 0;padding:3px 14px 2px;font-family:var(--f-type);font-size:13px;font-weight:700}
+.file h3{font-family:var(--f-display);font-weight:700;font-size:28px;line-height:1.05;text-transform:none;letter-spacing:0;color:var(--ink);margin:0}
+.file p{margin:0;color:var(--muted);font-size:17px}
+.file .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:auto;padding-top:8px}
+.stars{font-size:26px;line-height:1;color:var(--folder-edge)}
+.stars.on{color:var(--stamp)}
+.open{background:var(--ink);color:var(--paper);border:0;border-radius:8px;padding:11px 16px;font-weight:700;min-height:46px}
+.open:hover{filter:brightness(1.2)}
+.solvedst{position:absolute;right:12px;top:10px;border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:14px;letter-spacing:.12em;padding:2px 8px;border-radius:4px;transform:rotate(8deg);opacity:.85}
+
+/* Spielleiste und Karte */
+.gbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--folder);border:1px solid var(--folder-edge);border-radius:12px;padding:12px 16px;margin-bottom:16px}
+.gbar .ttl{font-family:var(--f-display);font-weight:700;font-size:28px;flex:1;min-width:0;line-height:1.1}
+.gbar .ttl small{display:block;font-family:var(--f-type);font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:400}
+.back{background:var(--paper);border:1px solid var(--folder-edge);border-radius:8px;padding:10px 14px;min-height:46px;font-weight:700}
+.back:hover{border-color:var(--ink)}
+.qcard{background:var(--paper);border:1px solid var(--rule);border-radius:4px 14px 14px 14px;padding:clamp(16px,3.5vw,30px);box-shadow:0 1px 0 var(--rule),0 8px 24px rgba(20,30,25,.08)}
+h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700;margin:18px 0 6px}
+.q{font-family:var(--f-display);font-size:clamp(24px,3.6vw,30px);font-weight:700;line-height:1.2;margin:20px 0 6px}
+.steps{display:flex;gap:6px;margin:0 0 4px;padding:0;list-style:none}
+.steps li{flex:1;display:flex;flex-direction:column;gap:5px;font-family:var(--f-type);font-size:13px;font-weight:700;color:var(--muted)}
+.steps li::before{content:"";height:10px;border-radius:3px;background:var(--rule)}
+.steps li.done::before{background:var(--ok)}
+.steps li.on::before{background:var(--ink)}
+.steps li.on{color:var(--ink)}
+.steps li i{display:none}
+
+/* Auswahl */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.chip{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;min-height:52px;padding:6px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);font-weight:700;line-height:1.15;font-size:18px}
+.chip small{font-weight:400;font-size:13px;color:var(--muted);font-family:var(--f-type)}
+.chip:hover:not(:disabled){border-color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip[aria-pressed=true] small{color:#cfd6d1}
+.chip:disabled{opacity:.4;cursor:not-allowed}
+.chips input[type=date]{font:inherit;min-height:52px;border:2px solid var(--rule);border-radius:10px;padding:4px 10px;background:var(--desk);color:var(--ink)}
+.opts{display:grid;gap:10px;margin:10px 0}
+.opts.two{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.opt{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);text-align:left;font-weight:700;font-size:20px;line-height:1.2;transition:transform .08s}
+.opt small{display:block;font-family:var(--f-type);font-weight:400;font-size:14px;color:var(--muted)}
+.opt:hover{border-color:var(--ink);transform:translateY(-1px)}
+.opt[aria-pressed=true]{border-color:var(--ink);background:var(--hl-soft);box-shadow:inset 6px 0 0 var(--ink)}
+.load{padding:18px;border:2px dashed var(--muted);border-radius:12px;text-align:center;font-family:var(--f-type);font-weight:700;margin:16px 0}
+
+/* Rückmeldung wie ein Stempel auf dem Blatt */
+.fb{position:relative;border:2px solid var(--ok);border-radius:10px;padding:12px 16px;margin:16px 0 8px;background:var(--ok-soft)}
+.fb.near{border-color:var(--folder-edge);background:var(--hl-soft)}
+.fb.no{border-color:var(--bad);background:var(--bad-soft)}
+.fb strong{display:block;font-family:var(--f-display);font-size:26px;line-height:1.15;padding-right:0}
+.fb .stp{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--ok);color:var(--ok);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(4deg)}
+.fb:focus{outline:none}
+.fb.info{background:#fff;border-color:var(--ink)}
+.rot{color:#d62828;font-weight:700}.blau{color:#1d4ed8;font-weight:700}
+.auftrag{border:2px solid var(--ink);border-radius:10px;padding:6px 16px 14px;background:#fff;margin:14px 0}
+.auftrag ol{margin:6px 0 10px;padding-left:24px;display:flex;flex-direction:column;gap:8px;font-size:1.05rem}
+.chk{display:flex;align-items:center;gap:12px;padding:10px 14px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);margin:8px 0;cursor:pointer;font-weight:700;min-height:54px}
+.chk input{width:28px;height:28px;flex:none;accent-color:var(--ink);margin:0}
+.chk:has(input:checked){background:var(--ok-soft);border-color:var(--ok)}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.explore{border:1px dashed var(--muted);border-radius:10px;padding:6px 14px;margin:16px 0}
+.wrow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:6px 10px;padding:10px 14px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);margin:8px 0}
+.wrow .wn{font-weight:700}.wrow small{grid-column:1/-1;color:var(--muted)}
+.wrow input{font:inherit;font-weight:700;width:6.5em;min-height:48px;border:2px solid var(--ink);border-radius:10px;padding:4px 10px;background:#fff;color:var(--ink);text-align:right}
+.wrow .u{font-family:var(--f-type);font-weight:700}
+.wb{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin:10px 0;align-items:end}
+.wb .wt{grid-column:1/-1;height:18px;background:var(--desk);border-radius:6px;overflow:hidden;border:2px solid var(--ink)}
+.wb .wt i{display:block;height:100%;background:var(--orange)}
+.wb.top .wt i{background:var(--stamp)}
+.orte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
+.ort{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;text-align:center;background:#fff;display:flex;flex-direction:column;gap:2px}
+.ort b{font-family:var(--f-display);font-size:1.25rem}
+.ort small{color:var(--muted);font-family:var(--f-type);font-size:12px}
+.ort .t{font-family:var(--f-display);font-weight:700;font-size:clamp(22px,5vw,34px);line-height:1.2}
+.day.a{border-top:8px solid #d62828}.day.b{border-top:8px solid #1d4ed8}
+.day.win.a{border-top-color:#d62828}.day.win.b{border-top-color:#1d4ed8}
+
+@media (prefers-reduced-motion:no-preference){.fb{animation:pop .25s ease-out}@keyframes pop{from{transform:scale(.97);opacity:.4}}}
+.fail{border:2px solid var(--bad);border-radius:10px;padding:12px 16px;background:var(--bad-soft);margin:16px 0}
+.btn{min-height:50px;padding:10px 20px;border:0;border-radius:10px;background:var(--ink);color:var(--paper);font-weight:700}
+.btn:hover{filter:brightness(1.2)}
+.btn.light{background:var(--paper);color:var(--ink);border:2px solid var(--rule)}
+.btn.light:hover{border-color:var(--ink);filter:none}
+.fig{border:1px solid var(--rule);border-radius:10px;padding:8px;margin:12px 0;background:#fff}
+.fig svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 0;font-weight:700;font-size:.95rem}
+.legend i{display:inline-block;width:26px;height:0;border-top:5px solid #d62828;vertical-align:middle;margin-right:6px;border-radius:3px}
+.legend i.b{border-top:5px dashed #1d4ed8}
+.cells{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.cell{min-width:68px;flex:1 1 68px;text-align:center;border:1px solid var(--folder-edge);border-radius:8px;padding:4px 6px;background:var(--folder)}
+.cell span{display:block;font-family:var(--f-type);font-size:12px;color:var(--muted)}
+.cell b{font-family:var(--f-type);font-size:1.25rem}
+.tabs{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:480px;margin:6px 0;font-family:var(--f-type)}
+th,td{border:1px solid var(--folder-edge);padding:6px;text-align:center}
+th{background:var(--folder);font-size:.85rem}
+td.l{text-align:left;font-weight:700;white-space:nowrap;background:var(--paper)}
+.two-days{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.day{border:2px solid var(--rule);border-radius:10px;padding:10px 12px;text-align:center;background:var(--paper)}
+.day.win{background:var(--hl-soft);border-color:var(--ink)}
+.day h4{margin:0;font-family:var(--f-type);font-size:.95rem}
+.day .big{font-family:var(--f-display);font-size:2.1rem;font-weight:700;line-height:1.2}
+.day small{display:block;color:var(--muted);font-size:.9rem}
+.note{border:2px dashed var(--muted);border-radius:10px;background:#fffdf2;padding:12px 16px;margin:18px 0;font-family:var(--f-type);font-size:1.02rem}
+.note>b:first-child{display:block;margin-bottom:4px;font-family:var(--f-display);font-size:1.3rem}
+.note p{margin:6px 0;line-height:1.7}
+.tagb{display:inline-block;background:var(--hl-soft);border:2px solid var(--ink);border-radius:8px;padding:6px 14px;margin:6px 0;font-size:1.1rem}
+.kap{position:relative;background:#fffdf2;border:2px solid var(--folder-edge);border-left:8px solid var(--ink);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 12px;margin:30px 0 18px}
+.kaptag{position:absolute;right:12px;top:-14px;background:var(--ink);color:var(--paper);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:2px 10px;border-radius:4px}
+.kap .kaph{font-family:var(--f-display);font-size:1.4rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 6px}
+.kap p{margin:8px 0;line-height:1.7;font-size:1.05rem}
+.need{background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 16px;align-self:stretch}.need ul{margin:6px 0 2px 20px;padding:0}.need li{margin:5px 0;line-height:1.5}
+.beweis{position:relative;background:var(--paper);border:2px solid var(--folder-edge);border-left:8px solid var(--stamp);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 14px;margin:14px 0 20px}
+.bwtag{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(-2deg)}
+.beweis .bwh{font-family:var(--f-display);font-size:1.4rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 6px}
+.beweis p{margin:8px 0;line-height:1.7;font-size:1.05rem}
+.beweis .quelle{font-size:.95rem;margin:12px 0 0;color:var(--muted)}.beweis .quelle a{color:var(--ink);font-weight:700}
+.merk{background:var(--hl-soft);border-radius:8px;padding:8px 14px;margin-top:12px}
+.merk ul{margin:4px 0 2px 18px;padding:0}.merk li{margin:3px 0;line-height:1.5}
+.spur{border:2px dashed var(--muted);border-radius:10px;background:#fff;padding:6px 16px;margin:10px 0}
+.spur p{margin:8px 0;line-height:1.6}
+.blank{display:inline-block;min-width:3.2em;border-bottom:3px solid var(--ink);text-align:center;padding:0 6px;font-weight:700}
+.think{border-left:6px solid var(--stamp);padding:4px 12px;margin:12px 0;font-family:var(--f-display);font-size:1.3rem;font-weight:700}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 4px}
+#map{height:320px;border:1px solid var(--rule);border-radius:10px;margin:8px 0}
+.leaflet-tooltip.lbl{font-family:var(--f-body);font-weight:700;font-size:15px;color:#14211f;border:2px solid #14211f;border-radius:8px;text-transform:none;letter-spacing:0}
+details{margin:10px 0}
+tr.dim td{color:var(--muted)}
+summary{cursor:pointer;font-weight:700;min-height:36px}
+footer{max-width:1000px;margin:0 auto;padding:0 16px 30px;color:var(--muted);font-size:.85rem;font-family:var(--f-type)}
+footer a{color:inherit}
+@media (max-width:520px){body{font-size:17px}.two-days{grid-template-columns:1fr}}
+
+.homelink{max-width:1000px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.homelink a{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:6px 16px;border-radius:99px;background:#fff;color:var(--ink);border:2px solid var(--ink);font-weight:700;font-size:16px;text-decoration:none}
+.homelink a:hover{background:var(--ink);color:#fff}
+.homelink a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+</style>
+</head>
+<body>
+<nav class="homelink" aria-label="Zur Startseite"><a href="/">‹ Lernwerkstatt 4b (Startseite)</a></nav>
+<main id="app" aria-live="polite"></main>
+<footer>Quellen stehen bei jedem Beweisstück (Klexikon, Energiesparmeister).</footer>
+
+<script>
+'use strict';
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const S={view:'home',
+ f1:{c:{a:false,b:false},show:false,res:null,self:null},
+ f2:{c:{a:false,b:false},w:{lampe:'',lade:'',pc:'',beamer:''},show:false,res:null,self:null}};
+let solved={};try{solved=JSON.parse(localStorage.getItem('ke_solved')||'{}')||{}}catch(e){}
+const saveSolved=()=>{try{localStorage.setItem('ke_solved',JSON.stringify(solved))}catch(e){}};
+const L3=['Vermuten','Spuren sichern','Lösung'];
+const stepper=(n,l)=>{return `<ol class="steps" aria-label="Schritte">`+l.map((t,i)=>`<li class="${i+1===n?'on':i+1<n?'done':''}"><i>${i+1<n?'✓':i+1}</i>${t}</li>`).join('')+`</ol>`};
+const head=(n,t)=>`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Akte 0${n}</small>${t}</div></div><div class="qcard">`;
+const BW={},KAP={};
+BW[1]={t:'Wohin geht die Wärme?',p:[],m:['Wärme geht immer dorthin, wo es kälter ist.','Durch offene Türen und gekippte Fenster geht viel Wärme verloren.','Stosslüften: ganz öffnen, kurz und kräftig, dann wieder schliessen.'],s:['Thermometer','Energie'],x:'Tipps zum Heizen und Lüften: <a href="https://www.energiesparmeister.de/fileadmin/esm/downloads/2024/Plakat_Heiz-_und_Stromtipps.pdf" target="_blank" rel="noopener">Plakat «Heiz- und Stromtipps» (Energiesparmeister, PDF)</a>'};
+BW[2]={t:'Strom, Watt und Standby',p:[],m:['Watt (W) sagt, wie viel Strom ein Gerät braucht, wenn es läuft. Mehr Watt heisst: mehr Strom.','Je länger ein Gerät läuft, desto mehr Strom braucht es. Mit gleich viel Strom kann man etwa 7 Stunden fernsehen oder 50 Stunden am Laptop arbeiten.','Auch im Standby brauchen Geräte Strom. Darum: ganz ausschalten oder den Stecker ziehen.'],s:['Elektrizität','Stromkreis'],x:'Tipps zum Strom sparen: <a href="https://www.energiesparmeister.de/fileadmin/esm/downloads/2024/Plakat_Heiz-_und_Stromtipps.pdf" target="_blank" rel="noopener">Plakat «Heiz- und Stromtipps» (Energiesparmeister, PDF)</a>'};
+KAP[1]={t:'Der Fall der verschwundenen Wärme',i:['Tim Thermo kommt aus dem Gang ins Klima-Kommissariat und reibt sich die Hände. «Chefin! Im Gang habe ich gefroren. Im Zimmer ist es warm. Aber die Heizung läuft doch überall!»','Klara Klima lächelt. «Gute Frage, Tim. <b>Wohin geht die Wärme?</b> Das müssen wir herausfinden. Wir messen im Schulhaus. Aber zuerst vermuten wir.»'],a:['Klara Klima legt ihre Notizen auf den Tisch. «Ich weiss, wohin die Wärme geht. Sie geht immer dorthin, wo es <b>kälter</b> ist.»','«Die Heizung macht die Luft im Zimmer warm. Aber die Wärme bleibt nicht dort. Sie wandert durch Fenster, Wände und Türen nach draussen. Sie wandert auch durch die offene Tür in den kühleren Gang.»','«Und das Fenster?», fragt Tim. «Glas lässt Wärme leichter durch als eine Wand. Darum ist es am Fenster oft kühler. Ein <b>gekipptes Fenster</b> lässt den ganzen Tag Wärme hinaus. Die Wände kühlen dabei aus.»','«Was können wir tun?» «Zum Lüften das Fenster <b>ganz öffnen, kurz und kräftig</b>. Nach der Lektion einmal, dann wieder schliessen. Das heisst <b>Stosslüften</b>. Und bei Kälte: Türen zu.»','Tim schreibt in sein Heft: <b>Fall gelöst!</b>']};
+KAP[2]={t:'Der Fall der hungrigen Geräte',i:['Nach der Schule. Tim Thermo räumt im Klima-Kommissariat auf. Er schaut auf die Steckerleiste. «Chefin! Der Beamer ist aus. Aber ein rotes Lämpchen leuchtet noch.»','Klara Klima nickt. «Gute Beobachtung, Tim. Geräte brauchen Strom. Aber <b>welches Gerät braucht am meisten?</b> Das lesen wir ab. Auf jedem Gerät steht eine Zahl mit <b>W</b>. Aber zuerst vermuten wir.»'],a:['Klara Klima legt vier Zettel nebeneinander. «Die Zahl mit W heisst <b>Watt</b>. Sie sagt, wie viel Strom ein Gerät braucht, wenn es läuft. Mehr Watt heisst: mehr Strom.»','«Und wenn das Gerät nur im Standby ist?», fragt Tim. «Auch dann brauchen viele Geräte noch Strom. Rund um die Uhr. Das rote Lämpchen zeigt es.»','«Es zählt auch, wie lange ein Gerät läuft», sagt Klara. «Wenig Watt und lange Zeit können viel Strom sein. Viel Watt und kurze Zeit auch.»','«Was können wir tun?» «Licht aus. Geräte <b>ganz</b> ausschalten. Ladegeräte aus der Steckdose ziehen. Bei vielen Geräten hilft eine Steckerleiste mit Schalter.»','Tim schreibt in sein Heft: <b>Fall gelöst!</b>']};
+const kapitel=n=>`<div class="kap"><span class="kaptag">Kapitel ${n}</span><h3 class="kaph">${KAP[n].t}</h3>${KAP[n].i.map(x=>`<p>${x}</p>`).join('')}</div>`;
+const beweis=(n,k)=>`<div class="beweis"><span class="bwtag">Beweisstück ${n}</span><h3 class="bwh">${BW[k].t}</h3>${KAP[k].a.map(x=>`<p>${x}</p>`).join('')}<div class="merk"><b>Das merkst du dir:</b><ul>${BW[k].m.map(x=>`<li>${x}</li>`).join('')}</ul></div>${BW[k].x?`<p class="quelle">${BW[k].x}</p>`:''}<p class="quelle">Mehr dazu im Klexikon: ${BW[k].s.map(x=>`<a href="https://klexikon.zum.de/wiki/${encodeURIComponent(x)}" target="_blank" rel="noopener">${x}</a>`).join(', ')}</p></div>`;
+const noteBox=(lines,t)=>`<div class="note"><b>✏ ${t||'Das schreibst du in deine Akte (Papier):'}</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
+const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div>`;
+const FB=(cls,t,body,id)=>`<div class="fb ${cls}" ${id?'id="fb"':''} tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
+function viewHome(){
+ const n=Object.keys(solved).filter(k=>solved[k]).length;
+ const A=[['1','Warm und kalt','Wo im Schulhaus ist es am kältesten?'],['2','Strom und Watt','Welches Gerät braucht am meisten Strom?']];
+ return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Energie</div>
+ <h1><span>Klima-Kommissariat 4b</span>Energiedetektive</h1>
+ <p>Du ermittelst in zwei Akten. Erst vermutest du. Dann sicherst du Spuren: Du misst oder liest ab. Zum Schluss prüfst du deine Vermutung.</p>
+ <div class="need"><b>Das brauchst du (Papier):</b><ul><li><b>Deine Akte:</b> Zu jedem Fall gehört eine Akte (Akte 01 und 02). Dort schreibst du bei Schritt 1, 2, 3 …</li><li><b>Thermometer:</b> Mit einem Thermometer misst du im Schulhaus (Akte 01).</li><li><b>Geräte-Station:</b> Dort liest du bei Geräten die Zahl mit W ab (Akte 02).</li><li><b>Stifte:</b> Bleistift, <span class="rot">rot</span> und <span class="blau">blau</span>.</li></ul></div></section>
+ <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
+ ${n===A.length?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Energiedetektiv oder Energiedetektivin.</div></div>`:''}`}
+const chkRow=(f,k,t)=>`<label class="chk"><input type="checkbox" data-act="chk" data-f="${f}" data-k="${k}" ${S['f'+f].c[k]?'checked':''} ${S['f'+f].show?'disabled':''}><span>${t}</span></label>`;
+const VERM={1:['a'],2:['a']};
+const vermOK=f=>VERM[f].every(k=>S['f'+f].c[k]);
+const taskOK=f=>Object.keys(S['f'+f].c).filter(k=>!VERM[f].includes(k)).every(k=>S['f'+f].c[k]);
+const stepOf=f=>{const st=S['f'+f];if(!vermOK(f))return 1;return st.show?3:2};
+const box=(t,inner)=>`<div class="auftrag"><h3>${t}</h3>${inner}</div>`;
+const ol=l=>`<ol>${l.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+const checks=(f,arr)=>arr.map(([k,t])=>chkRow(f,k,t)).join('');
+const stepV=(f,lines,arr)=>box('1 · Vermuten',ol(lines)+checks(f,arr));
+const solveBtn=f=>{const ok=taskOK(f);return S['f'+f].show?'':`<div class="actions"><button class="btn" data-act="show" data-v="${f}" ${ok?'':'disabled'}>Lösung zeigen</button>${ok?'':'<span class="muted">Hake zuerst alles ab.</span>'}</div>`};
+function selfBox(f,q){const st=S['f'+f];
+ let h=`<h3>Prüfe dich</h3><p class="q">${q}</p><p class="muted">Tippe hier. Kreuze es auch in deiner Akte an (Papier).</p><div class="opts two">`+[['j','Ja'],['f','Fast'],['n','Nein']].map(([k,l])=>`<button class="opt" data-act="self" data-f="${f}" data-v="${k}" aria-pressed="${st.self===k}">${l}</button>`).join('')+`</div>`;
+ if(st.self==='j')h+=FB('','Gut ermittelt!','<p>Deine Vermutung stimmte.</p>');
+ else if(st.self==='f')h+=FB('near','Fast!','<p>Schau nochmals: Was war anders?</p>');
+ else if(st.self==='n')h+=FB('no','Auch Detektive irren sich.','<p>Das ist normal. Was hast du jetzt gelernt?</p>');
+ return h}
+/* ----- Akte 1 (Messen im Schulhaus, keine Messwerte aus der App) ----- */
+function viewF1(){const f=S.f1,ok=vermOK(1);
+ let h=head(1,'Warm und kalt')+stepper(stepOf(1),L3)+kapitel(1)+stepV(1,['Heute untersuchst du: <b>Wo im Schulhaus ist es am kältesten?</b> Es gibt vier Orte: <b>Klassenzimmer (Mitte)</b>, <b>bei der Heizung</b>, <b>beim Fenster</b> und <b>im Gang</b>.','Nimm deine <b>Akte 01</b> (Papier). Schreib bei <b>Schritt 1</b> auf: Ordne die vier Orte von <b>1</b> (am kältesten) bis <b>4</b> (am wärmsten).','Schreib auch auf: <b>Ich vermute das, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Ihr messt zu dritt in eurem Team. Nehmt <b>ein Thermometer</b>.','Haltet das Thermometer an jedem der vier Orte auf <b>Brusthöhe</b>. Nicht in die Sonne halten. Nicht mit der Hand um das Thermometer fassen. <b>3 Minuten warten</b>, dann ablesen.','Schreib die Temperaturen in die Tabelle in deiner <b>Akte 01</b> (Schritt 2).'])+checks(1,[['b','Ich habe an allen vier Orten gemessen und die Temperaturen in meine Akte geschrieben.']])+solveBtn(1));
+ if(f.show&&f.res)h+=sol1();
+ return h}
+function sol1(){
+ let h='<h3>3 · Die Lösung</h3>'+FB('info','Schau auf deine vier Zahlen.','<p>Schreib in deine Akte (Schritt 3): <b>Am kältesten war es</b> bei … <b>Am wärmsten war es</b> bei … <b>Unterschied:</b> … °C.</p>',1);
+ h+='<p class="muted">Das ist <b>deine</b> Messung. Jedes Team hat andere Zahlen. Das ist normal.</p>';
+ h+='<div class="spur"><p><b>Meistens ist es so:</b> Bei der Heizung ist es am wärmsten. Im Gang und beim Fenster ist es kühler. Stimmt das auch bei dir?</p><p>Wenn nicht: Was war anders? Zum Beispiel: Heizung aus? Sonne am Fenster? Tür offen?</p></div>';
+ h+=selfBox(1,'Hat deine Vermutung gestimmt?');
+ h+=noteBox(['Schritt 3: Am kältesten war es bei <span class="blank">…</span>. Am wärmsten war es bei <span class="blank">…</span>.','Schritt 4: Lies das Beweisstück unten. Denk nach: <b>Wohin geht die Wärme? Wie können wir Wärme sparen?</b> Schreib es mit eigenen Worten.']);
+ h+='<h3>4 · Beweisstück lesen</h3>'+beweis(1,1);
+ return h+doneBtns('1')}
+
+/* ----- Akte 2 (Watt ablesen, eigene Zahlen eintippen) ----- */
+const G5=[['lampe','Lampe','Das sagt dir der Hausabwart.'],['lade','Ladegerät','Steht auf dem Ladegerät, meistens neben «Output».'],['pc','Computer','Steht auf dem Netzteil oder hinten am Computer.'],['beamer','Beamer','Steht unten oder hinten am Beamer.']];
+const wnum=k=>{const x=parseFloat(String(S.f2.w[k]).replace(',','.'));return isFinite(x)?x:NaN};
+const wOK=()=>G5.every(([k])=>{const x=wnum(k);return x>0&&x<=5000});
+const fW=x=>String(Math.round(x*10)/10).replace('.',',');
+const wRows=()=>G5.map(([k,n,h])=>`<label class="wrow"><span class="wn">${n}</span><input type="number" inputmode="decimal" step="any" min="0" max="5000" data-act="w" data-k="${k}" value="${esc(S.f2.w[k])}" ${S.f2.show?'disabled':''} aria-label="${n}: Watt"><span class="u">W</span><small>${h}</small></label>`).join('');
+function solveBtn2(){const ok=taskOK(2)&&wOK();return S.f2.show?'':`<div class="actions"><button class="btn" id="b2" data-act="show" data-v="2" ${ok?'':'disabled'}>Lösung zeigen</button><span class="muted" id="h2">${ok?'':'Trage vier Zahlen ein und hake ab.'}</span></div>`}
+function upd2(){const b=document.getElementById('b2'),h=document.getElementById('h2');if(!b)return;const ok=taskOK(2)&&wOK();b.disabled=!ok;if(h)h.textContent=ok?'':'Trage vier Zahlen ein und hake ab.'}
+function viewF2(){const f=S.f2,ok=vermOK(2);
+ let h=head(2,'Strom und Watt')+stepper(stepOf(2),L3)+kapitel(2)+stepV(2,['Heute untersuchst du: <b>Welches Gerät braucht am meisten Strom?</b> Es gibt vier Geräte: <b>Lampe</b>, <b>Ladegerät</b>, <b>Computer</b> und <b>Beamer</b>.','Nimm deine <b>Akte 02</b> (Papier). Schreib bei <b>Schritt 1</b> auf: Ordne die vier Geräte von <b>1</b> (am wenigsten Strom) bis <b>4</b> (am meisten Strom).','Schreib auch auf: <b>Ich vermute das, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Geh zur <b>Geräte-Station</b>. Dort stehen drei Geräte: <b>Ladegerät</b>, <b>Computer</b> und <b>Beamer</b>.','Such bei jedem der drei Geräte das <b>Typenschild</b>. Das ist ein kleines Schild oder ein Aufdruck mit Zahlen. Lies die Zahl mit <b>W</b> ab (Watt).','Die <b>Lampe</b> hängt zu hoch. Frag den <b>Hausabwart</b>: <b>Wie viele Watt hat eine Lampe in unserem Zimmer?</b>','<b>Nur ablesen.</b> Nichts einstecken. Nichts öffnen. Nichts anfassen, was heiss ist. Steht kein W da? Frag deine Lehrperson.','Schreib die Zahlen in deine <b>Akte 02</b> (Schritt 2). Tipp sie dann hier ein.'])+wRows()+checks(2,[['b','Ich habe die vier Zahlen in meine Akte geschrieben.']])+solveBtn2());
+ if(f.show&&f.res)h+=sol2();
+ return h}
+function sol2(){
+ const g=G5.map(([k,n])=>({k,n,w:wnum(k)})).sort((a,b)=>a.w-b.w),mn=g[0].w,mx=g[g.length-1].w;
+ const top=g.filter(x=>x.w===mx).map(x=>x.n).join(' und '),low=g.filter(x=>x.w===mn).map(x=>x.n).join(' und ');
+ let h='<h3>3 · Die Lösung</h3>'+FB('info','Am meisten Strom braucht: '+top+'.',`<p><b>${fW(mx)} W</b>. Am wenigsten: ${low}, ${fW(mn)} W.</p>`,1);
+ h+=`<p class="muted">So sieht die richtige Reihenfolge aus: <b>1</b> = am wenigsten Strom, <b>4</b> = am meisten.</p><div class="fig">`+g.map((x,i)=>`<div class="wb${x.w===mx?' top':''}"><span><b>${i+1}.</b> ${x.n}</span><b>${fW(x.w)} W</b><span class="wt"><i style="width:${Math.max(2,x.w/mx*100)}%"></i></span></div>`).join('')+`</div>`;
+ const r=Math.round(mx/mn);
+ h+=r>=2?`<div class="spur"><p>Der grösste Wert (${top}) ist etwa <b>${r}-mal</b> so gross wie der kleinste (${low}).</p><p class="muted">Auf dem Gerät steht meistens der höchste Wert. Im Alltag braucht ein Gerät oft etwas weniger.</p></div>`:`<div class="spur"><p>Die Werte sind ähnlich. Auf dem Gerät steht meistens der höchste Wert. Im Alltag braucht ein Gerät oft etwas weniger.</p></div>`;
+ h+=selfBox(2,'Hat deine Reihenfolge gestimmt?');
+ h+=noteBox([`Schritt 3: Am meisten Strom braucht <span class="blank">${top}</span>. Am wenigsten braucht <span class="blank">${low}</span>.`,'Schritt 4: Lies das Beweisstück unten. Denk nach: <b>Was heisst W? Wie kann ich zu Hause Strom sparen?</b> Schreib es mit eigenen Worten.']);
+ h+='<h3>4 · Beweisstück lesen</h3>'+beweis(2,2);
+ return h+doneBtns('2')}
+
+function render(){
+ const m={home:viewHome,'1':viewF1,'2':viewF2}[S.view]||viewHome;
+ $('#app').innerHTML=m()+(S.view==='home'?'':'</div>');
+}
+function restart(w){const f=S['f'+w];f.show=false;f.res=null;f.self=null;Object.keys(f.c).forEach(k=>f.c[k]=false);if(f.w)Object.keys(f.w).forEach(k=>f.w[k]='')}
+function afterCheck(f){if(vermOK(f)&&!S['f'+f].res)S['f'+f].res={ok:1};render()}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const a=b.dataset.act,v=b.dataset.v;
+ if(a==='home'){S.view='home';render();scrollTo(0,0)}
+ else if(a==='open'){S.view=v;render();scrollTo(0,0)}
+ else if(a==='show'){if(!taskOK(+v)||(v==='2'&&!wOK()))return;S['f'+v].show=true;render();const fb=$('#fb');if(fb){try{fb.scrollIntoView({block:'start',behavior:'smooth'});fb.focus({preventScroll:true})}catch(e){}}}
+ else if(a==='self'){S['f'+b.dataset.f].self=v;render()}
+ else if(a==='solve'){solved[v]=true;saveSolved();S.view='home';render();scrollTo(0,0)}
+ else if(a==='again'){restart(v);delete solved[v];saveSolved();render();scrollTo(0,0)}
+});
+document.addEventListener('input',e=>{const i=e.target;if(i.dataset&&i.dataset.act==='w'){S.f2.w[i.dataset.k]=i.value;upd2()}});
+document.addEventListener('change',e=>{const i=e.target;
+ if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;afterCheck(+f);const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus()}});
+render();
+</script>
+</body>
+</html>

@@ -102,14 +102,6 @@ h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:
 .chk:has(input:checked){background:var(--ok-soft);border-color:var(--ok)}
 .btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
 .explore{border:1px dashed var(--muted);border-radius:10px;padding:6px 14px;margin:16px 0}
-.wrow{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:6px 10px;padding:10px 14px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);margin:8px 0}
-.wrow .wn{font-weight:700}.wrow small{grid-column:1/-1;color:var(--muted)}
-.wrow input{font:inherit;font-weight:700;width:6.5em;min-height:48px;border:2px solid var(--ink);border-radius:10px;padding:4px 10px;background:#fff;color:var(--ink);text-align:right}
-.wrow .u{font-family:var(--f-type);font-weight:700}
-.wb{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin:10px 0;align-items:end}
-.wb .wt{grid-column:1/-1;height:18px;background:var(--desk);border-radius:6px;overflow:hidden;border:2px solid var(--ink)}
-.wb .wt i{display:block;height:100%;background:var(--orange)}
-.wb.top .wt i{background:var(--stamp)}
 .orte{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0}
 .ort{border:2px solid var(--ink);border-radius:10px;padding:10px 6px;text-align:center;background:#fff;display:flex;flex-direction:column;gap:2px}
 .ort b{font-family:var(--f-display);font-size:1.25rem}
@@ -253,9 +245,7 @@ function chipsFor(g,sel,block){
 const S={view:'home',loading:false,err:null,cust:null,
  f1:{day:FIX[0],c:{a:false,b:false,c:false},show:false,res:null,self:null},
  f2:{a:FIX[0],b:FIX[1],c:{a:false,b:false,c:false},show:false,res:null,self:null},
- f3:{day:FIX[0],time:'12',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false},
- f4:{c:{a:false,b:false},show:false,res:null,self:null},
- f5:{c:{a:false,b:false},w:{lampe:'',lade:'',pc:'',beamer:''},show:false,res:null,self:null}};
+ f3:{day:FIX[0],time:'12',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
 let solved={};try{solved=JSON.parse(localStorage.getItem('kd_solved')||'{}')||{}}catch(e){}
 const saveSolved=()=>{try{localStorage.setItem('kd_solved',JSON.stringify(solved))}catch(e){}};
 let TOKEN=0;
@@ -303,12 +293,8 @@ const loading=()=>`<div class="load" role="status">Spuren werden gesucht …</di
 const failBox=()=>`<div class="fail" role="alert"><b>Die Messwerte kommen gerade nicht an.</b><p>Warte kurz. Tippe dann auf «Nochmals».</p><button class="btn" data-act="retry">Nochmals</button><details><summary>Für die Lehrperson</summary><p class="muted">${esc(DIAG.slice(-8).join(' | ')||'–')}<br>${esc(S.err||'')}</p></details></div>`;
 const BW={"1": {"t": "Wer macht die Luft warm?", "p": ["Spur gefunden! Der Täter ist <b>die Sonne</b>.", "Ihre Strahlen treffen auf den Boden. Der Boden wird warm. Dann wärmt der warme Boden die Luft darüber. Warme Luft steigt auf.", "Am Morgen ist der Boden noch kalt von der Nacht. Darum ist die Luft kühl. Mittags scheint die Sonne am stärksten. Der Boden wird noch weiter warm, auch nach dem Mittag. Darum ist es oft erst am <b>Nachmittag</b> am wärmsten. Am Abend scheint die Sonne kaum noch. Der Boden gibt Wärme ab. Die Luft wird kühler."], "m": ["Die Sonne wärmt den Boden.", "Der Boden wärmt die Luft.", "Am wärmsten ist es oft am Nachmittag."], "s": ["Wind"]}, "2": {"t": "Wolken, Wind und Nebel", "p": ["Zwei Tage, zwei Kurven. Wer hat den Unterschied gemacht? Es gibt drei Verdächtige:", "<b>Wolken:</b> Sie bestehen aus winzigen Wassertröpfchen. Sie halten die Sonnenstrahlen ab. Dann kommt weniger Wärme zum Boden. Der Tag bleibt kühler.", "<b>Wind:</b> Er bringt Luft von anderswo. Kommt sie aus dem kalten Norden, wird es kälter. Kommt sie aus dem warmen Süden, wird es wärmer.", "<b>Nebel:</b> Nebel ist eine Wolke direkt am Boden. Im Herbst liegt oft Nebel über Zürich. Die Sonne kommt kaum durch. Dann bleibt es kühl."], "m": ["Viel Sonne: wärmer. Wolken oder Nebel: kühler.", "Der Wind bringt warme oder kalte Luft."], "s": ["Wind", "Wolke", "Nebel"]}, "3": {"t": "Warum wird es oben kälter?", "p": ["Drei Hinweise:", "<b>Hinweis 1:</b> Je höher du kommst, desto kleiner ist der Luftdruck: Es drückt weniger Luft von oben. Luft, die aufsteigt, dehnt sich darum aus. Dabei wird sie <b>kälter</b>. (Beim Velopumpen ist es umgekehrt: Wird Luft zusammengedrückt, wird sie warm.) Dazu kommt: Die Wärme kommt vom Boden. Oben ist die Luft dünner und behält weniger davon.", "<b>Hinweis 2:</b> Pro 100 Meter höher wird es etwa <b>0,6 °C</b> kälter. Von Lugano (273 m) bis Zermatt (1638 m) sind es etwa 1400 Meter. Das gibt rund <b>8 °C</b> Unterschied.", "<b>Hinweis 3:</b> Lugano liegt im Tessin, südlich der Alpen. Die Berge halten oft kalte Luft aus dem Norden ab. Darum ist es dort oft milder."], "m": ["Je höher, desto kälter.", "Aufsteigende Luft dehnt sich aus und wird kälter.", "Pro 100 m etwa 0,6 °C kälter."], "s": ["Wolke", "Atmosphäre"]}};
 const KAP={"1": {"t": "Der Fall der kalten Morgen", "i": ["Im Klima-Kommissariat klingelt das Telefon. <b>Kommissarin Klara Klima</b> hebt ab. Es ist ihr Assistent <b>Tim Thermo</b>.", "«Chefin, ein Rätsel! Am Morgen habe ich gefroren. Am Nachmittag war mir warm. Wann war es eigentlich am wärmsten?»", "Klara Klima lächelt. «Gute Frage, Tim. Wir haben Messwerte von <b>Tag 1</b>. Aber zuerst vermuten wir. Dann prüfen wir. Hilfst du uns?»"], "a": ["Tim Thermo liest die Messwerte vor. Klara Klima nickt. «Ich weiss, wer die Luft warm macht. Der Täter ist <b>die Sonne</b>!»", "«Die Sonne?», fragt Tim.", "«Ja. Ihre Strahlen treffen auf den Boden. Der Boden wird warm. Dann wärmt der warme Boden die Luft darüber. Warme Luft steigt auf.»", "«Und warum war es am Morgen kalt?»", "«Am Morgen war der Boden noch kalt von der Nacht. Mittags scheint die Sonne am stärksten. Aber der Boden wird noch weiter warm, auch nach dem Mittag. Darum ist es oft erst am <b>Nachmittag</b> am wärmsten. Am Abend scheint die Sonne kaum noch. Der Boden gibt Wärme ab. Die Luft wird kühler.»", "Tim schreibt in sein Heft: <b>Fall gelöst!</b>"]}, "2": {"t": "Der Fall der zwei Kurven", "i": ["Tim Thermo legt zwei Kurven auf den Tisch. Eine <b>rote</b> und eine <b>blaue</b>. Klara Klima schaut genau hin. «Zwei Tage, zwei Kurven. Ein Tag war wärmer.»", "«Welcher?», fragt Tim.", "«Das wissen wir noch nicht. Zuerst vermuten wir. Dann prüfen wir mit den Messwerten.»"], "a": ["Klara Klima zeigt auf die Kurven. «Der Unterschied hat einen Grund. Es gibt drei Verdächtige.»", "«Die <b>Wolken</b>!», ruft Tim. «Richtig. Sie bestehen aus winzigen Wassertröpfchen. Sie halten die Sonnenstrahlen ab. Dann kommt weniger Wärme zum Boden. Der Tag bleibt kühler.»", "«Der <b>Wind</b>?» «Er bringt Luft von anderswo. Kommt sie aus dem kalten Norden, wird es kälter. Kommt sie aus dem warmen Süden, wird es wärmer.»", "«Und der <b>Nebel</b>?» «Nebel ist eine Wolke direkt am Boden. Im Herbst liegt oft Nebel über Zürich. Die Sonne kommt kaum durch. Dann bleibt es kühl.»", "«Welcher Verdächtige war es an euren Tagen?», fragt Klara Klima. «Schau bei den <b>Spuren vom Wetter</b>.»"]}, "3": {"t": "Der Fall der drei Orte", "i": ["Tim Thermo kommt aus den Ferien zurück. Er trägt eine dicke Mütze. «Chefin! Ich war in Lugano, in Zürich und in Zermatt. In Zermatt habe ich sehr gefroren!»", "Klara Klima schmunzelt. «Wo war es am kältesten? Und gilt das immer: Je höher der Ort, desto …? Das müssen wir prüfen.»"], "a": ["Klara Klima legt drei Hinweise auf den Tisch.", "<b>Hinweis 1:</b> Je höher du kommst, desto kleiner ist der Luftdruck: Es drückt weniger Luft von oben. Luft, die aufsteigt, dehnt sich darum aus. Dabei wird sie <b>kälter</b>. (Beim Velopumpen ist es umgekehrt: Wird Luft zusammengedrückt, wird sie warm.) Dazu kommt: Die Wärme kommt vom Boden. Oben ist die Luft dünner und behält weniger davon.", "<b>Hinweis 2:</b> Pro 100 Meter höher wird es etwa <b>0,6 °C</b> kälter. Von Lugano (273 m) bis Zermatt (1638 m) sind es etwa 1400 Meter. Das gibt rund <b>8 °C</b> Unterschied.", "<b>Hinweis 3:</b> Lugano liegt im Tessin, südlich der Alpen. Die Berge halten oft kalte Luft aus dem Norden ab. Darum ist es dort oft milder."]}};
-BW[4]={t:'Wohin geht die Wärme?',p:[],m:['Wärme geht immer dorthin, wo es kälter ist.','Durch offene Türen und gekippte Fenster geht viel Wärme verloren.','Stosslüften: ganz öffnen, kurz und kräftig, dann wieder schliessen.'],s:['Thermometer','Energie'],x:'Tipps zum Heizen und Lüften: <a href="https://www.energiesparmeister.de/fileadmin/esm/downloads/2024/Plakat_Heiz-_und_Stromtipps.pdf" target="_blank" rel="noopener">Plakat «Heiz- und Stromtipps» (Energiesparmeister, PDF)</a>'};
-BW[5]={t:'Strom, Watt und Standby',p:[],m:['Watt (W) sagt, wie viel Strom ein Gerät braucht, wenn es läuft. Mehr Watt heisst: mehr Strom.','Je länger ein Gerät läuft, desto mehr Strom braucht es. Mit gleich viel Strom kann man etwa 7 Stunden fernsehen oder 50 Stunden am Laptop arbeiten.','Auch im Standby brauchen Geräte Strom. Darum: ganz ausschalten oder den Stecker ziehen.'],s:['Elektrizität','Stromkreis'],x:'Tipps zum Strom sparen: <a href="https://www.energiesparmeister.de/fileadmin/esm/downloads/2024/Plakat_Heiz-_und_Stromtipps.pdf" target="_blank" rel="noopener">Plakat «Heiz- und Stromtipps» (Energiesparmeister, PDF)</a>'};
-KAP[5]={t:'Der Fall der hungrigen Geräte',i:['Nach der Schule. Tim Thermo räumt im Klima-Kommissariat auf. Er schaut auf die Steckerleiste. «Chefin! Der Beamer ist aus. Aber ein rotes Lämpchen leuchtet noch.»','Klara Klima nickt. «Gute Beobachtung, Tim. Geräte brauchen Strom. Aber <b>welches Gerät braucht am meisten?</b> Das lesen wir ab. Auf jedem Gerät steht eine Zahl mit <b>W</b>. Aber zuerst vermuten wir.»'],a:['Klara Klima legt vier Zettel nebeneinander. «Die Zahl mit W heisst <b>Watt</b>. Sie sagt, wie viel Strom ein Gerät braucht, wenn es läuft. Mehr Watt heisst: mehr Strom.»','«Und wenn das Gerät nur im Standby ist?», fragt Tim. «Auch dann brauchen viele Geräte noch Strom. Rund um die Uhr. Das rote Lämpchen zeigt es.»','«Es zählt auch, wie lange ein Gerät läuft», sagt Klara. «Wenig Watt und lange Zeit können viel Strom sein. Viel Watt und kurze Zeit auch.»','«Was können wir tun?» «Licht aus. Geräte <b>ganz</b> ausschalten. Ladegeräte aus der Steckdose ziehen. Bei vielen Geräten hilft eine Steckerleiste mit Schalter.»','Tim schreibt in sein Heft: <b>Fall gelöst!</b>']};
-KAP[4]={t:'Der Fall der verschwundenen Wärme',i:['Mitte November. Tim Thermo kommt aus dem Gang ins Klima-Kommissariat und reibt sich die Hände. «Chefin! Im Gang habe ich gefroren. Im Zimmer ist es warm. Aber die Heizung läuft doch überall!»','Klara Klima lächelt. «Gute Frage, Tim. <b>Wohin geht die Wärme?</b> Das müssen wir herausfinden. Wir messen im Schulhaus. Aber zuerst vermuten wir.»'],a:['Klara Klima legt ihre Notizen auf den Tisch. «Ich weiss, wohin die Wärme geht. Sie geht immer dorthin, wo es <b>kälter</b> ist.»','«Die Heizung macht die Luft im Zimmer warm. Aber die Wärme bleibt nicht dort. Sie wandert durch Fenster, Wände und Türen nach draussen. Sie wandert auch durch die offene Tür in den kühleren Gang.»','«Und das Fenster?», fragt Tim. «Glas lässt Wärme leichter durch als eine Wand. Darum ist es am Fenster oft kühler. Ein <b>gekipptes Fenster</b> lässt den ganzen Tag Wärme hinaus. Die Wände kühlen dabei aus.»','«Was können wir tun?» «Zum Lüften das Fenster <b>ganz öffnen, kurz und kräftig</b>. Nach der Lektion einmal, dann wieder schliessen. Das heisst <b>Stosslüften</b>. Und bei Kälte: Türen zu.»','Tim schreibt in sein Heft: <b>Fall gelöst!</b>']};
 const kapitel=n=>`<div class="kap"><span class="kaptag">Kapitel ${n}</span><h3 class="kaph">${KAP[n].t}</h3>${KAP[n].i.map(x=>`<p>${x}</p>`).join('')}</div>`;
-const beweis=(n,k)=>`<div class="beweis"><span class="bwtag">Beweisstück ${n}</span><h3 class="bwh">${BW[k].t}</h3>${KAP[k].a.map(x=>`<p>${x}</p>`).join('')}<div class="merk"><b>Das merkst du dir:</b><ul>${BW[k].m.map(x=>`<li>${x}</li>`).join('')}</ul></div>${BW[k].x?`<p class="quelle">${BW[k].x}</p>`:''}<p class="quelle">Mehr dazu im Klexikon: ${BW[k].s.map(x=>`<a href="https://klexikon.zum.de/wiki/${encodeURIComponent(x)}" target="_blank" rel="noopener">${x}</a>`).join(', ')}</p></div>`;
+const beweis=(n,k)=>`<div class="beweis"><span class="bwtag">Beweisstück ${n}</span><h3 class="bwh">${BW[k].t}</h3>${KAP[k].a.map(x=>`<p>${x}</p>`).join('')}<div class="merk"><b>Das merkst du dir:</b><ul>${BW[k].m.map(x=>`<li>${x}</li>`).join('')}</ul></div><p class="quelle">Mehr dazu im Klexikon: ${BW[k].s.map(x=>`<a href="https://klexikon.zum.de/wiki/${encodeURIComponent(x)}" target="_blank" rel="noopener">${x}</a>`).join(', ')}</p></div>`;
 const noteBox=(lines,t)=>`<div class="note"><b>✏ ${t||'Das schreibst du in deine Akte (Papier):'}</b>${lines.map(l=>`<p>${l}</p>`).join('')}</div>`;
 const doneBtns=(id)=>`<div class="actions"><button class="btn" data-act="solve" data-v="${id}">Akte schliessen ✓</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div>`;
 const FB=(cls,t,body,id)=>`<div class="fb ${cls}" ${id?'id="fb"':''} tabindex="-1" role="status">${cls===''?'<span class="stp">Spur bestätigt</span>':''}<strong>${t}</strong>${body}</div>`;
@@ -316,20 +302,20 @@ const winTxt=(hit)=>hit?'Stimmt! Gut vermutet.':'';
 
 function viewHome(){
  const n=Object.keys(solved).filter(k=>solved[k]).length;
- const A=[['1','Der warme Tag','Tag 1: Um wie viel Uhr war es am wärmsten?'],['2','Zwei Tage','Tag 1 oder Tag 2: Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?'],['4','Warm und kalt','Wo im Schulhaus ist es am kältesten?'],['5','Strom und Watt','Welches Gerät braucht am meisten Strom?']];
+ const A=[['1','Der warme Tag','Tag 1: Um wie viel Uhr war es am wärmsten?'],['2','Zwei Tage','Tag 1 oder Tag 2: Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?']];
  return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Wetter</div>
  <h1><span>Klima-Kommissariat 4b</span>Klimadetektive</h1>
- <p>Du ermittelst in fünf Akten. Erst vermutest du. Dann liest du die Messwerte ab. Zum Schluss prüfst du deine Vermutung.</p>
- <div class="need"><b>Das brauchst du (Papier):</b><ul><li><b>Deine Akte:</b> Zu jedem Fall gehört eine Akte (Akte 01 bis 05). Dort schreibst du bei Schritt 1, 2, 3 …</li><li><b>KM 54.2:</b> Hier trägst du Temperaturen ein und malst die Kurven (Akte 01 und 02).</li><li><b>KM 54.3:</b> Hier stehen die Höhen der Orte (Akte 03).</li><li><b>Thermometer:</b> Mit einem Thermometer misst du im Schulhaus (Akte 04).</li><li><b>Geräte-Station:</b> Dort liest du bei Geräten die Zahl mit W ab (Akte 05).</li><li><b>Stifte:</b> Bleistift, <span class="rot">rot</span> und <span class="blau">blau</span>.</li></ul></div>
+ <p>Du ermittelst in drei Akten. Erst vermutest du. Dann liest du die Messwerte ab. Zum Schluss prüfst du deine Vermutung.</p>
+ <div class="need"><b>Das brauchst du (Papier):</b><ul><li><b>Deine Akte:</b> Zu jedem Fall gehört eine Akte (Akte 01, 02, 03). Dort schreibst du bei Schritt 1, 2, 3 …</li><li><b>KM 54.2:</b> Hier trägst du Temperaturen ein und malst die Kurven (Akte 01 und 02).</li><li><b>KM 54.3:</b> Hier stehen die Höhen der Orte (Akte 03).</li><li><b>Stifte:</b> Bleistift, <span class="rot">rot</span> und <span class="blau">blau</span>.</li></ul></div>
  <div id="now" class="now" aria-live="off"><small>Jetzt in Zürich …</small></div></section>
  <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
- ${n===A.length?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}`}
+ ${n===3?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}`}
 
 const chkRow=(f,k,t)=>`<label class="chk"><input type="checkbox" data-act="chk" data-f="${f}" data-k="${k}" ${S['f'+f].c[k]?'checked':''} ${S['f'+f].show?'disabled':''}><span>${t}</span></label>`;
-const VERM={1:['a'],2:['a'],3:['a','b'],4:['a'],5:['a']};
+const VERM={1:['a'],2:['a'],3:['a','b']};
 const vermOK=f=>VERM[f].every(k=>S['f'+f].c[k]);
 const taskOK=f=>Object.keys(S['f'+f].c).filter(k=>!VERM[f].includes(k)).every(k=>S['f'+f].c[k]);
-const stepOf=f=>{const st=S['f'+f];if(!vermOK(f))return 1;if(f===3||f===4||f===5)return st.show?3:2;return !st.c.b?2:!st.show?3:4};
+const stepOf=f=>{const st=S['f'+f];if(!vermOK(f))return 1;if(f===3)return st.show?3:2;return !st.c.b?2:!st.show?3:4};
 const box=(t,inner)=>`<div class="auftrag"><h3>${t}</h3>${inner}</div>`;
 const ol=l=>`<ol>${l.map(x=>`<li>${x}</li>`).join('')}</ol>`;
 const checks=(f,arr)=>arr.map(([k,t])=>chkRow(f,k,t)).join('');
@@ -387,46 +373,6 @@ function sol2(r){const f=S.f2,A='Tag 1 ('+dlabel(f.a)+')',B='Tag 2 ('+dlabel(f.b
  h+='<h3>5 · Beweisstück lesen</h3>'+beweis(2,2);
  return h+doneBtns('2')}
 
-/* ----- Akte 4 (Messen im Schulhaus, keine Messwerte aus der App) ----- */
-function viewF4(){const f=S.f4,ok=vermOK(4);
- let h=head(4,'Warm und kalt')+stepper(stepOf(4),L3)+kapitel(4)+stepV(4,['Heute untersuchst du: <b>Wo im Schulhaus ist es am kältesten?</b> Es gibt vier Orte: <b>Klassenzimmer (Mitte)</b>, <b>bei der Heizung</b>, <b>beim Fenster</b> und <b>im Gang</b>.','Nimm deine <b>Akte 04</b> (Papier). Schreib bei <b>Schritt 1</b> auf: Ordne die vier Orte von <b>1</b> (am kältesten) bis <b>4</b> (am wärmsten).','Schreib auch auf: <b>Ich vermute das, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Ihr messt zu dritt in eurem Team. Nehmt <b>ein Thermometer</b>.','Haltet das Thermometer an jedem der vier Orte auf <b>Brusthöhe</b>. Nicht in die Sonne halten. Nicht mit der Hand um das Thermometer fassen. <b>3 Minuten warten</b>, dann ablesen.','Schreib die Temperaturen in die Tabelle in deiner <b>Akte 04</b> (Schritt 2).'])+checks(4,[['b','Ich habe an allen vier Orten gemessen und die Temperaturen in meine Akte geschrieben.']])+solveBtn(4));
- if(f.show&&f.res)h+=sol4();
- return h}
-function sol4(){
- let h='<h3>3 · Die Lösung</h3>'+FB('info','Schau auf deine vier Zahlen.','<p>Schreib in deine Akte (Schritt 3): <b>Am kältesten war es</b> bei … <b>Am wärmsten war es</b> bei … <b>Unterschied:</b> … °C.</p>',1);
- h+='<p class="muted">Das ist <b>deine</b> Messung. Jedes Team hat andere Zahlen. Das ist normal.</p>';
- h+='<div class="spur"><p><b>Meistens ist es so:</b> Bei der Heizung ist es am wärmsten. Im Gang und beim Fenster ist es kühler. Stimmt das auch bei dir?</p><p>Wenn nicht: Was war anders? Zum Beispiel: Heizung aus? Sonne am Fenster? Tür offen?</p></div>';
- h+=selfBox(4,'Hat deine Vermutung gestimmt?');
- h+=noteBox(['Schritt 3: Am kältesten war es bei <span class="blank">…</span>. Am wärmsten war es bei <span class="blank">…</span>.','Schritt 4: Lies das Beweisstück unten. Denk nach: <b>Wohin geht die Wärme? Wie können wir Wärme sparen?</b> Schreib es mit eigenen Worten.']);
- h+='<h3>4 · Beweisstück lesen</h3>'+beweis(4,4);
- return h+doneBtns('4')}
-
-/* ----- Akte 5 (Watt ablesen, eigene Zahlen eintippen) ----- */
-const G5=[['lampe','Lampe','Das sagt dir der Hausabwart.'],['lade','Ladegerät','Steht auf dem Ladegerät, meistens neben «Output».'],['pc','Computer','Steht auf dem Netzteil oder hinten am Computer.'],['beamer','Beamer','Steht unten oder hinten am Beamer.']];
-const wnum=k=>{const x=parseFloat(String(S.f5.w[k]).replace(',','.'));return isFinite(x)?x:NaN};
-const wOK=()=>G5.every(([k])=>{const x=wnum(k);return x>0&&x<=5000});
-const fW=x=>String(Math.round(x*10)/10).replace('.',',');
-const wRows=()=>G5.map(([k,n,h])=>`<label class="wrow"><span class="wn">${n}</span><input type="number" inputmode="decimal" step="any" min="0" max="5000" data-act="w" data-k="${k}" value="${esc(S.f5.w[k])}" ${S.f5.show?'disabled':''} aria-label="${n}: Watt"><span class="u">W</span><small>${h}</small></label>`).join('');
-function solveBtn5(){const ok=taskOK(5)&&wOK();return S.f5.show?'':`<div class="actions"><button class="btn" id="b5" data-act="show" data-v="5" ${ok?'':'disabled'}>Lösung zeigen</button><span class="muted" id="h5">${ok?'':'Trage vier Zahlen ein und hake ab.'}</span></div>`}
-function upd5(){const b=document.getElementById('b5'),h=document.getElementById('h5');if(!b)return;const ok=taskOK(5)&&wOK();b.disabled=!ok;if(h)h.textContent=ok?'':'Trage vier Zahlen ein und hake ab.'}
-function viewF5(){const f=S.f5,ok=vermOK(5);
- let h=head(5,'Strom und Watt')+stepper(stepOf(5),L3)+kapitel(5)+stepV(5,['Heute untersuchst du: <b>Welches Gerät braucht am meisten Strom?</b> Es gibt vier Geräte: <b>Lampe</b>, <b>Ladegerät</b>, <b>Computer</b> und <b>Beamer</b>.','Nimm deine <b>Akte 05</b> (Papier). Schreib bei <b>Schritt 1</b> auf: Ordne die vier Geräte von <b>1</b> (am wenigsten Strom) bis <b>4</b> (am meisten Strom).','Schreib auch auf: <b>Ich vermute das, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Geh zur <b>Geräte-Station</b>. Dort stehen drei Geräte: <b>Ladegerät</b>, <b>Computer</b> und <b>Beamer</b>.','Such bei jedem der drei Geräte das <b>Typenschild</b>. Das ist ein kleines Schild oder ein Aufdruck mit Zahlen. Lies die Zahl mit <b>W</b> ab (Watt).','Die <b>Lampe</b> hängt zu hoch. Frag den <b>Hausabwart</b>: <b>Wie viele Watt hat eine Lampe in unserem Zimmer?</b>','<b>Nur ablesen.</b> Nichts einstecken. Nichts öffnen. Nichts anfassen, was heiss ist. Steht kein W da? Frag deine Lehrperson.','Schreib die Zahlen in deine <b>Akte 05</b> (Schritt 2). Tipp sie dann hier ein.'])+wRows()+checks(5,[['b','Ich habe die vier Zahlen in meine Akte geschrieben.']])+solveBtn5());
- if(f.show&&f.res)h+=sol5();
- return h}
-function sol5(){
- const g=G5.map(([k,n])=>({k,n,w:wnum(k)})).sort((a,b)=>a.w-b.w),mn=g[0].w,mx=g[g.length-1].w;
- const top=g.filter(x=>x.w===mx).map(x=>x.n).join(' und '),low=g.filter(x=>x.w===mn).map(x=>x.n).join(' und ');
- let h='<h3>3 · Die Lösung</h3>'+FB('info','Am meisten Strom braucht: '+top+'.',`<p><b>${fW(mx)} W</b>. Am wenigsten: ${low}, ${fW(mn)} W.</p>`,1);
- h+=`<p class="muted">So sieht die richtige Reihenfolge aus: <b>1</b> = am wenigsten Strom, <b>4</b> = am meisten.</p><div class="fig">`+g.map((x,i)=>`<div class="wb${x.w===mx?' top':''}"><span><b>${i+1}.</b> ${x.n}</span><b>${fW(x.w)} W</b><span class="wt"><i style="width:${Math.max(2,x.w/mx*100)}%"></i></span></div>`).join('')+`</div>`;
- const r=Math.round(mx/mn);
- h+=r>=2?`<div class="spur"><p>Der grösste Wert (${top}) ist etwa <b>${r}-mal</b> so gross wie der kleinste (${low}).</p><p class="muted">Auf dem Gerät steht meistens der höchste Wert. Im Alltag braucht ein Gerät oft etwas weniger.</p></div>`:`<div class="spur"><p>Die Werte sind ähnlich. Auf dem Gerät steht meistens der höchste Wert. Im Alltag braucht ein Gerät oft etwas weniger.</p></div>`;
- h+=selfBox(5,'Hat deine Reihenfolge gestimmt?');
- h+=noteBox([`Schritt 3: Am meisten Strom braucht <span class="blank">${top}</span>. Am wenigsten braucht <span class="blank">${low}</span>.`,'Schritt 4: Lies das Beweisstück unten. Denk nach: <b>Was heisst W? Wie kann ich zu Hause Strom sparen?</b> Schreib es mit eigenen Worten.']);
- h+='<h3>4 · Beweisstück lesen</h3>'+beweis(5,5);
- return h+doneBtns('5')}
-
 function timeChips(){const f=S.f3,t=todayKey();const o=[...(f.day===t?[['now','Jetzt']]:[]),['08','8 Uhr'],['12','12 Uhr'],['16','16 Uhr']];
  return `<div class="chips" role="group" aria-label="Zeit wählen">`+o.map(([k,l])=>`<button class="chip" data-act="time" data-v="${k}" aria-pressed="${f.time===k}">${l}</button>`).join('')+`</div>`}
 function viewF3(){const f=S.f3,ok=vermOK(3);
@@ -454,7 +400,7 @@ function sol3(r){
  return h+doneBtns('3')}
 
 function render(){
- const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3,'4':viewF4,'5':viewF5}[S.view]||viewHome;
+ const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3}[S.view]||viewHome;
  $('#app').innerHTML=m()+(S.view==='home'?'':'</div>');
  if(S.view==='home')showNow();
  if(S.view==='3'&&S.f3.map&&S.f3.res)drawMap();
@@ -511,12 +457,12 @@ async function calc3(){const f=S.f3,codes=['lug','sma','zer'];
 
 async function run(which,scroll){
  const my=++TOKEN;S.loading=true;S.err=null;render();
- try{const r=await {1:calc1,2:calc2,3:calc3,4:async()=>({ok:1}),5:async()=>({ok:1})}[which]();if(my!==TOKEN)return;S['f'+which].res=r}
+ try{const r=await {1:calc1,2:calc2,3:calc3}[which]();if(my!==TOKEN)return;S['f'+which].res=r}
  catch(e){if(my!==TOKEN)return;S.err=e.message||'Fehler'}
  S.loading=false;render();
  if(scroll){const fb=$('#fb');if(fb){try{fb.scrollIntoView({block:'start',behavior:'smooth'});fb.focus({preventScroll:true})}catch(e){}}}}
 function afterChange(w){const f=S['f'+w];f.self=null;f.res=null;if(vermOK(w))run(+w,false);else{TOKEN++;S.loading=false;S.err=null;render()}}
-function restart(w){TOKEN++;S.loading=false;S.err=null;const f=S['f'+w];f.show=false;f.res=null;f.self=null;Object.keys(f.c).forEach(k=>f.c[k]=false);if(f.w)Object.keys(f.w).forEach(k=>f.w[k]='')}
+function restart(w){TOKEN++;S.loading=false;S.err=null;const f=S['f'+w];f.show=false;f.res=null;f.self=null;Object.keys(f.c).forEach(k=>f.c[k]=false)}
 const setDay=(g,v)=>{S.cust=null;const t=todayKey();
  if(g==='f1'){S.f1.day=v;afterChange(1)}
  else if(g==='f2a'){S.f2.a=v;afterChange(2)}
@@ -531,14 +477,13 @@ document.addEventListener('click',e=>{
  else if(a==='day')setDay(g,v);
  else if(a==='cust'){S.cust=S.cust===g?null:g;render();const i=document.querySelector('input[type=date]');if(i)i.focus()}
  else if(a==='time'){S.f3.time=v;afterChange(3)}
- else if(a==='show'){if(!taskOK(+v)||(v==='5'&&!wOK()))return;S['f'+v].show=true;render();const fb=$('#fb');if(fb){try{fb.scrollIntoView({block:'start',behavior:'smooth'});fb.focus({preventScroll:true})}catch(e){}}}
+ else if(a==='show'){if(!taskOK(+v))return;S['f'+v].show=true;render();const fb=$('#fb');if(fb){try{fb.scrollIntoView({block:'start',behavior:'smooth'});fb.focus({preventScroll:true})}catch(e){}}}
  else if(a==='self'){S['f'+b.dataset.f].self=v;render()}
  else if(a==='map'){S.f3.map=!S.f3.map;render()}
  else if(a==='retry'){const w=+S.view;S.err=null;if(w&&vermOK(w))run(w,false)}
  else if(a==='solve'){solved[v]=true;saveSolved();S.view='home';render();scrollTo(0,0)}
  else if(a==='again'){restart(v);delete solved[v];saveSolved();EXP.e1=false;EXP.e2=false;EXP.e3=false;render();scrollTo(0,0)}
 });
-document.addEventListener('input',e=>{const i=e.target;if(i.dataset&&i.dataset.act==='w'){S.f5.w[i.dataset.k]=i.value;upd5()}});
 document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('explore'))EXP[d.dataset.id]=d.open},true);
 document.addEventListener('change',e=>{const i=e.target;
  if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;if(vermOK(+f)&&!S['f'+f].res&&!S.loading)run(+f,false);else render();const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus();return}
