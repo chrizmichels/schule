@@ -164,7 +164,7 @@ async function load(st,tgt){
   return{rows:ok[0],live:true}
 }
 const dm=k=>k.slice(8,10)+'.'+k.slice(5,7)+'., '+k.slice(11)+' Uhr';
-function setK(){try{const f=/[?&]kompakt/.test(location.search),n=/[?&]normal/.test(location.search);document.documentElement.classList.toggle('k',f||(!n&&window.innerHeight<880))}catch(e){}}
+function setK(){document.documentElement.classList.remove('k')}
 setK();addEventListener('resize',setK);
 document.documentElement.lang='de-CH';
 try{if(/[?&]theme=dark/.test(location.search))document.documentElement.setAttribute('data-theme','dark')}catch(e){}

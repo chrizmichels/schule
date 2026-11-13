@@ -11,5 +11,4 @@ Bei fehlender Verbindung zeigt sie gespeicherte Beispieldaten (Badge «Beispield
 
 
 ## Ansicht
-- Automatisch kompakt, wenn das Fenster niedriger als 880 px ist (z. B. Einbettung in Schabi, Beamer).
-- `?kompakt` erzwingt die kompakte Ansicht, `?normal` die grosse. `?theme=dark` für dunkel.
+- Es gibt nur noch eine Ansicht (immer mit «Tag verpasst?»). `?kompakt` und `?normal` werden nicht mehr gebraucht.
