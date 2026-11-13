@@ -1,3 +1,8 @@
+# Hinweis: Umzug
+Alles läuft jetzt auf **https://freiday-4b.vercel.app** (Quelle: Ordner `landing/`, Vercel-Projekt «freiday-4b»):
+- `/` Startseite, `/wetter` Wetter-Anzeige, `/detektive`, `/einsaetze`, `/api/ogd`
+- Dieser Ordner (`wetter/`, Projekt «wetter-4b») enthält nur noch Weiterleitungen, damit alte QR-Codes und Links weiter funktionieren (`wetter-4b.vercel.app/` leitet auf `/wetter` um). Die Dokumentation unten gilt unverändert; die Dateien liegen aber in `landing/` (`index.html` der Wetter-Anzeige heisst jetzt `wetter.html`).
+
 # Wetter-Anzeige 4b
 
 Einzelne HTML-Datei (`index.html`), keine Abhängigkeiten ausser der Schriftart Andika (Google Fonts).

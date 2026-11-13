@@ -1,6 +1,30 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/start", "destination": "https://freiday-4b.vercel.app/", "permanent": false }
+    {
+      "source": "/",
+      "destination": "https://freiday-4b.vercel.app/wetter",
+      "permanent": false
+    },
+    {
+      "source": "/start",
+      "destination": "https://freiday-4b.vercel.app/",
+      "permanent": false
+    },
+    {
+      "source": "/detektive",
+      "destination": "https://freiday-4b.vercel.app/detektive",
+      "permanent": false
+    },
+    {
+      "source": "/einsaetze",
+      "destination": "https://freiday-4b.vercel.app/einsaetze",
+      "permanent": false
+    },
+    {
+      "source": "/api/ogd",
+      "destination": "https://freiday-4b.vercel.app/api/ogd",
+      "permanent": false
+    }
   ]
 }
