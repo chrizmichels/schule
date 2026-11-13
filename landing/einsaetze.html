@@ -235,6 +235,7 @@ h3{font-family:var(--f-body)}
 .homelink a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 
 .foto{display:flex;flex-direction:column;align-items:center;gap:2px;background:#fff8e6;border:2px dashed var(--folder-edge);border-radius:14px;padding:14px;margin:12px 0}
+.foto img{width:100%;max-width:560px;border-radius:10px;display:block}figure.foto{margin:12px 0}
 .foto .fe{font-size:72px;line-height:1}.foto .fl{font-size:28px;letter-spacing:6px}.foto small{color:var(--muted)}
 .tipps{margin:10px 0}.tipps .muted{margin:0 0 6px;font-size:.95rem}
 .chk.self{background:#fffdf2;border-style:dashed}
@@ -319,7 +320,7 @@ function viewHome(){
 function viewEinsatz(id){
  const e=EINS[id],c=cur(id);let h=`<div class="gbar"><button class="back" data-act="home">← Alle Einsätze</button><div class="ttl"><small>Einsatz 0${e.nr} · SDG ${e.sdg}: ${e.sdgn}</small>${e.t}</div></div><div class="qcard">`+stepper(id);
  /* 1 Hilferuf (Fr 20.11.) */
- h+=kap(id,1)+`<div class="foto" role="img" aria-label="${e.foto.aria}"><span class="fe">${e.foto.e}</span><span class="fl">${e.foto.l}</span><small>${e.foto.cap}</small></div>`+
+ h+=kap(id,1)+(e.foto.img?`<figure class="foto"><img src="${e.foto.img}" alt="${e.foto.aria}"><small>${e.foto.cap}</small></figure>`:`<div class="foto" role="img" aria-label="${e.foto.aria}"><span class="fe">${e.foto.e}</span><span class="fl">${e.foto.l}</span><small>${e.foto.cap}</small></div>`)+
   box('1 · Hilferuf',ol(['Schaut das Bild genau an.','Öffnet euer <b>Einsatz-Logbuch</b> (Papier) bei <b>Blatt 1</b>. Schreibt oben eure Namen ein. <b>Jedes Kind hat einen Buchstaben: A, B oder C.</b> Merkt ihn euch. Er gilt in den Runden später.','Schreibt auf: <b>Das sehen wir.</b> (2 Dinge)','Schreibt auf: <b>Das vermuten wir:</b> '+e.verm,'Nehmt die <b>SDG-Karten</b>. Welche Karte passt zu diesem Einsatz? Legt sie auf den Tisch. Schreibt die Nummer der Karte ins Logbuch. Beantwortet dann: <b>Warum passt diese Karte?</b>'])+
   selbst(id,'sdg',e.sdgl,'Wir haben die Karte und den Grund aufgeschrieben.')+chk(id,1));
  /* 2 Forschen (Fr 20.11.) */
