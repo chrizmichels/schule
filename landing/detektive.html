@@ -403,7 +403,7 @@ function sol4(){
  return h+doneBtns('4')}
 
 /* ----- Akte 5 (Watt ablesen, eigene Zahlen eintippen) ----- */
-const G5=[['lampe','Lampe','Steht auf der Lampe. Nur eine ausgeschaltete, kalte Lampe anschauen.'],['lade','Ladegerät','Steht auf dem Ladegerät, meistens neben «Output».'],['pc','Computer','Steht auf dem Netzteil oder hinten am Computer.'],['beamer','Beamer','Steht unten oder hinten am Beamer.']];
+const G5=[['lampe','Lampe','Das sagt dir der Hausabwart.'],['lade','Ladegerät','Steht auf dem Ladegerät, meistens neben «Output».'],['pc','Computer','Steht auf dem Netzteil oder hinten am Computer.'],['beamer','Beamer','Steht unten oder hinten am Beamer.']];
 const wnum=k=>{const x=parseFloat(String(S.f5.w[k]).replace(',','.'));return isFinite(x)?x:NaN};
 const wOK=()=>G5.every(([k])=>{const x=wnum(k);return x>0&&x<=5000});
 const fW=x=>String(Math.round(x*10)/10).replace('.',',');
@@ -412,7 +412,7 @@ function solveBtn5(){const ok=taskOK(5)&&wOK();return S.f5.show?'':`<div class="
 function upd5(){const b=document.getElementById('b5'),h=document.getElementById('h5');if(!b)return;const ok=taskOK(5)&&wOK();b.disabled=!ok;if(h)h.textContent=ok?'':'Trage vier Zahlen ein und hake ab.'}
 function viewF5(){const f=S.f5,ok=vermOK(5);
  let h=head(5,'Strom und Watt')+stepper(stepOf(5),L3)+kapitel(5)+stepV(5,['Heute untersuchst du: <b>Welches Gerät braucht am meisten Strom?</b> Es gibt vier Geräte: <b>Lampe</b>, <b>Ladegerät</b>, <b>Computer</b> und <b>Beamer</b>.','Nimm deine <b>Akte 05</b> (Papier). Schreib bei <b>Schritt 1</b> auf: Ordne die vier Geräte von <b>1</b> (am wenigsten Strom) bis <b>4</b> (am meisten Strom).','Schreib auch auf: <b>Ich vermute das, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Geh zur <b>Geräte-Station</b>. Dort stehen die vier Geräte.','Such bei jedem Gerät das <b>Typenschild</b>. Das ist ein kleines Schild oder ein Aufdruck mit Zahlen. Lies die Zahl mit <b>W</b> ab (Watt).','<b>Nur ablesen.</b> Nichts einstecken. Nichts öffnen. Nichts anfassen, was heiss ist. Steht kein W da? Frag deine Lehrperson.','Schreib die Zahlen in deine <b>Akte 05</b> (Schritt 2). Tipp sie dann hier ein.'])+wRows()+checks(5,[['b','Ich habe die vier Zahlen in meine Akte geschrieben.']])+solveBtn5());
+ if(ok)h+=box('2 · Spuren sichern',ol(['Geh zur <b>Geräte-Station</b>. Dort stehen drei Geräte: <b>Ladegerät</b>, <b>Computer</b> und <b>Beamer</b>.','Such bei jedem der drei Geräte das <b>Typenschild</b>. Das ist ein kleines Schild oder ein Aufdruck mit Zahlen. Lies die Zahl mit <b>W</b> ab (Watt).','Die <b>Lampe</b> hängt zu hoch. Frag den <b>Hausabwart</b>: <b>Wie viele Watt hat eine Lampe in unserem Zimmer?</b>','<b>Nur ablesen.</b> Nichts einstecken. Nichts öffnen. Nichts anfassen, was heiss ist. Steht kein W da? Frag deine Lehrperson.','Schreib die Zahlen in deine <b>Akte 05</b> (Schritt 2). Tipp sie dann hier ein.'])+wRows()+checks(5,[['b','Ich habe die vier Zahlen in meine Akte geschrieben.']])+solveBtn5());
  if(f.show&&f.res)h+=sol5();
  return h}
 function sol5(){
