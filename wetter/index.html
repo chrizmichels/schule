@@ -4,7 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <style>
 /* Layout: Beamer-Anzeige. Kopfband in Türkis, darunter 6 grosse Messkacheln (3 x 2), rechts die Wind-Skala zum Abgleich mit dem Fenster. */
 :root{--teal:#28c6a4;--teal-ink:#14211f;--lav:#d8e1f9;--grey:#f0f2f2;--bg:#ffffff;--fg:#14211f;--muted:#4b5b58;--line:#14211f;--tile:#f0f2f2;--ok:#28c6a4;--warn:#ffe3a3;
@@ -177,8 +177,16 @@ function parseOGD(txt){const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=
 function parseVQHA(txt,code){code=(code||'sma').toUpperCase();const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=>H.indexOf(n),l=L.find(x=>x.startsWith(code+';'));if(!l)throw new Error(code+' fehlt');const a=l.split(';'),m=a[ix('Date')].match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/);const ms=Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);const f=n=>num(a[ix(n)]);
  const r=[zurichKey(ms),f('tre200s0'),f('fu3010z0')!=null?f('fu3010z0')/3.6:null,f('fu3010z1')!=null?f('fu3010z1')/3.6:null,f('dkl010z0'),f('prestas0'),f('rre150z0'),f('gre000z0'),f('ure200s0')];if(r[1]==null&&r[2]==null&&r[7]==null&&r[8]==null)throw new Error('Wert leer');return[r]}
 async function getTxt(url){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);try{const r=await fetch(url,{signal:ctl.signal,cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.text()}finally{clearTimeout(to)}}
+const CACHE={};
+async function apiRows(code){const c=CACHE['api'+code];if(c&&Date.now()-c.t<240000)return c.v;
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),8000);
+  try{const r=await fetch('/api/ogd?st='+code,{signal:ctl.signal});if(!r.ok)throw new Error('API '+r.status);const v=await r.json();if(!Array.isArray(v)||!v.length)throw new Error('API leer');CACHE['api'+code]={t:Date.now(),v};return v}finally{clearTimeout(to)}}
+async function recentRows(code){const c=CACHE['rec'+code];if(c&&Date.now()-c.t<1800000)return c.v;
+  const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),30000);
+  try{const r=await fetch(MCH+'ogd-smn/'+code+'/ogd-smn_'+code+'_t_recent.csv',{signal:ctl.signal});if(!r.ok)throw new Error('HTTP '+r.status);const v=parseOGD(await r.text()).filter(x=>x[0]>='2026-10-20');CACHE['rec'+code]={t:Date.now(),v};return v}finally{clearTimeout(to)}}
 async function loadFl(tgt,code){code=code||'sma';
-  const jobs=[['10-Min-Datei',async()=>{let rows=parseOGD(await getTxt(MCH+'ogd-smn/'+code+'/ogd-smn_'+code+'_t_now.csv'));if(tgt&&rows.length&&rows[rows.length-1][0]>toKey(tgt)){const old=parseOGD(await getTxt(MCH+'ogd-smn/'+code+'/ogd-smn_'+code+'_t_recent.csv'));rows=old}if(!rows.length)throw new Error('keine Daten');return rows}],
+  const jobs=[['10-Min-Datei',async()=>{try{const a=await apiRows(code);if(a.length&&(!tgt||a[a.length-1][0]<=toKey(tgt)))return a}catch(e){}
+    let rows=parseOGD(await getTxt(MCH+'ogd-smn/'+code+'/ogd-smn_'+code+'_t_now.csv'));if(tgt&&rows.length&&rows[rows.length-1][0]>toKey(tgt)){rows=await recentRows(code)}if(!rows.length)throw new Error('keine Daten');return rows}],
              ['aktuell',async()=>parseVQHA(await getTxt(MCH+'messwerte-aktuell/VQHA80.csv'),code)]];
   const res=await Promise.allSettled(jobs.map(j=>j[1]()));
   window.DIAG='MeteoSchweiz: '+res.map((x,k)=>jobs[k][0]+' '+(x.status==='fulfilled'?'neuester Wert '+dm(x.value[0][0]):(x.reason&&x.reason.name==='AbortError'?'Zeit':(x.reason&&x.reason.message)||'Fehler'))).join(' | ');
@@ -261,7 +269,7 @@ async function showOrte(){
   const ok=vals.filter(v=>v&&v.T!=null);
   $('ortetxt').textContent=ok.length?('Zeitpunkt: '+dm(ok[0].ts)+'. Daten: MeteoSchweiz.'):'Keine Daten. Bitte später nochmals versuchen.';
 }
-function setTab(t){tab=t;['w','v','m','o'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';$('ov').hidden=t!=='o';if(t==='v')drawTV();if(t==='m')showMap();if(t==='o')showOrte()}
+function setTab(t){tab=t;['w','v','m','o'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';$('ov').hidden=t!=='o';if(t==='v')drawTV();if(t==='m')showMap();if(t==='o')showOrte();if(t==='m')otherTemp(station)}
 function syncMode(){$('std').setAttribute('aria-pressed',String(mode==='std'));$('now').setAttribute('aria-pressed',String(mode==='now'))}
 const TEMPS={fluntern:null,mythenquai:null};
 function fT(v){return v==null?'–':String(Math.round(v*10)/10).replace('.',',')+' °C'}
@@ -275,7 +283,7 @@ async function run(){syncMode();
   try{const r=station==='fluntern'?await loadFl(curTarget()):await load(station,curTarget());rows=r.rows;live=true}catch(e){rows=SAMPLE[station]||SAMPLE.mythenquai;why='Keine Verbindung zu den Messdaten. Gespeicherte Werte vom 30.10. · '+(window.DIAG||e.message)}
   const i=pick(rows,curTarget());
   if(i<0){render(rows,-1,live,why)}else{render(rows,i,live,why)}
-  TEMPS[station]=(rows[i<0?0:i]||[])[1];mapTemps();otherTemp(station);
+  TEMPS[station]=(rows[i<0?0:i]||[])[1];mapTemps();if(tab==='m')otherTemp(station);
   if(tab==='o')showOrte();
   if(mode!=='past')timer=setTimeout(run,5*60000);
 }
