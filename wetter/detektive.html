@@ -139,6 +139,7 @@ td.l{text-align:left;font-weight:700;white-space:nowrap;background:var(--paper)}
 .note{border:2px dashed var(--muted);border-radius:10px;background:#fffdf2;padding:12px 16px;margin:18px 0;font-family:var(--f-type);font-size:1.02rem}
 .note>b:first-child{display:block;margin-bottom:4px;font-family:var(--f-display);font-size:1.3rem}
 .note p{margin:6px 0;line-height:1.7}
+.tagb{display:inline-block;background:var(--hl-soft);border:2px solid var(--ink);border-radius:8px;padding:6px 14px;margin:6px 0;font-size:1.1rem}
 .need{background:var(--paper);border:1px solid var(--folder-edge);border-radius:10px;padding:10px 16px;align-self:stretch}.need ul{margin:6px 0 2px 20px;padding:0}.need li{margin:5px 0;line-height:1.5}
 .beweis{position:relative;background:var(--paper);border:2px solid var(--folder-edge);border-left:8px solid var(--stamp);border-radius:4px 12px 12px 4px;padding:20px clamp(14px,3vw,22px) 14px;margin:14px 0 20px}
 .bwtag{position:absolute;right:12px;top:-14px;background:var(--paper);border:3px solid var(--stamp);color:var(--stamp);font-family:var(--f-type);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;padding:1px 8px;border-radius:4px;transform:rotate(-2deg)}
@@ -179,6 +180,8 @@ function zurichKey(ms){const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB
 const todayKey=()=>zurichKey(Date.now()).slice(0,10);
 const kms=k=>Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10),+k.slice(11,13)||0,+k.slice(14,16)||0);
 function addDays(k,n){const t=new Date(kms(k)+n*864e5);return t.toISOString().slice(0,10)}
+const WDL=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],MON=['','Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+function dlong(k){const w=new Date(kms(k)).getUTCDay();return WDL[w]+', '+(+k.slice(8,10))+'. '+MON[+k.slice(5,7)]}
 function dlabel(k){const w=new Date(kms(k)).getUTCDay();return WD[w]+' '+(+k.slice(8,10))+'.'+(+k.slice(5,7))+'.'}
 function parseOGD(txt){const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=>H.indexOf(n);const c={t:ix('tre200s0'),ws:ix('fkl010z0'),wk:ix('fu3010z0'),ts:ix('reference_timestamp')};
  return L.slice(1).map(l=>{const a=l.split(';'),m=(a[c.ts]||'').match(/(\d+)\.(\d+)\.(\d+) (\d+):(\d+)/);if(!m)return null;const ms=Date.UTC(+m[3],+m[2]-1,+m[1],+m[4],+m[5]);
@@ -287,7 +290,7 @@ const winTxt=(hit)=>hit?'Stimmt! Gut vermutet.':'';
 
 function viewHome(){
  const n=Object.keys(solved).filter(k=>solved[k]).length;
- const A=[['1','Der warme Tag','Um wie viel Uhr ist es am wärmsten?'],['2','Zwei Tage','Tag 1 oder Tag 2: Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?']];
+ const A=[['1','Der warme Tag','Tag 1: Um wie viel Uhr war es am wärmsten?'],['2','Zwei Tage','Tag 1 oder Tag 2: Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?']];
  return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Wetter</div>
  <h1><span>Klima-Kommissariat 4b</span>Klimadetektive</h1>
  <p>Du ermittelst in drei Akten. Erst vermutest du. Dann liest du die Messwerte ab. Zum Schluss prüfst du deine Vermutung.</p>
@@ -319,13 +322,13 @@ const emptyBox=m=>FB('no','Hier fehlt die Spur.',`<p>${m}</p>`);
 
 /* ----- Akte 1 ----- */
 function viewF1(){const f=S.f1,ok=vermOK(1),st=f.c;
- let h=head(1,'Der warme Tag')+stepper(stepOf(1),L4)+stepV(1,['Wir messen von <b>8 Uhr</b> bis <b>20 Uhr</b>.','Nimm deine <b>Akte 01</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Um wie viel Uhr ist es am wärmsten?</b> Am Morgen, am Mittag oder am Abend?','So schreibst du: <b>Ich vermute: Um … Uhr, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 1</b>).'])+stationBody(1,st1)+(f.res&&!f.res.empty?checks(1,[['b','Ich habe die Temperaturen auf KM 54.2 eingetragen.']]):'')+explore('Anderen Tag wählen (Tag verpasst?)',chipsFor('f1',f.day),'e1'));
+ let h=head(1,'Der warme Tag')+stepper(stepOf(1),L4)+stepV(1,[`Wir untersuchen <b>Tag 1: ${dlong(S.f1.day)}</b>. Das ist die Zeile <b>Tag 1</b> auf KM 54.2. Gemessen wurde von <b>8 Uhr</b> bis <b>20 Uhr</b>.`,'Nimm deine <b>Akte 01</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Um wie viel Uhr war es an Tag 1 am wärmsten?</b> Am Morgen, am Mittag oder am Abend?','So schreibst du: <b>Ich vermute: Um … Uhr, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 1</b>).'])+stationBody(1,st1)+(f.res&&!f.res.empty?checks(1,[['b','Ich habe die Temperaturen auf KM 54.2 eingetragen.']]):'')+explore('Anderen Tag wählen (nur wenn deine Lehrperson es sagt)',chipsFor('f1',f.day),'e1'));
  if(ok&&f.res&&!f.res.empty&&st.b)h+=box('3 · Kurve malen',ol([`Male auf <b>KM 54.2</b> deine <span class="rot">rote Kurve</span> (Tag 1).`])+checks(1,[['c','Ich habe die rote Kurve auf KM 54.2 gemalt.']])+solveBtn(1));
  if(f.show&&f.res&&!f.res.empty)h+=sol1(f.res);
  return h}
 function st1(r){if(r.empty)return emptyBox('Für diesen Tag gibt es keine Messwerte. Wähle einen anderen Tag.');
- return `<p class="muted">Tag 1: ${dlabel(S.f1.day)}${r.partial?' (der Tag ist noch nicht zu Ende)':''}</p><div class="cells">`+[8,10,12,14,16,18,20].map((hh,i)=>`<div class="cell"><span>${hh} Uhr</span><b>${fT(r.h2[i])} °C</b></div>`).join('')+`</div>`}
+ return `<p class="tagb"><b>Tag 1</b> · ${dlong(S.f1.day)}</p><p class="muted">${r.partial?' (der Tag ist noch nicht zu Ende)':''}</p><div class="cells">`+[8,10,12,14,16,18,20].map((hh,i)=>`<div class="cell"><span>${hh} Uhr</span><b>${fT(r.h2[i])} °C</b></div>`).join('')+`</div>`}
 const hs=a=>a.join(' und ')+' Uhr';
 function sol1(r){const f=S.f1;
  let h='<h3>4 · Die Lösung</h3>'+FB('info','Am wärmsten war es um '+hs(r.mxH)+'.',`<p><b>${fT(r.mxT)} °C</b> (${dlabel(f.day)})</p>`,1);
@@ -338,8 +341,8 @@ function sol1(r){const f=S.f1;
 
 /* ----- Akte 2 ----- */
 function viewF2(){const f=S.f2,ok=vermOK(2),st=f.c;
- let h=head(2,'Zwei Tage')+stepper(stepOf(2),L4)+stepV(2,['Du kennst Tag 1 schon (rote Kurve).','Nimm deine <b>Akte 02</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Tag 1 oder Tag 2: Welcher Tag war wärmer?</b>','So schreibst du: <b>Ich vermute: Tag … war wärmer, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen von <b>Tag 2</b> ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 2</b>).'])+stationBody(2,st2)+(f.res&&!f.res.empty?checks(2,[['b','Ich habe die Temperaturen auf KM 54.2 eingetragen.']]):'')+explore('Andere Tage wählen (Tag verpasst?)',`<h3>Tag 1</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Tag 2</h3>`+chipsFor('f2b',f.b,f.a),'e2'));
+ let h=head(2,'Zwei Tage')+stepper(stepOf(2),L4)+stepV(2,[`Du kennst <b>Tag 1</b> schon: ${dlong(S.f2.a)} (rote Kurve). Neu ist <b>Tag 2</b>: ${dlong(S.f2.b)}.`,'Nimm deine <b>Akte 02</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Tag 1 oder Tag 2: Welcher Tag war wärmer?</b>','So schreibst du: <b>Ich vermute: Tag … war wärmer, weil …</b>'],[['a','Ich habe meine Vermutung in meine Akte geschrieben.']]);
+ if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen von <b>Tag 2</b> ab.','Schreib sie in die Tabelle auf <b>KM 54.2</b> (Zeile <b>Tag 2</b>).'])+stationBody(2,st2)+(f.res&&!f.res.empty?checks(2,[['b','Ich habe die Temperaturen auf KM 54.2 eingetragen.']]):'')+explore('Andere Tage wählen (nur wenn deine Lehrperson es sagt)',`<h3>Tag 1</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Tag 2</h3>`+chipsFor('f2b',f.b,f.a),'e2'));
  if(ok&&f.res&&!f.res.empty&&st.b)h+=box('3 · Kurve malen',ol([`Male auf <b>KM 54.2</b> deine <span class="blau">blaue Kurve</span> (Tag 2).`])+checks(2,[['c','Ich habe die blaue Kurve auf KM 54.2 gemalt.']])+solveBtn(2));
  if(f.show&&f.res&&!f.res.empty)h+=sol2(f.res);
  return h}
@@ -362,7 +365,7 @@ function timeChips(){const f=S.f3,t=todayKey();const o=[...(f.day===t?[['now','J
  return `<div class="chips" role="group" aria-label="Zeit wählen">`+o.map(([k,l])=>`<button class="chip" data-act="time" data-v="${k}" aria-pressed="${f.time===k}">${l}</button>`).join('')+`</div>`}
 function viewF3(){const f=S.f3,ok=vermOK(3);
  let h=head(3,'Drei Orte')+stepper(stepOf(3),L3)+stepV(3,['Du brauchst die Höhen aus <b>KM 54.3</b> (Aufgabe 1).','Nimm deine <b>Akte 03</b> (Papier). Schreib bei <b>Schritt 1</b> auf: <b>Wo ist es am kältesten?</b> Lugano, Zürich oder Zermatt?','Schreib auch auf: <b>Je höher der Ort, desto …</b> (kälter, wärmer oder gleich?)'],[['a','Ich habe meine erste Vermutung in meine Akte geschrieben.'],['b','Ich habe meine zweite Vermutung in meine Akte geschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Wähle den Tag und die Zeit.','Lies die Temperaturen ab.','Schreib sie in die Tabelle in deiner <b>Akte 03</b> (Schritt 2).'])+`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`+stationBody(3,st3)+(f.res&&!f.res.empty&&f.res.n>=2?checks(3,[['c','Ich habe die Temperaturen in meine Akte eingetragen.']])+solveBtn(3):''));
+ if(ok)h+=box('2 · Spuren sichern',ol(['Wähle <b>einen Tag</b> und <b>eine Zeit</b> (zum Beispiel: Heute, Jetzt).','Schreib Tag und Zeit in deine <b>Akte 03</b> (Schritt 2).','Lies die Temperaturen der drei Orte ab. Schreib sie in die Tabelle in deiner Akte.'])+`<h3>Welcher Tag?</h3>${chipsFor('f3',f.day)}<h3>Welche Zeit?</h3>${timeChips()}`+stationBody(3,st3)+(f.res&&!f.res.empty&&f.res.n>=2?checks(3,[['c','Ich habe die Temperaturen in meine Akte eingetragen.']])+solveBtn(3):''));
  if(f.show&&f.res&&f.res.n>=2)h+=sol3(f.res);
  return h}
 function st3(r){const f=S.f3,v=r.v;
