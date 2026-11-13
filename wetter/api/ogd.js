@@ -22,6 +22,7 @@ function parseOGD(txt) {
 }
 async function get(url) { const r = await fetch(url); if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); }
 module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://freiday-4b.vercel.app');
   const st = String((req.query && req.query.st) || 'sma').toLowerCase();
   if (!OK[st]) { res.status(400).json({ error: 'Station' }); return; }
   try {

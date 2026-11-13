@@ -114,7 +114,7 @@ header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
      <li><a href="https://klexikon.zum.de/wiki/Sonne" target="_blank" rel="noopener">Sonne</a></li>
      <li><a href="https://klexikon.zum.de/wiki/Nebel" target="_blank" rel="noopener">Nebel</a></li>
     </ul>
-    <a class="btn" href="/">Zur Wetterstation</a>
+    <a class="btn" href="https://wetter-4b.vercel.app/">Zur Wetterstation</a>
    </div>
   </section>
 
@@ -129,14 +129,14 @@ header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
     <p>Ihr seid Detektive. Jeder Fall hat eine Geschichte, Spuren und Beweisstücke. Löst ihn Schritt für Schritt.</p>
     <h3>Eure Fälle</h3>
     <ul class="liste">
-     <li><i></i><span><a href="/detektive">Klimadetektive</a> <small>(Wetter und Klima)</small></span></li>
+     <li><i></i><span><a href="https://wetter-4b.vercel.app/detektive">Klimadetektive</a> <small>(Wetter und Klima)</small></span></li>
      <li class="bald"><i></i><span>Energie <em>bald</em></span></li>
      <li class="bald"><i></i><span>Körper und Essen <em>bald</em></span></li>
      <li class="bald"><i></i><span>Natur und Entwicklung <em>bald</em></span></li>
      <li class="bald"><i></i><span>Stadt Zürich <em>bald</em></span></li>
     </ul>
     <span class="spacer"></span>
-    <a class="btn" href="/detektive">Fall öffnen: Klimadetektive</a>
+    <a class="btn" href="https://wetter-4b.vercel.app/detektive">Fall öffnen: Klimadetektive</a>
    </div>
   </section>
 
@@ -151,12 +151,12 @@ header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
     <div class="logbuch">Logbuch der 4b: Wir üben, wie man ein Projekt plant, baut und auswertet.</div>
     <h3>Unsere Einsätze</h3>
     <ul class="liste">
-     <li><i></i><span><a href="/einsaetze">Einsatz 1: Igel</a> <small>(Ziel 15: Leben an Land)</small></span></li>
+     <li><i></i><span><a href="https://wetter-4b.vercel.app/einsaetze">Einsatz 1: Igel</a> <small>(Ziel 15: Leben an Land)</small></span></li>
      <li class="bald"><i></i><span>Warmes Znüni <em>bald</em></span></li>
      <li class="bald"><i></i><span>Stromsparen in der Schule <em>bald</em></span></li>
     </ul>
     <div class="sdg" aria-label="Ziele für nachhaltige Entwicklung"><span>SDG 2</span><span>SDG 7</span><span>SDG 13</span><span>SDG 15</span></div>
-    <a class="btn" href="/einsaetze">Zu den Einsätzen</a>
+    <a class="btn" href="https://wetter-4b.vercel.app/einsaetze">Zu den Einsätzen</a>
    </div>
   </section>
 
@@ -168,7 +168,7 @@ header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
 (async()=>{
  const box=document.getElementById('live'),tx=document.getElementById('livetxt');
  try{
-  const r=await fetch('/api/ogd?st=sma',{cache:'no-store'});
+  const r=await fetch('https://wetter-4b.vercel.app/api/ogd?st=sma',{cache:'no-store'});
   if(!r.ok)throw 0;
   const j=await r.json();
   const rows=Array.isArray(j)?j:(j.rows||j.data||[]);

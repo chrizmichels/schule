@@ -1,3 +1,6 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/start", "destination": "https://freiday-4b.vercel.app/", "permanent": false }
+  ]
 }

@@ -16,8 +16,8 @@ Bei fehlender Verbindung zeigt sie gespeicherte Beispieldaten (Badge «Beispield
 ## Klimadetektive (detektive.html)
 Kindgerechte, getrennte Version: `/detektive`. Drei Fälle (Tagesverlauf, zwei Tage vergleichen, drei Orte vergleichen). Ablauf: vermuten, Spur (Messwerte) prüfen, ins Heft schreiben. Nutzt denselben Daten-Weg wie die Wetter-Anzeige (`/api/ogd`, Fallback direkt MeteoSchweiz).
 
-## Startseite (start.html)
-`/start`: drei Bereiche mit gleichem Aufbau, aber eigener Farbe und Schrift: Wetterstation (blau, `/`), SOL-Fälle (Aktenbeige, `/detektive`), FreiDay (grün/gelb, `/einsaetze`). Die Wetter-Anzeige bleibt unter `/`, damit der gedruckte QR-Code weiter funktioniert. Die Kacheln dort haben ein «?» mit Link zum Klexikon (Temperatur, Wind, Wolke, Regen, Sonne, Nebel).
+## Startseite (Ordner landing/, eigenes Vercel-Projekt freiday-4b)
+`https://freiday-4b.vercel.app/` (Quelle: `landing/index.html`; `/start` hier leitet dorthin um): drei Bereiche mit gleichem Aufbau, aber eigener Farbe und Schrift: Wetterstation (blau, `/`), SOL-Fälle (Aktenbeige, `/detektive`), FreiDay (grün/gelb, `/einsaetze`). Die Wetter-Anzeige bleibt auf wetter-4b unter `/`, damit der gedruckte QR-Code weiter funktioniert. Jede Unterseite hat oben einen Link zurück zur Startseite. Die Kacheln dort haben ein «?» mit Link zum Klexikon (Temperatur, Wind, Wolke, Regen, Sonne, Nebel).
 
 ## Looks der drei Bereiche
 - Wetterstation (`index.html`): blau, runde Formen, Messgerät-Symbol. Die vier grünen Kacheln zum Abschreiben bleiben grün.

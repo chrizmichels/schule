@@ -228,10 +228,16 @@ h3{font-family:var(--f-body)}
 .merk{background:var(--hl-soft)}
 .note{background:#fffdf2}
 .note>b:first-child{font-family:var(--f-body)}
+
+.homelink{max-width:1000px;margin:0 auto;padding:12px max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+.homelink a{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:6px 16px;border-radius:99px;background:#fff;color:var(--ink);border:2px solid var(--ink);font-weight:700;font-size:16px;text-decoration:none}
+.homelink a:hover{background:var(--ink);color:#fff}
+.homelink a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 </style>
 
 </head>
 <body>
+<nav class="homelink" aria-label="Zur Startseite"><a href="https://freiday-4b.vercel.app/">‹ Lernwerkstatt 4b (Startseite)</a></nav>
 <main id="app" aria-live="polite"></main>
 <script>
 /* FreiDay-Einsätze: Geschichte der 4b mit SDG-Bezug. Pro Team ein Einsatz, fünf Etappen, Klexikon als Recherche. */
