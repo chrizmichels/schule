@@ -91,10 +91,16 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
 .main.full{grid-template-columns:minmax(0,1fr)}#omap{height:clamp(300px,46vh,480px);margin-top:16px;border-radius:12px;overflow:hidden;background:#dfe6e4;z-index:0}
 .orte{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:700px){.orte{grid-template-columns:minmax(0,1fr)}}
 .ort{background:var(--tile);border-radius:18px;padding:14px 20px 16px}.ort h3{margin:0;font-size:26px}.ort .ov{font-size:clamp(44px,6vw,84px);font-weight:700;line-height:1.1;margin:6px 0;white-space:nowrap}.ort p{margin:0;font-size:19px;color:var(--muted)}
+
+/* Klexikon-Links: kleines «?» oben rechts in jeder Kachel */
+.tile{position:relative}
+.tile .what{position:absolute;top:10px;right:12px;width:2.1em;height:2.1em;min-width:34px;min-height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg);color:var(--fg);border:2px solid var(--line);font-weight:700;font-size:18px;text-decoration:none;line-height:1}
+.tile .what:hover{background:var(--fg);color:var(--bg)}.tile .what:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.startlink{color:inherit;font-size:16px;font-weight:700;text-decoration:underline;display:inline-block;margin-bottom:4px}
 </style>
 <div class="wrap">
  <header>
-  <div><h1>Wetter in Zürich</h1><small>Klasse 4b · Messwerte von MeteoSchweiz (Fluntern) und der Stadt Zürich (Mythenquai), alle 10 Minuten</small></div>
+  <div><a class="startlink" href="/start">‹ Startseite</a><h1>Wetter in Zürich</h1><small>Klasse 4b · Messwerte von MeteoSchweiz (Fluntern) und der Stadt Zürich (Mythenquai), alle 10 Minuten</small></div>
   <div class="ctl">
    <div class="seg" role="group" aria-label="Station">
     <button id="st-fluntern" aria-pressed="true">Zürich-Fluntern<small>556 m ü. M.</small></button>
@@ -119,7 +125,7 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
    <ol id="bft"></ol>
   </aside>
  </div>
- <p class="hint" id="tilehint" style="margin:0">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung.</p>
+ <p class="hint" id="tilehint" style="margin:0">Grüne Kacheln: Diese vier Werte schreibst du ins Messprotokoll, neben deine eigene Beobachtung. Tippe auf das «?» in einer Kachel: Dann erklärt dir das Klexikon, was du siehst.</p>
  <div class="past">
   <label for="d">Tag verpasst?</label>
   <input type="date" id="d" min="2026-10-26"><input type="time" id="t" value="08:30" step="600">
@@ -220,12 +226,12 @@ function render(rows,i,live,why){
   const sk=sky(ts,rad);
   const rn=rows.slice(i,i+3).filter(x=>x[6]!=null);const rainNow=rn.length?(rn.some(x=>x[6]>0)?'ja':'nein'):null;
   $('tiles').innerHTML=
-   '<div class="tile copy"><h2>Temperatur</h2><div class="v">'+fmt(T,1)+'<span class="u">°C</span></div><p>Lufttemperatur</p></div>'+
-   '<div class="tile copy"><h2>Wind</h2><div class="v">'+b+'<span class="u">Beaufort</span></div><p>'+BFT[Math.min(b,7)][0]+' · '+fmt(w,1)+' m/s aus '+(dir!=null?dirName(dir):'–')+'</p></div>'+
-   '<div class="tile copy"><h2>Himmel</h2><div class="v" style="font-size:clamp(34px,4.6vw,60px)">'+(sk?sk.t:'–')+'</div><p>'+(sk?sk.n:'Keine Daten.')+'</p></div>'+
-   '<div class="tile copy"><h2>Regnet es?</h2><div class="v">'+(rainNow||'–')+'</div><p>'+(rainNow?'in den letzten 30 Minuten':'Keine Daten.')+'</p></div>'+
-   '<div class="tile"><h2>Sonne</h2><div class="v">'+(rad==null?'–':Math.round(rad))+'<span class="u">W/m²</span></div><div class="bar"><i style="width:'+(rad==null?0:Math.min(100,rad/8))+'%"></i></div><p>Je mehr, desto sonniger.</p></div>'+
-   '<div class="tile"><h2>Luftfeuchtigkeit</h2><div class="v">'+fmt(hum,0)+'<span class="u">%</span></div><p>100 % heisst Nebel oder Regen</p></div>';
+   '<div class="tile copy"><h2>Temperatur</h2><a class="what" href="https://klexikon.zum.de/wiki/Temperatur" target="_blank" rel="noopener" title="Was ist das? Nachlesen im Klexikon: Temperatur" aria-label="Was ist das? Temperatur im Klexikon nachlesen">?</a><div class="v">'+fmt(T,1)+'<span class="u">°C</span></div><p>Lufttemperatur</p></div>'+
+   '<div class="tile copy"><h2>Wind</h2><a class="what" href="https://klexikon.zum.de/wiki/Wind" target="_blank" rel="noopener" title="Was ist das? Nachlesen im Klexikon: Wind" aria-label="Was ist das? Wind im Klexikon nachlesen">?</a><div class="v">'+b+'<span class="u">Beaufort</span></div><p>'+BFT[Math.min(b,7)][0]+' · '+fmt(w,1)+' m/s aus '+(dir!=null?dirName(dir):'–')+'</p></div>'+
+   '<div class="tile copy"><h2>Himmel</h2><a class="what" href="https://klexikon.zum.de/wiki/Wolke" target="_blank" rel="noopener" title="Was ist das? Nachlesen im Klexikon: Wolke" aria-label="Was ist das? Himmel im Klexikon nachlesen">?</a><div class="v" style="font-size:clamp(34px,4.6vw,60px)">'+(sk?sk.t:'–')+'</div><p>'+(sk?sk.n:'Keine Daten.')+'</p></div>'+
+   '<div class="tile copy"><h2>Regnet es?</h2><a class="what" href="https://klexikon.zum.de/wiki/Regen" target="_blank" rel="noopener" title="Was ist das? Nachlesen im Klexikon: Regen" aria-label="Was ist das? Regnet es im Klexikon nachlesen">?</a><div class="v">'+(rainNow||'–')+'</div><p>'+(rainNow?'in den letzten 30 Minuten':'Keine Daten.')+'</p></div>'+
+   '<div class="tile"><h2>Sonne</h2><a class="what" href="https://klexikon.zum.de/wiki/Sonne" target="_blank" rel="noopener" title="Was ist das? Nachlesen im Klexikon: Sonne" aria-label="Was ist das? Sonne im Klexikon nachlesen">?</a><div class="v">'+(rad==null?'–':Math.round(rad))+'<span class="u">W/m²</span></div><div class="bar"><i style="width:'+(rad==null?0:Math.min(100,rad/8))+'%"></i></div><p>Je mehr, desto sonniger.</p></div>'+
+   '<div class="tile"><h2>Luftfeuchtigkeit</h2><a class="what" href="https://klexikon.zum.de/wiki/Nebel" target="_blank" rel="noopener" title="Was ist das? Nachlesen im Klexikon: Nebel" aria-label="Was ist das? Luftfeuchtigkeit im Klexikon nachlesen">?</a><div class="v">'+fmt(hum,0)+'<span class="u">%</span></div><p>100 % heisst Nebel oder Regen</p></div>';
   LAST={rows,i};if(tab==='v')drawTV();
   [...document.querySelectorAll('#bft li')].forEach((li,k)=>li.classList.toggle('on',k===Math.min(b,7)));
 }

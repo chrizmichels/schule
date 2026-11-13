@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lernwerkstatt 4b</title>
+<meta name="description" content="Startseite der Klasse 4b: Wetterstation, SOL-Detektivgeschichten und FreiDay-Projekte.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Startseite: drei Bereiche mit gleichem Aufbau (Kopfband, Titel, Satz, Liste, Knopf), aber je eigener Farbe, Schrift und Form.
+   Wetterstation = blau, rund, Messgerät. SOL = Aktenbeige, eckig, Stempel. FreiDay = grün/sonnengelb, Wegmarke, Handschrift. */
+:root{--bg:#f4f5f2;--ink:#1c2420;--muted:#55605a;--card:#fff;--line:#d9ddd6;
+ --w:#1f6fb5;--w-soft:#dcebf8;--w-ink:#0d2b47;
+ --s:#8a6a2a;--s-soft:#e7d6ae;--s-edge:#cdb886;--s-paper:#fbfaf6;--s-ink:#2a2112;--stamp:#b3302a;
+ --f:#2c7a4b;--f-soft:#def0e2;--f-sun:#f2c14e;--f-ink:#10301d;
+ --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121513;--ink:#eef1ee;--muted:#a9b2ab;--card:#1b1f1c;--line:#343b36;--w-soft:#1b3047;--w-ink:#dcebf8;--s-soft:#3a3322;--s-edge:#5d5236;--s-paper:#24211a;--s-ink:#f0e6cc;--f-soft:#1d3426;--f-ink:#def0e2;color-scheme:dark}
+ .kx a{color:#8ec3f0;border-color:#8ec3f0}
+ :root:not([data-theme="light"]) .b-s .btn{background:var(--s-soft);color:var(--s-ink)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.45;padding:24px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+header.top{margin:8px 0 26px}
+header.top h1{margin:0;font-family:"Zilla Slab",Georgia,serif;font-size:clamp(32px,5vw,52px);line-height:1.1}
+header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+@media(max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+/* gemeinsamer Aufbau */
+.bereich{display:flex;flex-direction:column;background:var(--card);border:2px solid var(--line);overflow:hidden;min-width:0}
+.band{position:relative;display:flex;align-items:center;gap:14px;padding:16px 20px}
+.band svg{flex:none;width:54px;height:54px}
+.band small{display:block;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.band h2{margin:0;font-size:clamp(26px,3vw,32px);line-height:1.1}
+.body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:14px;flex:1}
+.body>p{margin:0;font-size:19px}
+.body h3{margin:4px 0 0;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.liste{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.liste li{display:flex;gap:10px;align-items:flex-start}
+.liste li i{flex:none;width:12px;height:12px;margin-top:7px}
+.liste .bald{color:var(--muted)}
+.liste .bald em{font-style:normal;font-size:13px;font-weight:700;padding:1px 8px;border:1.5px dashed currentColor;border-radius:99px;margin-left:6px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;padding:14px 22px;font:inherit;font-weight:700;font-size:19px;text-decoration:none;min-height:52px;text-align:center}
+.btn:focus-visible,.kx a:focus-visible,.liste a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.spacer{flex:1}
+/* WETTERSTATION */
+.b-w{border-radius:26px;border-color:var(--w);font-family:"Andika",var(--f-body)}
+.b-w .band{background:var(--w);color:#fff}
+.b-w .liste li i{border-radius:50%;background:var(--w)}
+.b-w .btn{background:var(--w);color:#fff;border-radius:99px}
+.b-w .live{display:flex;gap:10px;align-items:center;background:var(--w-soft);color:var(--w-ink);border-radius:16px;padding:10px 14px;font-size:17px}
+.b-w .live b{white-space:nowrap;font-size:28px;font-variant-numeric:tabular-nums}
+.b-w .live .dot{width:10px;height:10px;border-radius:50%;background:#9aa3a3;flex:none}.b-w .live.on .dot{background:#1d9d6a}
+.kx{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.kx a{display:inline-block;padding:5px 12px;border-radius:99px;border:2px solid var(--w);color:var(--w);font-weight:700;text-decoration:none;font-size:16px}
+.kx a:hover{background:var(--w-soft)}
+/* SOL */
+.b-s{border-radius:6px;border-color:var(--s-edge);background:var(--s-soft);color:var(--s-ink);position:relative;font-family:"Zilla Slab",Georgia,serif}
+.b-s .band{background:var(--s-edge);color:var(--s-ink);border-bottom:2px solid rgba(0,0,0,.12)}
+.b-s .band h2{font-family:"Zilla Slab",Georgia,serif;font-weight:700}
+.b-s .body{background:var(--s-paper);margin:14px;border:1px solid var(--s-edge);box-shadow:0 2px 0 rgba(0,0,0,.08);padding-top:16px;position:relative}
+.b-s .body>p,.b-s .liste{font-family:var(--f-body)}
+.b-s .liste li i{border-radius:0;background:var(--s)}
+.b-s .btn{background:var(--s-ink);color:var(--s-soft);border-radius:3px;font-family:"Courier Prime","Courier New",monospace;letter-spacing:.02em}
+.stempel{position:absolute;bottom:10px;right:14px;transform:rotate(6deg);border:3px solid var(--stamp);color:var(--stamp);font:700 14px "Courier Prime",monospace;letter-spacing:.1em;padding:3px 9px;border-radius:4px;opacity:.85}
+.b-s .liste a,.b-f .liste a{color:inherit;font-weight:700}
+/* FREIDAY */
+.b-f{border-radius:8px 8px 40px 8px;border-color:var(--f);background:var(--card)}
+.b-f .band{background:var(--f);color:#fff;position:relative}
+.b-f .band h2{font-family:"Caveat","Atkinson Hyperlegible",cursive;font-size:clamp(34px,4vw,42px);font-weight:700}
+.b-f .band::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:14px;background:radial-gradient(circle at 10px 0,var(--f) 9px,transparent 10px) 0 0/20px 14px repeat-x}
+.b-f .body{padding-top:26px}
+.b-f .liste li i{width:14px;height:14px;transform:rotate(45deg);background:var(--f-sun);border:2px solid var(--f);margin-top:6px}
+.b-f .btn{background:var(--f-sun);color:#2a2000;border-radius:14px 14px 14px 4px;border:2px solid var(--f)}
+.logbuch{background:var(--f-soft);color:var(--f-ink);border-left:6px solid var(--f-sun);padding:10px 14px;border-radius:0 12px 12px 0;font-family:"Caveat",cursive;font-size:23px;line-height:1.25}
+.sdg{display:flex;flex-wrap:wrap;gap:6px}
+.sdg span{font-size:14px;font-weight:700;padding:2px 9px;border-radius:6px;background:var(--f-soft);color:var(--f-ink)}
+.fuss{margin:30px 0 0;color:var(--muted);font-size:15px}
+.fuss a{color:inherit}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="top">
+  <h1>Lernwerkstatt 4b</h1>
+  <p>Hier findest du alles für die Klasse 4b. Wähle einen Bereich.</p>
+ </header>
+
+ <main class="grid">
+
+  <!-- Wetterstation -->
+  <section class="bereich b-w" aria-labelledby="h-w">
+   <div class="band">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="29" fill="#fff" opacity=".18"/><circle cx="32" cy="32" r="22" fill="none" stroke="#fff" stroke-width="4"/><path d="M32 32 L43 18" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="32" r="4" fill="#fff"/><path d="M14 44h8M42 44h8" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>
+    <div><small>Messen und staunen</small><h2 id="h-w">Wetterstation</h2></div>
+   </div>
+   <div class="body">
+    <div class="live" id="live"><span class="dot"></span><span id="livetxt">Messwerte werden geladen …</span></div>
+    <p>Wie warm ist es gerade in Zürich? Woher kommt der Wind? Schau dir die Messwerte an und probiere aus.</p>
+    <h3>Das kannst du tun</h3>
+    <ul class="liste">
+     <li><i></i><span>Werte von heute ansehen</span></li>
+     <li><i></i><span>Zwischen zwei Messstationen wechseln</span></li>
+     <li><i></i><span>Einen früheren Tag anschauen</span></li>
+     <li><i></i><span>Den Tagesverlauf und die Karte öffnen</span></li>
+    </ul>
+    <h3>Was ist das? Nachlesen im Klexikon</h3>
+    <ul class="kx">
+     <li><a href="https://klexikon.zum.de/wiki/Wetter" target="_blank" rel="noopener">Wetter</a></li>
+     <li><a href="https://klexikon.zum.de/wiki/Temperatur" target="_blank" rel="noopener">Temperatur</a></li>
+     <li><a href="https://klexikon.zum.de/wiki/Wind" target="_blank" rel="noopener">Wind</a></li>
+     <li><a href="https://klexikon.zum.de/wiki/Wolke" target="_blank" rel="noopener">Wolke</a></li>
+     <li><a href="https://klexikon.zum.de/wiki/Regen" target="_blank" rel="noopener">Regen</a></li>
+     <li><a href="https://klexikon.zum.de/wiki/Sonne" target="_blank" rel="noopener">Sonne</a></li>
+     <li><a href="https://klexikon.zum.de/wiki/Nebel" target="_blank" rel="noopener">Nebel</a></li>
+    </ul>
+    <a class="btn" href="/">Zur Wetterstation</a>
+   </div>
+  </section>
+
+  <!-- SOL -->
+  <section class="bereich b-s" aria-labelledby="h-s">
+   <div class="band">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="26" cy="26" r="15" fill="none" stroke="currentColor" stroke-width="5"/><path d="M37 37 L56 56" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M19 26h14" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".6"/></svg>
+    <div><small>Selbst organisiert lernen</small><h2 id="h-s">SOL-Fälle</h2></div>
+    <span class="stempel" aria-hidden="true">GEHEIM</span>
+   </div>
+   <div class="body">
+    <p>Ihr seid Detektive. Jeder Fall hat eine Geschichte, Spuren und Beweisstücke. Löst ihn Schritt für Schritt.</p>
+    <h3>Eure Fälle</h3>
+    <ul class="liste">
+     <li><i></i><span><a href="/detektive">Klimadetektive</a> <small>(Wetter und Klima)</small></span></li>
+     <li class="bald"><i></i><span>Energie <em>bald</em></span></li>
+     <li class="bald"><i></i><span>Körper und Essen <em>bald</em></span></li>
+     <li class="bald"><i></i><span>Natur und Entwicklung <em>bald</em></span></li>
+     <li class="bald"><i></i><span>Stadt Zürich <em>bald</em></span></li>
+    </ul>
+    <span class="spacer"></span>
+    <a class="btn" href="/detektive">Fall öffnen: Klimadetektive</a>
+   </div>
+  </section>
+
+  <!-- FreiDay -->
+  <section class="bereich b-f" aria-labelledby="h-f">
+   <div class="band">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6c-9 0-16 7-16 16 0 11 16 30 16 30s16-19 16-30c0-9-7-16-16-16z" fill="#fff" opacity=".2"/><path d="M32 6c-9 0-16 7-16 16 0 11 16 30 16 30s16-19 16-30c0-9-7-16-16-16z" fill="none" stroke="#fff" stroke-width="4"/><circle cx="32" cy="22" r="6" fill="#f2c14e"/><path d="M14 58h36" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>
+    <div><small>Projekte</small><h2 id="h-f">FreiDay</h2></div>
+   </div>
+   <div class="body">
+    <p>Die 4b macht sich auf den Weg und verbessert die Welt: im Team, mit eigenen Ideen und mit Projekten, die wirklich etwas verändern.</p>
+    <div class="logbuch">Logbuch der 4b: Wir üben, wie man ein Projekt plant, baut und auswertet.</div>
+    <h3>Unsere Einsätze</h3>
+    <ul class="liste">
+     <li><i></i><span><a href="/einsaetze">Einsatz 1: Igel</a> <small>(Ziel 15: Leben an Land)</small></span></li>
+     <li class="bald"><i></i><span>Warmes Znüni <em>bald</em></span></li>
+     <li class="bald"><i></i><span>Stromsparen in der Schule <em>bald</em></span></li>
+    </ul>
+    <div class="sdg" aria-label="Ziele für nachhaltige Entwicklung"><span>SDG 2</span><span>SDG 7</span><span>SDG 13</span><span>SDG 15</span></div>
+    <a class="btn" href="/einsaetze">Zu den Einsätzen</a>
+   </div>
+  </section>
+
+ </main>
+ <p class="fuss">Messdaten: MeteoSchweiz und Stadt Zürich (Open Data). Erklärungen: <a href="https://klexikon.zum.de" target="_blank" rel="noopener">Klexikon</a>.</p>
+</div>
+<script>
+/* Kleine Live-Zeile: neuester Wert Fluntern. Bei Fehler bleibt der Text neutral. */
+(async()=>{
+ const box=document.getElementById('live'),tx=document.getElementById('livetxt');
+ try{
+  const r=await fetch('/api/ogd?st=sma',{cache:'no-store'});
+  if(!r.ok)throw 0;
+  const j=await r.json();
+  const rows=Array.isArray(j)?j:(j.rows||j.data||[]);
+  const x=rows&&rows[0];
+  const T=x&&(Array.isArray(x)?x[1]:(x.t??x.temp));
+  if(typeof T!=='number')throw 0;
+  box.classList.add('on');
+  tx.innerHTML='Jetzt in Zürich-Fluntern: <b>'+T.toFixed(1).replace('.',',')+' °C</b>';
+ }catch(e){tx.textContent='Öffne die Wetterstation für die neuesten Werte.'}
+})();
+</script>
+</body>
+</html>
