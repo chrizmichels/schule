@@ -239,7 +239,8 @@ function lineChart(o){
  for(let m=x0;m<=x1;m+=120){s+=`<line x1="${X(m)}" x2="${X(m)}" y1="${T0}" y2="${H-B}" stroke="#e3e8e7" stroke-width="1.5"/><text x="${X(m)}" y="${H-B+24}" text-anchor="middle" font-size="18" fill="#14211f">${m/60}</text>`}
  s+=`<text x="${L}" y="20" font-size="17" font-weight="700" fill="#14211f">°C</text><text x="${(L+W-R)/2}" y="${H-6}" text-anchor="middle" font-size="17" fill="#44544f">Uhrzeit</text>`;
  o.series.forEach(se=>{if(se.pts.length>1)s+=`<polyline fill="none" stroke="${se.color}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" ${se.dash?'stroke-dasharray="12 9"':''} points="${se.pts.map(p=>X(p.m).toFixed(1)+','+Y(p.T).toFixed(1)).join(' ')}"/>`});
- (o.dots||[]).forEach(d=>{s+=`<circle cx="${X(d.m)}" cy="${Y(d.T)}" r="7" fill="${d.color||'#fff'}" stroke="#14211f" stroke-width="3"/>`});
+ (o.dots||[]).forEach(d=>{const big=d.big;s+=`<circle cx="${X(d.m)}" cy="${Y(d.T)}" r="${big?11:8}" fill="${d.color||'#fff'}" stroke="#14211f" stroke-width="3.5"/>`;
+  if(d.label){const cx=Math.min(W-R-22,Math.max(L+22,X(d.m)));s+=`<text x="${cx}" y="${Y(d.T)+(d.below?38:-18)}" text-anchor="middle" font-size="21" font-weight="700" fill="#14211f" stroke="#fff" stroke-width="5" paint-order="stroke">${d.label}</text>`}});
  (o.flags||[]).forEach(f=>{const cx=Math.min(W-R-34,Math.max(L+34,X(f.m))),cy=Y(f.T),up=f.pos!=='down';
   s+=`<circle cx="${X(f.m)}" cy="${cy}" r="10" fill="${f.color}" stroke="#14211f" stroke-width="3.5"/><text x="${cx}" y="${cy+(up?-18:32)}" text-anchor="middle" font-size="21" font-weight="700" fill="#14211f" stroke="#fff" stroke-width="5" paint-order="stroke">${f.text}</text>`});
  return s+'</svg>'}
@@ -310,11 +311,13 @@ function viewF1(){const f=S.f1,ok=vermOK(1);
  return h}
 function st1(r){if(r.empty)return emptyBox('Für diesen Tag gibt es keine Messwerte. Wähle einen anderen Tag.');
  return `<p class="muted">Temperatur am ${dlabel(S.f1.day)}, in °C${r.partial?' (der Tag ist noch nicht zu Ende)':''}</p><div class="cells">`+[8,10,12,14,16,18,20].map((hh,i)=>`<div class="cell"><span>${hh} Uhr</span><b>${fT(r.h2[i])}</b></div>`).join('')+`</div>`}
+const hs=a=>a.join(' und ')+' Uhr';
 function sol1(r){const f=S.f1;
- let h='<h3>Die Lösung</h3>'+FB('info','Am wärmsten war es um '+hm(r.mx.m)+' Uhr.',`<p><b>${fT(r.mx.T)} °C</b> (${dlabel(f.day)}) Am kältesten: ${hm(r.mn.m)} Uhr, ${fT(r.mn.T)} °C.</p>`,1);
- h+=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#d62828'}],dots:r.dots,flags:[{m:r.mx.m,T:r.mx.T,text:fT(r.mx.T)+' °C',color:'#f2d24b',pos:'up'},{m:r.mn.m,T:r.mn.T,text:fT(r.mn.T)+' °C',color:'#cfe0f7',pos:'down'}],aria:'Temperatur am '+dlabel(f.day)+' von 8 bis 20 Uhr. Am wärmsten um '+hm(r.mx.m)+' Uhr, '+fT(r.mx.T)+' Grad.'})}</div><p class="muted">Gelb: am wärmsten. Blau: am kältesten. Vergleiche mit deiner roten Kurve.</p>`;
+ let h='<h3>Die Lösung</h3>'+FB('info','Am wärmsten war es um '+hs(r.mxH)+'.',`<p><b>${fT(r.mxT)} °C</b> (${dlabel(f.day)}) Am kältesten um ${hs(r.mnH)}: ${fT(r.mnT)} °C.</p>`,1);
+ const dots=r.s.map(p=>{const v=r1(p.T);return{m:p.m,T:p.T,label:fT(p.T),big:v===r.mxT||v===r.mnT,color:v===r.mxT?'#f2d24b':v===r.mnT?'#cfe0f7':'#fff',below:v===r.mnT&&v!==r.mxT}});
+ h+=`<div class="fig">${lineChart({series:[{pts:r.s,color:'#d62828'}],dots,aria:'Temperatur am '+dlabel(f.day)+', gemessen alle 2 Stunden von 8 bis 20 Uhr. Am wärmsten um '+hs(r.mxH)+', '+fT(r.mxT)+' Grad.'})}</div><p class="muted">Gelb: am wärmsten. Blau: am kältesten. Vergleiche mit deiner roten Kurve.</p>`;
  h+=selfBox(1,'Hat deine Vermutung gestimmt?');
- h+=noteBox([`Am <b>${dlabel(f.day)}</b> war es um <span class="blank">${hm(r.mx.m)}</span> Uhr am wärmsten: <span class="blank">${fT(r.mx.T)}</span> °C.`,`Meine Vermutung war <span class="blank">richtig / nicht ganz richtig</span>.`])+`<p class="think">Denk nach: Was macht die Luft warm?</p>`;
+ h+=noteBox([`Am <b>${dlabel(f.day)}</b> war es um <span class="blank">${r.mxH.join(' und ')}</span> Uhr am wärmsten: <span class="blank">${fT(r.mxT)}</span> °C.`,`Meine Vermutung war <span class="blank">richtig / nicht ganz richtig</span>.`])+`<p class="think">Denk nach: Was macht die Luft warm?</p>`;
  return h+doneBtns('1')}
 
 /* ----- Akte 2 ----- */
@@ -330,8 +333,8 @@ function st2(r){if(r.empty)return emptyBox(`Für ${esc(r.empty)} gibt es keine M
 function sol2(r){const f=S.f2;
  const A=dlabel(f.a),B=dlabel(f.b),d=r.avgA-r.avgB,ad=Math.abs(d),truth=ad<0.5?'eq':d>0?'A':'B',warmer=truth==='A'?A:B;
  let h='<h3>Die Lösung</h3>'+(truth==='eq'?FB('info','Fast gleich warm.',`<p>Der Unterschied ist nur <b>${fT(ad)} °C</b>.</p>`,1):FB('info',warmer+' war wärmer.',`<p>Im Schnitt <b>${fT(ad)} °C</b> mehr.</p>`,1));
- h+=`<div class="two-days"><div class="day a ${truth==='A'?'win':''}"><h4><span class="rot">Rot</span>: ${A}</h4><div class="big">${fT(r.avgA)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxA)} °C</small></div><div class="day b ${truth==='B'?'win':''}"><h4><span class="blau">Blau</span>: ${B}</h4><div class="big">${fT(r.avgB)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxB)} °C</small></div></div><p class="muted">Schnitt = ein typischer Wert für den ganzen Tag (8 bis 20 Uhr).</p>`;
- h+=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#d62828'},{pts:r.sB,color:'#1d4ed8',dash:true}],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: rot '+A+', blau '+B+'.'})}<div class="legend"><span><i></i>Rot: ${A}</span><span><i class="b"></i>Blau: ${B}</span></div></div><p class="muted">Vergleiche mit deinen Kurven auf KM 54.2.</p>`;
+ h+=`<div class="two-days"><div class="day a ${truth==='A'?'win':''}"><h4><span class="rot">Rot</span>: ${A}</h4><div class="big">${fT(r.avgA)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxA)} °C</small></div><div class="day b ${truth==='B'?'win':''}"><h4><span class="blau">Blau</span>: ${B}</h4><div class="big">${fT(r.avgB)} °C</div><small>im Schnitt</small><small>am wärmsten: ${fT(r.mxB)} °C</small></div></div><p class="muted">Schnitt = alle 7 Messwerte zusammen, geteilt durch 7.</p>`;
+ h+=`<div class="fig">${lineChart({series:[{pts:r.sA,color:'#d62828'},{pts:r.sB,color:'#1d4ed8',dash:true}],dots:[...r.sA.map(p=>({m:p.m,T:p.T,color:'#d62828'})),...r.sB.map(p=>({m:p.m,T:p.T,color:'#1d4ed8'}))],aria:'Temperatur an zwei Tagen von 8 bis 20 Uhr: rot '+A+', blau '+B+'.'})}<div class="legend"><span><i></i>Rot: ${A}</span><span><i class="b"></i>Blau: ${B}</span></div></div><p class="muted">Vergleiche mit deinen Kurven auf KM 54.2.</p>`;
  h+=selfBox(2,'Hat deine Vermutung gestimmt?');
  h+=noteBox([truth==='eq'?`Am <b>${A}</b> und am <b>${B}</b> war es fast gleich warm.`:`Am <b>${warmer}</b> war es wärmer: im Schnitt <span class="blank">${fT(ad)}</span> °C mehr.`,`Ich vermute, dass … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> weil … <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`])+`<p class="think">Denk nach: Was war an den Tagen anders? Sonne? Wolken? Wind?</p>`;
  return h+doneBtns('2')}
@@ -390,16 +393,19 @@ async function drawMap(){try{await loadLeaflet()}catch(e){const el=$('#map');if(
 /* ---------- Berechnung der Spuren ---------- */
 const H2=[8,10,12,14,16,18,20];
 const partialDay=day=>{const n=zurichKey(Date.now());return day===n.slice(0,10)&&(+n.slice(11,13)*60+ +n.slice(14,16))<1200};
-async function calc1(){const f=S.f1,mp=await station('sma',f.day),s=daySeries(mp,f.day);
+const r1=x=>Math.round(x*10)/10;
+const hser=(mp,day)=>H2.map(h=>at(mp,day+'T'+p2(h)+':00'));
+const spts=h2=>H2.map((h,i)=>h2[i]!=null?{m:h*60,T:h2[i]}:null).filter(Boolean);
+async function calc1(){const f=S.f1,mp=await station('sma',f.day);
+ const h2=hser(mp,f.day),s=spts(h2);
  if(s.length<3)return{empty:true};
- const mx=s.reduce((a,b)=>b.T>a.T?b:a),mn=s.reduce((a,b)=>b.T<a.T?b:a);
- const h2=H2.map(h=>at(mp,f.day+'T'+p2(h)+':00'));
- return{s,mx,mn,h2,dots:H2.map((h,i)=>h2[i]!=null?{m:h*60,T:h2[i]}:null).filter(Boolean),partial:partialDay(f.day)}}
+ const mxT=Math.max(...s.map(p=>r1(p.T))),mnT=Math.min(...s.map(p=>r1(p.T)));
+ return{s,h2,mxT,mnT,mxH:s.filter(p=>r1(p.T)===mxT).map(p=>p.m/60),mnH:s.filter(p=>r1(p.T)===mnT).map(p=>p.m/60),partial:partialDay(f.day)}}
 async function calc2(){const f=S.f2,[ma,mb]=await Promise.all([station('sma',f.a),station('sma',f.b)]);
- const sA=daySeries(ma,f.a),sB=daySeries(mb,f.b);
+ const hA=hser(ma,f.a),hB=hser(mb,f.b),sA=spts(hA),sB=spts(hB);
  if(sA.length<3)return{empty:dlabel(f.a)};if(sB.length<3)return{empty:dlabel(f.b)};
  const avg=a=>a.reduce((x,y)=>x+y.T,0)/a.length,mxf=a=>Math.max(...a.map(x=>x.T));
- return{sA,sB,avgA:avg(sA),avgB:avg(sB),mxA:mxf(sA),mxB:mxf(sB),hA:H2.map(h=>at(ma,f.a+'T'+p2(h)+':00')),hB:H2.map(h=>at(mb,f.b+'T'+p2(h)+':00')),partial:partialDay(f.a)||partialDay(f.b)}}
+ return{sA,sB,avgA:avg(sA),avgB:avg(sB),mxA:mxf(sA),mxB:mxf(sB),hA,hB,partial:partialDay(f.a)||partialDay(f.b)}}
 async function calc3(){const f=S.f3,codes=['lug','sma','zer'];
  const res=await Promise.allSettled(codes.map(c=>station(c,f.day)));
  const mps={};res.forEach((x,i)=>{if(x.status==='fulfilled')mps[codes[i]]=x.value});
