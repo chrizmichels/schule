@@ -88,6 +88,8 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
 .pin i{display:block;width:22px;height:22px;margin:2px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.55)}
 .leaflet-tooltip.lbl{font-family:inherit;font-weight:700;font-size:15px;line-height:1.25;color:#14211f;border:2px solid #14211f;border-radius:8px;padding:3px 9px;box-shadow:none}
 .leaflet-tooltip.lbl .tt{display:block;font-style:normal;font-weight:800;font-size:22px;line-height:1.15}.leaflet-tooltip.lbl small{display:block;font-weight:400;font-size:12.5px}
+.orte{display:grid;gap:16px;grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:700px){.orte{grid-template-columns:minmax(0,1fr)}}
+.ort{background:var(--tile);border-radius:18px;padding:14px 20px 16px}.ort h3{margin:0;font-size:26px}.ort .ov{font-size:clamp(44px,6vw,84px);font-weight:700;line-height:1.1;margin:6px 0;white-space:nowrap}.ort p{margin:0;font-size:19px;color:var(--muted)}
 </style>
 <div class="wrap">
  <header>
@@ -103,11 +105,12 @@ html.k #map{height:clamp(260px,calc(100vh - 310px),620px)}
    </div>
   </div>
  </header>
- <div class="status"><div class="srow"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Tag wechseln"><button id="wb" title="1 Tag zurück (bis 7 Tage)">‹ Zurück</button><button id="wh" disabled>Heute</button><button id="wf" title="1 Tag vor" disabled>Vor ›</button></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button><button id="tab-m" aria-pressed="false">Karte</button></span></div></div>
+ <div class="status"><div class="srow"><span id="badge" class="pill demo">lädt …</span><span id="stand"></span><span class="tabs" role="group" aria-label="Tag wechseln"><button id="wb" title="1 Tag zurück (bis 7 Tage)">‹ Zurück</button><button id="wh" disabled>Heute</button><button id="wf" title="1 Tag vor" disabled>Vor ›</button></span><span class="tabs" role="group" aria-label="Ansicht"><button id="tab-w" aria-pressed="true">Werte</button><button id="tab-v" aria-pressed="false">Tagesverlauf</button><button id="tab-m" aria-pressed="false">Karte</button><button id="tab-o" aria-pressed="false">Orte</button></span></div></div>
  <div class="main">
   <section>
    <div class="tiles" id="tiles"></div>
    <div class="tv" id="tv" hidden></div>
+   <div class="tv" id="ov" hidden></div>
    <div class="tv" id="mv" hidden><h2>Wo wir messen</h2><div id="map"></div><p class="hint" id="maptxt" style="margin:8px 0 0"></p></div>
   </section>
   <aside aria-labelledby="wind-h">
@@ -171,12 +174,12 @@ function parseOGD(txt){const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=
  return L.slice(1).map(l=>{const a=l.split(';'),m=(a[c.ts]||'').match(/(\d+)\.(\d+)\.(\d+) (\d+):(\d+)/);if(!m)return null;const ms=Date.UTC(+m[3],+m[2]-1,+m[1],+m[4],+m[5]);
   const ws=c.ws>=0&&num(a[c.ws])!=null?num(a[c.ws]):(c.wk>=0&&num(a[c.wk])!=null?num(a[c.wk])/3.6:null),gs=c.gs>=0&&num(a[c.gs])!=null?num(a[c.gs]):(c.gk>=0&&num(a[c.gk])!=null?num(a[c.gk])/3.6:null);
   return[zurichKey(ms),num(a[c.t]),ws,gs,num(a[c.d]),num(a[c.p]),num(a[c.r]),num(a[c.g]),num(a[c.h])]}).filter(r=>r&&(r[1]!=null||r[2]!=null||r[7]!=null||r[8]!=null)).sort((a,b)=>a[0]<b[0]?1:-1)}
-function parseVQHA(txt){const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=>H.indexOf(n),l=L.find(x=>x.startsWith('SMA;'));if(!l)throw new Error('SMA fehlt');const a=l.split(';'),m=a[ix('Date')].match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/);const ms=Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);const f=n=>num(a[ix(n)]);
+function parseVQHA(txt,code){code=(code||'sma').toUpperCase();const L=txt.trim().split(/\r?\n/),H=L[0].split(';'),ix=n=>H.indexOf(n),l=L.find(x=>x.startsWith(code+';'));if(!l)throw new Error(code+' fehlt');const a=l.split(';'),m=a[ix('Date')].match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/);const ms=Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5]);const f=n=>num(a[ix(n)]);
  const r=[zurichKey(ms),f('tre200s0'),f('fu3010z0')!=null?f('fu3010z0')/3.6:null,f('fu3010z1')!=null?f('fu3010z1')/3.6:null,f('dkl010z0'),f('prestas0'),f('rre150z0'),f('gre000z0'),f('ure200s0')];if(r[1]==null&&r[2]==null&&r[7]==null&&r[8]==null)throw new Error('Wert leer');return[r]}
 async function getTxt(url){const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);try{const r=await fetch(url,{signal:ctl.signal,cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.text()}finally{clearTimeout(to)}}
-async function loadFl(tgt){
-  const jobs=[['10-Min-Datei',async()=>{let rows=parseOGD(await getTxt(MCH+'ogd-smn/sma/ogd-smn_sma_t_now.csv'));if(tgt&&rows.length&&rows[rows.length-1][0]>toKey(tgt)){const old=parseOGD(await getTxt(MCH+'ogd-smn/sma/ogd-smn_sma_t_recent.csv'));rows=old}if(!rows.length)throw new Error('keine Daten');return rows}],
-             ['aktuell',async()=>parseVQHA(await getTxt(MCH+'messwerte-aktuell/VQHA80.csv'))]];
+async function loadFl(tgt,code){code=code||'sma';
+  const jobs=[['10-Min-Datei',async()=>{let rows=parseOGD(await getTxt(MCH+'ogd-smn/'+code+'/ogd-smn_'+code+'_t_now.csv'));if(tgt&&rows.length&&rows[rows.length-1][0]>toKey(tgt)){const old=parseOGD(await getTxt(MCH+'ogd-smn/'+code+'/ogd-smn_'+code+'_t_recent.csv'));rows=old}if(!rows.length)throw new Error('keine Daten');return rows}],
+             ['aktuell',async()=>parseVQHA(await getTxt(MCH+'messwerte-aktuell/VQHA80.csv'),code)]];
   const res=await Promise.allSettled(jobs.map(j=>j[1]()));
   window.DIAG='MeteoSchweiz: '+res.map((x,k)=>jobs[k][0]+' '+(x.status==='fulfilled'?'neuester Wert '+dm(x.value[0][0]):(x.reason&&x.reason.name==='AbortError'?'Zeit':(x.reason&&x.reason.message)||'Fehler'))).join(' | ');
   const ok=res.filter(x=>x.status==='fulfilled').map(x=>x.value);if(!ok.length)throw new Error('MeteoSchweiz nicht erreichbar');
@@ -243,7 +246,22 @@ function drawTV(){
   for(let h=0;h<=24;h+=3)tx+='<text class="m hl" x="'+X(h*60)+'" y="'+(H-B+22)+'" text-anchor="middle" font-size="15">'+h+' Uhr</text>';
   tx+='<text class="m hl" x="'+(L-8)+'" y="'+(T-14)+'" text-anchor="end" font-size="14">'+M.u+'</text>';
   box.innerHTML=ttl+'<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+M.n+' über den Tag">'+g+tx+'</svg>'}
-function setTab(t){tab=t;['w','v','m'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';if(t==='v')drawTV();if(t==='m')showMap()}
+
+const ORTE=[{k:'lug',n:'Lugano',kt:'Tessin',h:273,c:'#e8a33d'},{k:'sma',n:'Zürich',kt:'Zürich',h:556,c:'#28c6a4'},{k:'zer',n:'Zermatt',kt:'Wallis',h:1638,c:'#5b7cd6'}];
+let ORTV=0;
+async function showOrte(){
+  const box=$('ov'),my=++ORTV,t=curTarget();
+  if(!box.dataset.ready){box.innerHTML='<h2>Orte vergleichen</h2><p class="hint" style="margin:0 0 10px">Gleicher Zeitpunkt, drei Orte in der Schweiz.</p><div id="orte" class="orte"></div><p class="hint" id="ortetxt" style="margin:10px 0 0"></p>';box.dataset.ready='1'}
+  $('orte').innerHTML=ORTE.map(o=>'<div class="ort" style="border-top:10px solid '+o.c+'"><h3>'+o.n+'</h3><div class="ov">…</div><p>Kanton '+o.kt+'<br>Station: '+String(o.h).replace(/(\d)(\d{3})$/,"$1'$2")+' m ü. M.</p></div>').join('');
+  const res=await Promise.allSettled(ORTE.map(o=>loadFl(t,o.k)));
+  if(my!==ORTV)return;
+  const vals=res.map(r=>{if(r.status!=='fulfilled')return null;const rows=r.value.rows,j=pick(rows,t),x=rows[j<0?0:j];return x?{ts:x[0],T:x[1]}:null});
+  const cards=$('orte').children;
+  vals.forEach((v,i)=>{cards[i].querySelector('.ov').textContent=v&&v.T!=null?fT(v.T):'–'});
+  const ok=vals.filter(v=>v&&v.T!=null);
+  $('ortetxt').textContent=ok.length?('Zeitpunkt: '+dm(ok[0].ts)+'. Daten: MeteoSchweiz.'):'Keine Daten. Bitte später nochmals versuchen.';
+}
+function setTab(t){tab=t;['w','v','m','o'].forEach(k=>$('tab-'+k).setAttribute('aria-pressed',String(k===t)));$('tiles').hidden=t!=='w';$('tilehint').hidden=t!=='w';$('tv').hidden=t!=='v';$('mv').hidden=t!=='m';$('ov').hidden=t!=='o';if(t==='v')drawTV();if(t==='m')showMap();if(t==='o')showOrte()}
 function syncMode(){$('std').setAttribute('aria-pressed',String(mode==='std'));$('now').setAttribute('aria-pressed',String(mode==='now'))}
 const TEMPS={fluntern:null,mythenquai:null};
 function fT(v){return v==null?'–':String(Math.round(v*10)/10).replace('.',',')+' °C'}
@@ -258,6 +276,7 @@ async function run(){syncMode();
   const i=pick(rows,curTarget());
   if(i<0){render(rows,-1,live,why)}else{render(rows,i,live,why)}
   TEMPS[station]=(rows[i<0?0:i]||[])[1];mapTemps();otherTemp(station);
+  if(tab==='o')showOrte();
   if(mode!=='past')timer=setTimeout(run,5*60000);
 }
 function buildBft(){$('bft').innerHTML=BFT.map((b,k)=>'<li><b>'+k+'</b><span><strong>'+b[0]+'</strong><br>'+b[1]+'</span></li>').join('')}
@@ -275,7 +294,7 @@ function wk(dir){const now=new Date(),t0=new Date(now.getFullYear(),now.getMonth
 $('wb').onclick=()=>wk(-1);$('wh').onclick=()=>wk(0);$('wf').onclick=()=>wk(1);
 $('std')&&($('std').onclick=()=>{mode='std';run()});
 const today=new Date();$('d').max=toKey(today).slice(0,10);
-$('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');$('tab-m').onclick=()=>setTab('m');
+$('tab-w').onclick=()=>setTab('w');$('tab-v').onclick=()=>setTab('v');$('tab-m').onclick=()=>setTab('m');$('tab-o').onclick=()=>setTab('o');
 buildBft();run();
 
 /* Werte schrumpfen, falls sie breiter als die Kachel sind */
