@@ -297,13 +297,14 @@ function selfBox(f,q){const st=S['f'+f];
  else if(st.self==='f')h+=FB('near','Fast!','<p>Schau nochmals: Was war anders?</p>');
  else if(st.self==='n')h+=FB('no','Auch Detektive irren sich.','<p>Das ist normal. Was hast du jetzt gelernt?</p>');
  return h}
-const explore=(t,inner,open)=>`<details class="explore" ${open?'open':''}><summary>${t}</summary>${inner}</details>`;
+const EXP={};
+const explore=(t,inner,id,open)=>`<details class="explore" data-id="${id}" ${(open||EXP[id])?'open':''}><summary>${t}</summary>${inner}</details>`;
 const emptyBox=m=>FB('no','Hier fehlt die Spur.',`<p>${m}</p>`);
 
 /* ----- Akte 1 ----- */
 function viewF1(){const f=S.f1,ok=vermOK(1);
  let h=head(1,'Der warme Tag')+stepper(stepOf(1))+stepV(1,['Schreib auf dem Blatt auf: <b>Wann ist es am wärmsten?</b> Ich vermute: …'],[['a','Ich habe meine Vermutung aufgeschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen ab. Schreib sie in die Tabelle auf dem Blatt.'])+stationBody(1,st1)+explore('Anderen Tag wählen (Tag verpasst?)',chipsFor('f1',f.day)));
+ if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen ab. Schreib sie in die Tabelle auf dem Blatt.'])+stationBody(1,st1)+explore('Anderen Tag wählen (Tag verpasst?)',chipsFor('f1',f.day),'e1'));
  if(ok&&f.res&&!f.res.empty)h+=stepT(1,[`Male auf <b>KM 54.2</b> deine <span class="rot">rote Kurve</span> (Tag 1: ${dlabel(FIX[0])}).`],[['b','Ich habe die Temperaturen eingetragen.'],['c','Ich habe die rote Kurve gemalt.']]);
  if(f.show&&f.res&&!f.res.empty)h+=sol1(f.res);
  return h}
@@ -319,7 +320,7 @@ function sol1(r){const f=S.f1;
 /* ----- Akte 2 ----- */
 function viewF2(){const f=S.f2,ok=vermOK(2);
  let h=head(2,'Zwei Tage')+stepper(stepOf(2))+stepV(2,['Schreib auf dem Blatt auf: <b>Welcher Tag war wärmer?</b> Ich vermute: …'],[['a','Ich habe meine Vermutung aufgeschrieben.']]);
- if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen von Tag 1 und Tag 2 ab. Schreib sie in die Tabelle auf dem Blatt.'])+stationBody(2,st2)+explore('Andere Tage wählen (Tag verpasst?)',`<h3>Rote Kurve</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Blaue Kurve</h3>`+chipsFor('f2b',f.b,f.a)));
+ if(ok)h+=box('2 · Spuren sichern',ol(['Lies die Temperaturen von Tag 1 und Tag 2 ab. Schreib sie in die Tabelle auf dem Blatt.'])+stationBody(2,st2)+explore('Andere Tage wählen (Tag verpasst?)',`<h3>Rote Kurve</h3>`+chipsFor('f2a',f.a,f.b)+`<h3>Blaue Kurve</h3>`+chipsFor('f2b',f.b,f.a),'e2'));
  if(ok&&f.res&&!f.res.empty)h+=stepT(2,[`Male auf <b>KM 54.2</b> die <span class="rot">rote Kurve</span> (Tag 1: ${dlabel(FIX[0])}) und die <span class="blau">blaue Kurve</span> (Tag 2: ${dlabel(FIX[1])}).`],[['b','Ich habe die Temperaturen eingetragen.'],['c','Ich habe die rote Kurve gemalt.'],['d','Ich habe die blaue Kurve gemalt.']]);
  if(f.show&&f.res&&!f.res.empty)h+=sol2(f.res);
  return h}
@@ -438,6 +439,7 @@ document.addEventListener('click',e=>{
  else if(a==='solve'){solved[v]=true;saveSolved();S.view='home';render();scrollTo(0,0)}
  else if(a==='again'){restart(v);render();scrollTo(0,0)}
 });
+document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('explore'))EXP[d.dataset.id]=d.open},true);
 document.addEventListener('change',e=>{const i=e.target;
  if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;if(vermOK(+f)&&!S['f'+f].res&&!S.loading)run(+f,false);else render();const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus();return}
  if(i.dataset.act!=='cday'||!i.value)return;const v=i.value;if(v>todayKey())return;setDay(i.dataset.g,v);S.cust=i.dataset.g;render()});
