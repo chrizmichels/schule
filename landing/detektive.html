@@ -305,12 +305,10 @@ const winTxt=(hit)=>hit?'Stimmt! Gut vermutet.':'';
 
 function viewHome(){
  const n=Object.keys(solved).filter(k=>solved[k]).length;
- const SHOW4=todayKey()>='2026-11-27'||/[?&]akte4/.test(location.search);
- const A=[['1','Der warme Tag','Tag 1: Um wie viel Uhr war es am wärmsten?'],['2','Zwei Tage','Tag 1 oder Tag 2: Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?']];
- if(SHOW4)A.push(['4','Warm und kalt','Wo im Schulhaus ist es am kältesten?']);
+ const A=[['1','Der warme Tag','Tag 1: Um wie viel Uhr war es am wärmsten?'],['2','Zwei Tage','Tag 1 oder Tag 2: Welcher Tag war wärmer?'],['3','Drei Orte','Wo ist es am kältesten?'],['4','Warm und kalt','Wo im Schulhaus ist es am kältesten?']];
  return `<section class="cover"><div class="bigstamp" aria-hidden="true">Streng<b>GEHEIM</b>Wetter</div>
  <h1><span>Klima-Kommissariat 4b</span>Klimadetektive</h1>
- <p>Du ermittelst in ${A.length===4?'vier':'drei'} Akten. Erst vermutest du. Dann liest du die Messwerte ab. Zum Schluss prüfst du deine Vermutung.</p>
+ <p>Du ermittelst in vier Akten. Erst vermutest du. Dann liest du die Messwerte ab. Zum Schluss prüfst du deine Vermutung.</p>
  <div class="need"><b>Das brauchst du (Papier):</b><ul><li><b>Deine Akte:</b> Zu jedem Fall gehört eine Akte (Akte 01, 02, 03${A.length===4?', 04':''}). Dort schreibst du bei Schritt 1, 2, 3 …</li><li><b>KM 54.2:</b> Hier trägst du Temperaturen ein und malst die Kurven (Akte 01 und 02).</li><li><b>KM 54.3:</b> Hier stehen die Höhen der Orte (Akte 03).</li>${A.length===4?'<li><b>Thermometer:</b> Mit einem Thermometer misst du im Schulhaus (Akte 04).</li>':''}<li><b>Stifte:</b> Bleistift, <span class="rot">rot</span> und <span class="blau">blau</span>.</li></ul></div>
  <div id="now" class="now" aria-live="off"><small>Jetzt in Zürich …</small></div></section>
  <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
