@@ -2,6 +2,17 @@
   "cleanUrls": true,
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "425.co"
+        }
+      ],
+      "destination": "https://4arge.com/",
+      "permanent": false
+    },
+    {
       "source": "/start",
       "destination": "/",
       "permanent": false
@@ -25,6 +36,12 @@
       "source": "/f",
       "destination": "/einsaetze",
       "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/sol",
+      "destination": "/index.html"
     }
   ]
 }
