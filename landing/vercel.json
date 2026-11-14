@@ -35,12 +35,12 @@
       "destination": "/"
     },
     {
-      "source": "/e",
-      "destination": "/energie"
+      "source": "/k",
+      "destination": "/"
     },
     {
-      "source": "/k",
-      "destination": "/detektive"
+      "source": "/e",
+      "destination": "/energie"
     },
     {
       "source": "/w",
