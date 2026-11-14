@@ -13,7 +13,7 @@
       "permanent": false
     },
     {
-      "source": "/:path((?!(?:sol|e|k|w|f|energie|detektive|wetter|einsaetze|start|api|img|favicon\\.ico)(?:/|$)).+)",
+      "source": "/:path((?!(?:sol|e|k|w|f|h|hilfe|energie|detektive|wetter|einsaetze|start|api|img|favicon\\.ico)(?:/|$)).+)",
       "has": [
         {
           "type": "host",
@@ -49,6 +49,10 @@
     {
       "source": "/f",
       "destination": "/einsaetze"
+    },
+    {
+      "source": "/h",
+      "destination": "/hilfe"
     }
   ]
 }

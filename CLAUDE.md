@@ -25,6 +25,7 @@ Dieses Repo enthält die Web-Apps für die Kinder und die Werkzeuge für die Pap
 | `landing/wetter.html` | Wetterstation. Standard zeigt die letzte Messzeit **8:30** (vor 8:30 Uhr: gestern). Stationen: Zürich-Fluntern (MeteoSchweiz) und Mythenquai (tecdottir, oft verspätet) |
 | `landing/detektive.html` | **Klimadetektive**, 3 Akten (Wetter): Akte 01–03 |
 | `landing/energie.html` | **Energiedetektive**, 2 Akten: 01 «Warm und kalt» (Thermometer im Schulhaus), 02 «Strom und Watt» (Watt ablesen, Lampe beim Hausabwart erfragen) |
+| `landing/hilfe.html` | **Hilfe für Lehrpersonen** (`425.co/h`): alle Kurzadressen und Deep Links mit «Kopieren»-Knopf, Hinweise zu 425.co. Erreichbar über das kleine «?» oben rechts auf der Startseite. Bei neuen Akten/Einsätzen die Listen `KURZ`/`DEEP` im Script ergänzen |
 | `landing/einsaetze.html` | FreiDay-Einsätze (7 Stück, mit Geschichte, Logbuch) |
 
 **Aufbau der Detektiv-Apps** (`detektive.html`, `energie.html`): State-Objekt `S` (`f1`, `f2`, … je Akte mit `c` = Häkchen, `show`, `res`, `self`), Render-Funktionen `viewF1`, `sol1` usw., Datenobjekte `BW[n]` (Beweisstück: `t`, `m` Merksätze, `s` Klexikon-Seiten, `x` Zusatz) und `KAP[n]` (Geschichte: `i` Einstieg, `a` Auflösung). Fortschritt in `localStorage` (`kd_solved` bzw. `ke_solved`). Ablauf jeder Akte: **1 Vermuten → 2 Spuren sichern → 3 Lösung → 4 Beweisstück lesen**. Zu jeder Akte gehört eine Papier-Akte (PDF) mit QR-Code zur App.

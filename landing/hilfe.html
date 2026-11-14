@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hilfe · Lernwerkstatt 4b</title>
+<meta name="robots" content="noindex">
+<style>
+:root{--bg:#f4f5f2;--ink:#1c2420;--muted:#55605a;--card:#fff;--line:#d9ddd6;--acc:#1f6fb5;--acc-soft:#dcebf8;--warn:#fff4d6;--warn-line:#e3b93c;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121513;--ink:#eef1ee;--muted:#a9b2ab;--card:#1b1f1c;--line:#343b36;--acc:#8ec3f0;--acc-soft:#1b3047;--warn:#3a3322;--warn-line:#8a6a2a;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:20px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:780px;margin:0 auto}
+a{color:var(--acc)}
+.back{display:inline-block;margin-bottom:8px;font-weight:700;text-decoration:none}
+h1{margin:4px 0 4px;font-size:clamp(28px,5vw,38px);line-height:1.15}
+.lead{margin:0 0 22px;color:var(--muted)}
+h2{margin:30px 0 8px;font-size:20px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:6px 14px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.row:last-child{border-bottom:0}
+.row .w{flex:1 1 200px;min-width:0}
+.row b{display:block}
+.row small{color:var(--muted)}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:15px;background:var(--acc-soft);padding:2px 7px;border-radius:6px;word-break:break-all}
+button,.open{font:inherit;font-weight:700;font-size:15px;padding:8px 14px;min-height:44px;border-radius:99px;border:2px solid var(--acc);background:transparent;color:var(--acc);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+button.ok{background:var(--acc);color:var(--card)}
+button:focus-visible,.open:focus-visible,a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.note{background:var(--warn);border:2px solid var(--warn-line);border-radius:12px;padding:10px 14px;margin:10px 0}
+ul{padding-left:20px;margin:8px 0}
+li{margin:4px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <a class="back" href="/sol">← Lernwerkstatt</a>
+ <h1>Hilfe für Lehrpersonen</h1>
+ <p class="lead">Adressen, Direktlinks und Hinweise zur Lernwerkstatt 4b. Diese Seite ist nicht für die Kinder.</p>
+
+ <h2>1 · Kurzadressen für die Kinder</h2>
+ <p>Auf die Papier-Akten gehört die kurze Adresse. Sie steht gross neben dem QR-Code.</p>
+ <div class="card" id="kurz"></div>
+
+ <h2>2 · Direktlinks (Deep Links)</h2>
+ <p>Mit <code>#</code> und dem Namen öffnet sich direkt eine Akte oder ein Einsatz. Praktisch für Aufgabenkarten, LearningView und Klassenchat.</p>
+ <div class="card" id="deep"></div>
+ <ul>
+  <li>Die Zurück-Taste im Browser geht einen Schritt zurück, auch innerhalb einer App.</li>
+  <li>Ein falscher Name nach <code>#</code> öffnet einfach die Startansicht.</li>
+ </ul>
+
+ <h2>3 · Wichtig zu 425.co</h2>
+ <div class="note">
+  <b><code>425.co</code> ohne Pfad</b> führt auf <b>4arge.com</b> (deine andere Seite). Die Startseite der Lernwerkstatt ist <b><code>425.co/sol</code></b>. Auch unbekannte Pfade wie <code>425.co/abc</code> landen auf 4arge.com.
+ </div>
+ <ul>
+  <li>Die alte Adresse <code>freiday-4b.vercel.app</code> funktioniert weiterhin.</li>
+  <li>Wenn eine Adresse nur bei dir nicht geht: oft ein alter DNS-Speicher. Auf dem Handy mit Mobildaten testen.</li>
+ </ul>
+
+ <h2>4 · Neue Seite oder neue Akte hinzufügen</h2>
+ <ul>
+  <li>Neue Seite: in <code>landing/vercel.json</code> den Namen in die Ausnahmeliste der Sammelregel eintragen, sonst leitet 425.co sie auf 4arge.com um.</li>
+  <li>Neue Akte oder neuer Einsatz: den Namen in <code>validView</code> der App ergänzen, dann geht der Direktlink.</li>
+  <li>Mehr dazu steht in <code>CLAUDE.md</code> im Repo <code>chrizmichels/schule</code>.</li>
+ </ul>
+
+ <h2>5 · Papier-Akten</h2>
+ <ul>
+  <li>Energie Akte 01 → <code>425.co/e</code>, Akte 02 → <code>425.co/e</code> (dann Akte 02 wählen).</li>
+  <li>Klimadetektive → <code>425.co/k</code>.</li>
+  <li>Die PDFs entstehen im Ordner <code>pdf-werkzeuge/</code> im Repo.</li>
+ </ul>
+</div>
+<script>
+const BASE='https://425.co';
+const KURZ=[
+ ['Lernwerkstatt (Startseite)','/sol','Alle Bereiche'],
+ ['Wetterstation','/w','Messwerte Zürich'],
+ ['Klimadetektive','/k','3 Akten Wetter und Klima'],
+ ['Energiedetektive','/e','2 Akten Wärme und Strom'],
+ ['FreiDay-Einsätze','/f','7 Einsätze']
+];
+const DEEP=[
+ ['Energie Akte 01 «Warm und kalt»','/e#1',''],
+ ['Energie Akte 02 «Strom und Watt»','/e#2',''],
+ ['Klimadetektive Akte 01','/k#1',''],
+ ['Klimadetektive Akte 02','/k#2',''],
+ ['Klimadetektive Akte 03 «Drei Orte»','/k#3',''],
+ ['Einsatz 1 · Igel','/f#igel',''],
+ ['Einsatz 2 · Spatzen','/f#spatz',''],
+ ['Einsatz 3 · Futterstelle','/f#futter',''],
+ ['Einsatz 4 · Warmes Znüni','/f#znueni',''],
+ ['Einsatz 5 · Wärme sparen','/f#waerme',''],
+ ['Einsatz 6 · Strom sparen','/f#strom',''],
+ ['Einsatz 7 · Energie zu Hause','/f#zuhause','']
+];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function rows(list){return list.map(([t,p,s],i)=>`<div class="row"><div class="w"><b>${esc(t)}</b>${s?`<small>${esc(s)}</small>`:''}<code>425.co${esc(p)}</code></div><a class="open" href="${esc(p)}">Öffnen</a><button type="button" data-p="${esc(p)}">Kopieren</button></div>`).join('')}
+document.getElementById('kurz').innerHTML=rows(KURZ);
+document.getElementById('deep').innerHTML=rows(DEEP);
+document.addEventListener('click',async e=>{
+ const b=e.target.closest('button[data-p]');if(!b)return;
+ const url=BASE+b.dataset.p;
+ try{await navigator.clipboard.writeText(url)}catch(_){
+  const t=document.createElement('textarea');t.value=url;document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(__){}t.remove()}
+ b.textContent='Kopiert';b.classList.add('ok');
+ setTimeout(()=>{b.textContent='Kopieren';b.classList.remove('ok')},1500);
+});
+</script>
+</body>
+</html>

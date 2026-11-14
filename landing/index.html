@@ -21,7 +21,10 @@
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.45;padding:24px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
 .wrap{max-width:1180px;margin:0 auto}
-header.top{margin:8px 0 26px}
+header.top{margin:8px 0 26px;position:relative;padding-right:56px}
+.hilfe{position:absolute;top:0;right:0;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--muted);display:flex;align-items:center;justify-content:center;font:700 22px/1 system-ui,sans-serif;text-decoration:none}
+.hilfe:hover{color:var(--ink);border-color:var(--muted)}
+.hilfe:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 header.top h1{margin:0;font-family:"Zilla Slab",Georgia,serif;font-size:clamp(32px,5vw,52px);line-height:1.1}
 header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
 .grid{display:grid;gap:22px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
@@ -82,6 +85,7 @@ header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
 <body>
 <div class="wrap">
  <header class="top">
+  <a class="hilfe" href="/hilfe" aria-label="Hilfe für Lehrpersonen" title="Hilfe">?</a>
   <h1>Lernwerkstatt 4b</h1>
   <p>Hier findest du alles für die Klasse 4b. Wähle einen Bereich.</p>
  </header>
