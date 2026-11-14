@@ -13,6 +13,17 @@
       "permanent": false
     },
     {
+      "source": "/:path((?!(?:sol|e|k|w|f|energie|detektive|wetter|einsaetze|start|api|img|favicon\\.ico)(?:/|$)).+)",
+      "has": [
+        {
+          "type": "host",
+          "value": "425.co"
+        }
+      ],
+      "destination": "https://4arge.com/:path",
+      "permanent": false
+    },
+    {
       "source": "/start",
       "destination": "/",
       "permanent": false
