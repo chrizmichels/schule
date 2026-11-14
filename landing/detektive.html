@@ -399,12 +399,13 @@ function sol3(r){
  h+='<h3>4 · Beweisstück lesen</h3>'+beweis(3,3)+(v.lug!=null&&v.zer!=null?`<div class="spur"><p><b>Spur aus deiner Messung:</b> Lugano ${fT(v.lug)} °C, Zermatt ${fT(v.zer)} °C. Der Unterschied ist <b>${fT(v.lug-v.zer)} °C</b>.</p></div>`:'');
  return h+doneBtns('3')}
 
-function render(){
+function render0(){
  const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3}[S.view]||viewHome;
  $('#app').innerHTML=m()+(S.view==='home'?'':'</div>');
  if(S.view==='home')showNow();
  if(S.view==='3'&&S.f3.map&&S.f3.res)drawMap();
 }
+function render(){render0();syncHash()}
 
 /* ---------- Jetzt-Streifen und Karte ---------- */
 async function showNow(){
@@ -488,6 +489,12 @@ document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.cla
 document.addEventListener('change',e=>{const i=e.target;
  if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;if(vermOK(+f)&&!S['f'+f].res&&!S.loading)run(+f,false);else render();const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus();return}
  if(i.dataset.act!=='cday'||!i.value)return;const v=i.value;if(v>todayKey())return;setDay(i.dataset.g,v);S.cust=i.dataset.g;render()});
+/* Deep Links: #<nr> öffnet direkt eine Akte; Zurück-Taste funktioniert */
+const validView=h=>h==='home'||['1','2','3'].includes(h);
+function syncHash(){const h=location.hash.slice(1)||'home';if(h!==S.view)history.pushState(null,'',S.view==='home'?location.pathname+location.search:'#'+S.view)}
+function readHash(){const h=decodeURIComponent(location.hash.slice(1));S.view=validView(h)?(h||'home'):'home'}
+window.addEventListener('popstate',()=>{readHash();render0();scrollTo(0,0)});
+readHash();
 render();
 </script>
 </body>

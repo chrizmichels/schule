@@ -273,10 +273,11 @@ function sol2(){
  h+='<h3>4 · Beweisstück lesen</h3>'+beweis(2,2);
  return h+doneBtns('2')}
 
-function render(){
+function render0(){
  const m={home:viewHome,'1':viewF1,'2':viewF2}[S.view]||viewHome;
  $('#app').innerHTML=m()+(S.view==='home'?'':'</div>');
 }
+function render(){render0();syncHash()}
 function restart(w){const f=S['f'+w];f.show=false;f.res=null;f.self=null;Object.keys(f.c).forEach(k=>f.c[k]=false);if(f.w)Object.keys(f.w).forEach(k=>f.w[k]='')}
 function afterCheck(f){if(vermOK(f)&&!S['f'+f].res)S['f'+f].res={ok:1};render()}
 document.addEventListener('click',e=>{
@@ -291,6 +292,12 @@ document.addEventListener('click',e=>{
 document.addEventListener('input',e=>{const i=e.target;if(i.dataset&&i.dataset.act==='w'){S.f2.w[i.dataset.k]=i.value;upd2()}});
 document.addEventListener('change',e=>{const i=e.target;
  if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;afterCheck(+f);const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus()}});
+/* Deep Links: #<nr> öffnet direkt eine Akte; Zurück-Taste funktioniert */
+const validView=h=>h==='home'||['1','2'].includes(h);
+function syncHash(){const h=location.hash.slice(1)||'home';if(h!==S.view)history.pushState(null,'',S.view==='home'?location.pathname+location.search:'#'+S.view)}
+function readHash(){const h=decodeURIComponent(location.hash.slice(1));S.view=validView(h)?(h||'home'):'home'}
+window.addEventListener('popstate',()=>{readHash();render0();scrollTo(0,0)});
+readHash();
 render();
 </script>
 </body>

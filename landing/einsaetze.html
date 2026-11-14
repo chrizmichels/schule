@@ -332,7 +332,8 @@ function viewEinsatz(id){
  if(c>N)h+=`<div class="fb"><span class="stp">Geschafft</span><strong>Für heute geschafft!</strong><p>Die nächste Etappe kommt am nächsten Freitag.</p></div>`;
  h+=`<div class="actions"><button class="btn" data-act="home">Zurück zu allen Einsätzen</button><button class="btn light" data-act="again" data-v="${id}">Nochmals von vorn</button></div></div>`;
  return h}
-function render(){$('#app').innerHTML=S.view==='home'?viewHome():viewEinsatz(S.view)}
+function render0(){$('#app').innerHTML=S.view==='home'?viewHome():viewEinsatz(S.view)}
+function render(){render0();syncHash()}
 const $=s=>document.querySelector(s);
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const a=b.dataset.act,v=b.dataset.v;
  if(a==='home'){S.view='home';render();scrollTo(0,0)}
@@ -342,6 +343,12 @@ document.addEventListener('change',e=>{const i=e.target;if(i.dataset.act==='self
  if(i.checked)ST[id]['c'+n]=true;else for(let k=n;k<=N;k++)delete ST[id]['c'+k];save();render();
  const nx=document.querySelector('.kap:last-of-type');if(i.checked&&n<N){const k=document.querySelectorAll('.kap');const last=k[k.length-1];if(last)try{last.scrollIntoView({behavior:'smooth',block:'start'})}catch(x){}}});
 document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.classList&&d.classList.contains('explore'))S.open[d.dataset.k]=d.open},true);
+/* Deep Links: #<id> öffnet direkt einen Fall; Zurück-Taste funktioniert */
+const validView=h=>h==='home'||(h in EINS);
+function syncHash(){const h=location.hash.slice(1)||'home';if(h!==S.view)history.pushState(null,'',S.view==='home'?location.pathname+location.search:'#'+S.view)}
+function readHash(){const h=decodeURIComponent(location.hash.slice(1));S.view=validView(h)?(h||'home'):'home'}
+window.addEventListener('popstate',()=>{readHash();render0();scrollTo(0,0)});
+readHash();
 render();
 </script>
 </body>
