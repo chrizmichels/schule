@@ -27,32 +27,28 @@
       "source": "/start",
       "destination": "/sol",
       "permanent": false
-    },
-    {
-      "source": "/e",
-      "destination": "/energie",
-      "permanent": false
-    },
-    {
-      "source": "/k",
-      "destination": "/detektive",
-      "permanent": false
-    },
-    {
-      "source": "/w",
-      "destination": "/wetter",
-      "permanent": false
-    },
-    {
-      "source": "/f",
-      "destination": "/einsaetze",
-      "permanent": false
     }
   ],
   "rewrites": [
     {
       "source": "/sol",
       "destination": "/"
+    },
+    {
+      "source": "/e",
+      "destination": "/energie"
+    },
+    {
+      "source": "/k",
+      "destination": "/detektive"
+    },
+    {
+      "source": "/w",
+      "destination": "/wetter"
+    },
+    {
+      "source": "/f",
+      "destination": "/einsaetze"
     }
   ]
 }
