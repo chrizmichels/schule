@@ -13,6 +13,7 @@ Dieses Repo enthält die Web-Apps für die Kinder und die Werkzeuge für die Pap
 ## Deployment
 - GitHub: `chrizmichels/schule`, Branch `main`. Vercel-Projekt `freiday-4b`, Root Directory `landing/`, `cleanUrls: true`.
 - Live: https://freiday-4b.vercel.app/ (Startseite), `/wetter`, `/detektive`, `/energie`, `/einsaetze`.
+- **Kurzadresse für die Kinder: `425.co`** (Domain im Vercel-Projekt eingetragen, DNS bei GoDaddy). Kurzwege in `landing/vercel.json`: `/e` Energie, `/k` Klimadetektive, `/w` Wetter, `/f` FreiDay. Auf den Papier-Akten steht die Adresse gross neben dem QR-Code (QR-Scannen klappt in der Klasse nicht gut). Alte Adresse `freiday-4b.vercel.app` bleibt gültig.
 - Lokal testen: `cd landing && python3 -m http.server 8765`. JS-Syntax prüfen: letztes `<script>` extrahieren, `node --check`.
 - `/api/ogd?st=SMA` (`landing/api/ogd.js`) liefert MeteoSchweiz-Messwerte (10-Min-Daten, ca. 21 Tage) als JSON-Zeilen `[zeit, temp, wind m/s, Böe, Richtung, Druck, Regen, Globalstrahlung, Luftfeuchte]`, neueste zuerst. Zeiten sind Zürcher Ortszeit (Quelle ist UTC).
 

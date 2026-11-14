@@ -1,6 +1,6 @@
 from lib import *
 import qrcode
-LINK='freiday-4b.vercel.app/detektive'
+LINK='425.co/k'; SHORT='425.co/k'
 def qrsvg(txt,mm=19):
     m=qrcode.QRCode(border=0,error_correction=qrcode.constants.ERROR_CORRECT_M);m.add_data('https://'+txt);m.make();M=m.get_matrix();n=len(M)
     d=''.join(f'M{x},{y}h1v1h-1z' for y,r in enumerate(M) for x,v in enumerate(r) if v)
@@ -10,7 +10,7 @@ def hc(n,t): return f'<div class=cover><span class=tabz>Aktenzeichen 4b.K.{n}</s
 cb=lambda t:f'<span class=cbx><i></i>{t}</span>'
 ln=lambda k=1:'<div class=ln></div>'*k
 bl=lambda w=18:f'<span class=bl style="min-width:{w}mm"></span>'
-def app(n,txt): return f'<div class=app><div class=q>{QR}</div><div><span class=lbl>Spur</span><br><b>Öffne die App</b><br>{LINK}<br>Tippe auf <b>Akte 0{n}</b>.<br>{txt}</div></div>'
+def app(n,txt): return f'<div class=app><div class=q>{QR}</div><div><span class=lbl>Spur</span><br><b>Öffne die App:</b> <span class=short>{SHORT}</span><br>Tippe auf <b>Akte 0{n}</b>.<br>{txt}</div></div>'
 import sys
 sys.path.insert(0,'.')
 from kap import KAP
@@ -111,6 +111,7 @@ h2{font:700 15pt "Zilla Slab",serif;margin:3.5mm 0 1mm;display:flex;align-items:
 .ln{border-bottom:1px solid var(--ink);height:12.5mm}
 .app{display:flex;gap:4mm;align-items:center;background:#fbfaf6;border:1px solid var(--edge);border-left:2mm solid var(--ink);border-radius:2mm;padding:2mm 4mm;margin:1mm 0 2mm;font-size:11.5pt;line-height:1.4}
 .app .q{flex:none;line-height:0}
+.short{font-weight:700;font-size:18pt;letter-spacing:.4pt;border:.6mm solid var(--ink);border-radius:1.5mm;padding:0 2mm;background:#fff;white-space:nowrap}
 .bw{position:relative;background:#fbfaf6;border:1px solid var(--edge);border-left:2mm solid #b3302a;border-radius:1.5mm;padding:4mm 4mm 2.5mm;margin:5mm 0 3mm;font-size:10.5pt;line-height:1.4}
 .bw p{margin:1.2mm 0}.bwh{display:block;font:700 13pt "Zilla Slab";margin-bottom:1mm}
 .bwtag{position:absolute;right:3mm;top:-3.2mm;background:#fbfaf6;border:1.2px solid #b3302a;color:#b3302a;font:700 8pt "CP";letter-spacing:.1em;text-transform:uppercase;padding:0 2mm;border-radius:1mm;transform:rotate(-2deg)}

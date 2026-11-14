@@ -1,6 +1,30 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/start", "destination": "/", "permanent": false }
+    {
+      "source": "/start",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/e",
+      "destination": "/energie",
+      "permanent": false
+    },
+    {
+      "source": "/k",
+      "destination": "/detektive",
+      "permanent": false
+    },
+    {
+      "source": "/w",
+      "destination": "/wetter",
+      "permanent": false
+    },
+    {
+      "source": "/f",
+      "destination": "/einsaetze",
+      "permanent": false
+    }
   ]
 }
