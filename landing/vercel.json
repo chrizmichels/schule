@@ -13,7 +13,7 @@
       "permanent": false
     },
     {
-      "source": "/:path((?!(?:sol|e|k|w|f|h|hilfe|energie|detektive|wetter|einsaetze|start|api|img|favicon\\.ico)(?:/|$)).+)",
+      "source": "/:path((?!(?:sol|e|k|kommissariat|w|f|h|hilfe|energie|detektive|wetter|einsaetze|start|api|img|favicon\\.ico)(?:/|$)).+)",
       "has": [
         {
           "type": "host",
@@ -36,7 +36,7 @@
     },
     {
       "source": "/k",
-      "destination": "/"
+      "destination": "/kommissariat"
     },
     {
       "source": "/e",

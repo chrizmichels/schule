@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kommissariat 4b</title>
+<meta name="description" content="Kommissariat 4b: die SOL-Detektivfälle der Klasse 4b.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Zilla+Slab:wght@600;700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Startseite: drei Bereiche mit gleichem Aufbau (Kopfband, Titel, Satz, Liste, Knopf), aber je eigener Farbe, Schrift und Form.
+   Wetterstation = blau, rund, Messgerät. SOL = Aktenbeige, eckig, Stempel. FreiDay = grün/sonnengelb, Wegmarke, Handschrift. */
+:root{--bg:#f4f5f2;--ink:#1c2420;--muted:#55605a;--card:#fff;--line:#d9ddd6;
+ --w:#1f6fb5;--w-soft:#dcebf8;--w-ink:#0d2b47;
+ --s:#8a6a2a;--s-soft:#e7d6ae;--s-edge:#cdb886;--s-paper:#fbfaf6;--s-ink:#2a2112;--stamp:#b3302a;
+ --f:#2c7a4b;--f-soft:#def0e2;--f-sun:#f2c14e;--f-ink:#10301d;
+ --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121513;--ink:#eef1ee;--muted:#a9b2ab;--card:#1b1f1c;--line:#343b36;--w-soft:#1b3047;--w-ink:#dcebf8;--s-soft:#3a3322;--s-edge:#5d5236;--s-paper:#24211a;--s-ink:#f0e6cc;--f-soft:#1d3426;--f-ink:#def0e2;color-scheme:dark}
+ .kx a{color:#8ec3f0;border-color:#8ec3f0}
+ :root:not([data-theme="light"]) .b-s .btn{background:var(--s-soft);color:var(--s-ink)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.45;padding:24px max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+header.top{margin:8px 0 22px}
+.hilfe{position:absolute;top:0;right:0;width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--card);color:var(--muted);display:flex;align-items:center;justify-content:center;font:700 22px/1 system-ui,sans-serif;text-decoration:none}
+.hilfe:hover{color:var(--ink);border-color:var(--muted)}
+.hilfe:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+header.top h1{margin:0;font-family:"Zilla Slab",Georgia,serif;font-size:clamp(32px,5vw,52px);line-height:1.1}
+header.top p{margin:8px 0 0;color:var(--muted);font-size:20px;max-width:46ch}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+@media(max-width:980px){.grid{grid-template-columns:minmax(0,1fr)}}
+/* gemeinsamer Aufbau */
+.bereich{display:flex;flex-direction:column;background:var(--card);border:2px solid var(--line);overflow:hidden;min-width:0}
+.band{position:relative;display:flex;align-items:center;gap:14px;padding:16px 20px}
+.band svg{flex:none;width:54px;height:54px}
+.band small{display:block;font-size:14px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.band h2{margin:0;font-size:clamp(26px,3vw,32px);line-height:1.1}
+.body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:14px;flex:1}
+.body>p{margin:0;font-size:19px}
+.body h3{margin:4px 0 0;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.liste{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.liste li{display:flex;gap:10px;align-items:flex-start}
+.liste li i{flex:none;width:12px;height:12px;margin-top:7px}
+.liste .bald{color:var(--muted)}
+.liste .bald em{font-style:normal;font-size:13px;font-weight:700;padding:1px 8px;border:1.5px dashed currentColor;border-radius:99px;margin-left:6px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:auto;padding:14px 22px;font:inherit;font-weight:700;font-size:19px;text-decoration:none;min-height:52px;text-align:center}
+.btn:focus-visible,.kx a:focus-visible,.liste a:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.spacer{flex:1}
+/* WETTERSTATION */
+.b-w{border-radius:26px;border-color:var(--w);font-family:"Andika",var(--f-body)}
+.b-w .band{background:var(--w);color:#fff}
+.b-w .liste li i{border-radius:50%;background:var(--w)}
+.b-w .btn{background:var(--w);color:#fff;border-radius:99px}
+.b-w .live{display:flex;gap:10px;align-items:center;background:var(--w-soft);color:var(--w-ink);border-radius:16px;padding:10px 14px;font-size:17px}
+.b-w .live b{white-space:nowrap;font-size:28px;font-variant-numeric:tabular-nums}
+.b-w .live .dot{width:10px;height:10px;border-radius:50%;background:#9aa3a3;flex:none}.b-w .live.on .dot{background:#1d9d6a}
+.kx{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.kx a{display:inline-block;padding:5px 12px;border-radius:99px;border:2px solid var(--w);color:var(--w);font-weight:700;text-decoration:none;font-size:16px}
+.kx a:hover{background:var(--w-soft)}
+/* SOL */
+.b-s{border-radius:6px;border-color:var(--s-edge);background:var(--s-soft);color:var(--s-ink);position:relative;font-family:"Zilla Slab",Georgia,serif}
+.b-s .band{background:var(--s-edge);color:var(--s-ink);border-bottom:2px solid rgba(0,0,0,.12)}
+.b-s .band h2{font-family:"Zilla Slab",Georgia,serif;font-weight:700}
+.b-s .body{background:var(--s-paper);margin:14px;border:1px solid var(--s-edge);box-shadow:0 2px 0 rgba(0,0,0,.08);padding-top:16px;position:relative}
+.b-s .body>p,.b-s .liste{font-family:var(--f-body)}
+.b-s .liste li i{border-radius:0;background:var(--s)}
+.b-s .btn{background:var(--s-ink);color:var(--s-soft);border-radius:3px;font-family:"Courier Prime","Courier New",monospace;letter-spacing:.02em}
+.stempel{position:absolute;bottom:10px;right:14px;transform:rotate(6deg);border:3px solid var(--stamp);color:var(--stamp);font:700 14px "Courier Prime",monospace;letter-spacing:.1em;padding:3px 9px;border-radius:4px;opacity:.85}
+.b-s .liste a,.b-f .liste a{color:inherit;font-weight:700}
+/* FREIDAY */
+.b-f{border-radius:8px 8px 40px 8px;border-color:var(--f);background:var(--card)}
+.b-f .band{background:var(--f);color:#fff;position:relative}
+.b-f .band h2{font-family:"Caveat","Atkinson Hyperlegible",cursive;font-size:clamp(34px,4vw,42px);font-weight:700}
+.b-f .band::after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:14px;background:radial-gradient(circle at 10px 0,var(--f) 9px,transparent 10px) 0 0/20px 14px repeat-x}
+.b-f .body{padding-top:26px}
+.b-f .liste li i{width:14px;height:14px;transform:rotate(45deg);background:var(--f-sun);border:2px solid var(--f);margin-top:6px}
+.b-f .btn{background:var(--f-sun);color:#2a2000;border-radius:14px 14px 14px 4px;border:2px solid var(--f)}
+.logbuch{background:var(--f-soft);color:var(--f-ink);border-left:6px solid var(--f-sun);padding:10px 14px;border-radius:0 12px 12px 0;font-family:"Caveat",cursive;font-size:23px;line-height:1.25}
+.sdg{display:flex;flex-wrap:wrap;gap:6px}
+.sdg span{font-size:14px;font-weight:700;padding:2px 9px;border-radius:6px;background:var(--f-soft);color:var(--f-ink)}
+.fuss{margin:30px 0 0;color:var(--muted);font-size:15px}
+.fuss a{color:inherit}
+.one{max-width:640px}
+.zur{display:inline-block;margin-bottom:6px;font-weight:700;color:inherit}
+.zur:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+</style>
+<script>
+/* Kommissariat-Kurzlinks: /k#k = Klimadetektive, /k#e = Energiedetektive, mit Zahl direkt zur Akte (/k#k3, /k#e2) */
+(function(){var m=/^#([ke])([1-9])?$/.exec(location.hash);if(!m)return;
+ location.replace((m[1]==='k'?'/detektive':'/energie')+(m[2]?'#'+m[2]:''))})();
+</script>
+</head>
+<body>
+<div class="wrap">
+ <a class="zur" href="/sol">← Lernwerkstatt</a>
+ <header class="top">
+  <h1>Kommissariat 4b</h1>
+  <p>Hier sind eure Fälle. Wähle einen Fall.</p>
+ </header>
+
+ <main class="one">
+  <!-- SOL -->
+  <section class="bereich b-s" aria-labelledby="h-s">
+   <div class="band">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="26" cy="26" r="15" fill="none" stroke="currentColor" stroke-width="5"/><path d="M37 37 L56 56" stroke="currentColor" stroke-width="7" stroke-linecap="round"/><path d="M19 26h14" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".6"/></svg>
+    <div><small>Selbst organisiert lernen</small><h2 id="h-s">SOL-Fälle</h2></div>
+    <span class="stempel" aria-hidden="true">GEHEIM</span>
+   </div>
+   <div class="body">
+    <p>Willkommen im <b>Kommissariat 4b</b>. Ihr seid Detektive. Jeder Fall hat eine Geschichte, Spuren und Beweisstücke. Löst ihn Schritt für Schritt.</p>
+    <h3>Eure Fälle</h3>
+    <ul class="liste">
+     <li><i></i><span><a href="/detektive">Klimadetektive</a> <small>(Wetter und Klima · 3 Akten)</small></span></li>
+     <li><i></i><span><a href="/energie">Energiedetektive</a> <small>(Wärme und Strom · 2 Akten)</small></span></li>
+     <li class="bald"><i></i><span>Körper und Essen <em>bald</em></span></li>
+     <li class="bald"><i></i><span>Natur und Entwicklung <em>bald</em></span></li>
+     <li class="bald"><i></i><span>Stadt Zürich <em>bald</em></span></li>
+    </ul>
+    <span class="spacer"></span>
+    <a class="btn" href="/detektive">Fall öffnen: Klimadetektive</a>
+    <a class="btn" href="/energie" style="margin-top:10px">Fall öffnen: Energiedetektive</a>
+   </div>
+  </section>
+ </main>
+</div>
+
+</body>
+</html>
