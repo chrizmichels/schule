@@ -72,7 +72,7 @@ D['znueni']=dict(nr=4,short='Znueni',file='04_FreiDay_Znueni_Logbuch_Blatt1_A4.p
  kap=[dict(t='Der Hilferuf',p=['Mitte November. Es ist kalt geworden. In der grossen Pause stehen die Kinder der 4b auf dem Schulhof. Ihre Znünis sind kalt. Viele haben kalte Finger. «Mir ist kalt», sagt ein Kind.',
    '«Ein warmes Znüni wäre toll!», ruft ein anderes. «Für alle!» «Aber was ist ein gutes Znüni?», fragt jemand. «Und was müssen wir beachten, wenn wir für alle etwas machen?»',STOP]),
   dict(t='Forschen',p=FORSCH('Znüni'))],
- foto=dict(e='🥶',l='🥪 🥕 🍎',cap='Znüni-Pause an einem kalten Tag (Zeichnung)',aria='Zeichnung: ein frierendes Kind hält ein kaltes Znüni'),
+ foto=dict(img='/img/znueni.jpg',cap='Ein kaltes Znüni<br>Foto: Melissa (anotherlunch.com), <a href="https://creativecommons.org/licenses/by/2.0/" target="_blank" rel="noopener">CC BY 2.0</a>, via Wikimedia Commons',aria='Foto: eine Znünibox mit Apfelschnitzen, Rüebli, Käsesternen und einem Laugenbrötchen'),
  verm='Warum ist ein warmes Znüni im Winter eine gute Idee? Was könnte schwierig sein?',
  sdgl='Die Karte <b>SDG 2: Kein Hunger</b> passt am besten: Alle sollen genug und gut zu essen haben. Auch SDG 3 (Gesundheit) kann passen, wenn ihr es gut begründet habt.',
  lp_sehen='Kinder auf dem Schulhof, kalte Finger, kaltes Znüni in der Hand.',lp_verm='Kalt essen macht keine Freude. Ein warmes Znüni wärmt. Schwierig: Wer macht es, was kostet es, was vertragen alle?',lp_sdg='SDG 2 Kein Hunger. SDG 3 (Gesundheit) kann passen, wenn gut begründet.',
