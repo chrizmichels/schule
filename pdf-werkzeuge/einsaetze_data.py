@@ -148,7 +148,7 @@ D['strom']=dict(COMMON,nr=6,short='Strom',file='06_FreiDay_Strom_Logbuch_Blatt1_
 D['zuhause']=dict(COMMON,nr=7,short='Zuhause',file='07_FreiDay_Zuhause_Logbuch_Blatt1_A4.pdf',t='Der Zuhause-Einsatz',frage='Wie können wir zu Hause Energie sparen?',
  kap=[dict(t='Der Hilferuf',p=['Mitte November. Ein Kind der 4b erzählt: «Bei uns zu Hause leuchten am Abend viele kleine rote Lämpchen im Wohnzimmer. Beim Fernseher, beim Ladegerät, beim Computer. Ich habe gefragt, ob das Strom braucht. Mein Papa weiss es nicht.»','«Bei uns auch!», rufen andere. «Brauchen die Geräte Strom, wenn niemand sie benutzt?» «Und wie können wir zu Hause Energie sparen?» Alle reden durcheinander.',STOP]),
   dict(t='Forschen',p=FORSCH('Energie'))],
- foto=dict(e='🔴',l='📺 🔌 💻',cap='Das Wohnzimmer am Abend: kleine rote Lämpchen (Zeichnung)',aria='Zeichnung: dunkles Wohnzimmer mit kleinen roten Lämpchen an Geräten'),
+ foto=dict(img='/img/zuhause.jpg',w=320,cap='Ein Wohnzimmer am Abend<br>Foto: Oliver Atherton, <a href="https://www.pexels.com/de-de/foto/tisch-lampe-zimmer-raum-19353439/" target="_blank" rel="noopener">Pexels</a>',aria='Foto: ein Wohnzimmer am Abend mit Sofa, Kissen, Tisch und mehreren leuchtenden Lampen'),
  verm='Brauchen die Geräte Strom, auch wenn niemand sie benutzt?',
  lp_sehen='Dunkles Wohnzimmer, kleine rote Lämpchen an Fernseher, Ladegerät, Computer.',lp_verm='Die Geräte brauchen vielleicht auch Strom, wenn man sie nicht benutzt.',
  felder=[FA,FB,FC(t='Standby',sw=['Standby','Steckerleisten','Ladegerät'],
