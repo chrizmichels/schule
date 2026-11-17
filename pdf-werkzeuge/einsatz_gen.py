@@ -11,8 +11,8 @@ def build(e):
     cover=f'<div class=cover><span class=tabz>Logbuch 4b · Blatt 1</span><div class=sun><b>Wir</b>verbessern<br>die Welt</div><div class=lbl>Einsatz 0{nr} · Fr 20.11.</div><h1>{e["t"]}</h1><div class=nm3>Unser Team <span style="font-weight:400;font-size:9.5pt">(jedes Kind hat einen Buchstaben und behält ihn)</span></div><div class=nm3 style="margin-top:1.5mm">A: '+bl(30)+' &nbsp;B: '+bl(30)+' &nbsp;C: '+bl(30)+'</div></div>'
     app_=f'<div class=app><div class=q>{QR}</div><div><span class=lbl>App</span><br><b>Geschichte, Quellen und Tipps</b><br><b style="font-size:17pt">{LINK}</b><br>Tippt auf <b>{e["t"]}</b>. Die Antworten findet ihr selbst.</div></div>'
     p1=pg(cover,sec(1,'Hilferuf','Fr 20.11.'),
-     "<p class=ro><b>Das sehen wir</b> (2 Dinge):</p>"+ln(3,11),
-     f"<p class=ro><b>Das vermuten wir:</b> {e['verm']}</p>"+ln(6,11),
+     "<p class=ro><b>Das sehen wir</b> (2 Dinge):</p>"+ln(4,11),
+     f"<p class=ro><b>Das vermuten wir:</b> {e['verm']}</p>"+ln(8,11),
      f"<p class=ro style='border-left:3mm solid {e['col']};background:#f0f2f2;padding:3mm 4mm'><b>Unsere SDG-Karte: SDG {e['sdg']} · {e['sdgn']}</b><br>{e['sdgt']}<br><b>Darum passt sie:</b> {e['sdg_grund']}</p>",
      app_)
     def runde(n,r,s_,w,pr):
