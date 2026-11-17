@@ -39,10 +39,10 @@ D['spatz']=dict(nr=2,short='Spatzen',file='02_FreiDay_Spatzen_Logbuch_Blatt1_A4.
  lp_quellen='Klexikon «Haussperling» (klexikon.zum.de) · NABU: Haussperling (nabu.de) · Vogelwarte Sempach: Unterrichtselement «Wie vogelfreundlich ist unser Schulgelände?» (vogelwarte.ch)')
 D['futter']=dict(nr=3,short='Futterstelle',file='03_FreiDay_Futterstelle_Logbuch_Blatt1_A4.pdf',t='Der Futterstellen-Einsatz',frage='Wie können wir Vögeln im Winter Futter anbieten?',
  sdg=15,sdgn='Leben an Land',sdgt='Wir schützen Tiere und ihren Lebensraum an Land.',col='#56c02b',zeit=ZEIT,teams=1,
- kap=[dict(t='Der Hilferuf',p=['Mitte November. Der erste Schnee liegt auf dem Schulhof. In der grossen Pause ruft ein Kind der 4b: «Schaut mal! Dort hüpft ein Spatz im Schnee!» Alle bleiben stehen. Der Spatz pickt hier und da. Er findet fast nichts.',
-   '«Hat er Hunger?», fragt ein Kind. «Was frisst ein Spatz im Winter?», fragt ein anderes. «Und sollen wir Futter geben?» Alle reden durcheinander.',STOP]),
+ kap=[dict(t='Der Hilferuf',p=['Mitte November. Der erste Schnee liegt auf dem Schulhof. In der grossen Pause ruft ein Kind der 4b: «Schaut mal! Dort hüpft ein Vogel im Schnee!» Alle bleiben stehen. Der Vogel pickt hier und da. Er findet fast nichts.',
+   '«Hat er Hunger?», fragt ein Kind. «Was frisst ein Vogel im Winter?», fragt ein anderes. «Und sollen wir Futter geben?» Alle reden durcheinander.',STOP]),
   dict(t='Forschen',p=FORSCH('Vogel'))],
- foto=dict(e='🐦',l='❄️ ❄️ ❄️',cap='Der Spatz aus der Pause (Zeichnung)',aria='Zeichnung: ein kleiner Spatz im Schnee'),
+ foto=dict(img='/img/futter.jpg',cap='Ein Vogel im Schnee (ein Weisskehlammer aus Nordamerika)<br>Foto: Corvair Owner, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a>, via Wikimedia Commons',aria='Foto: ein kleiner Vogel sitzt im Schnee. Um ihn herum liegen dunkle Körner.'),
  verm='Was könnte im Winter mit den Vögeln passieren?',
  sdgl='Die Karte <b>SDG 15: Leben an Land</b> passt am besten: Wir schützen Tiere und ihren Lebensraum an Land. Auch SDG 13 (Klimaschutz) kann passen, wenn ihr es gut begründet habt.',
  lp_sehen='klein, hüpft im Schnee, pickt, findet fast nichts, allein.',lp_verm='Er findet im Schnee kaum Futter und friert.',lp_sdg='SDG 15 Leben an Land. SDG 13 (Klima) kann passen, wenn gut begründet.',
