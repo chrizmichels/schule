@@ -51,7 +51,7 @@ Dieses Repo enthält die Web-Apps für die Kinder und die Werkzeuge für die Pap
    - Akte 02: Rechnen mit den eigenen Zahlen (Watt × Stunden = Wattstunden, z. B. Beamer 2 h), Vergleich «Lampe 10 h gegen Beamer 1 h», Frage zu Standby. Der Beweisstück-Satz «Watt × Stunden = Wattstunden» ergänzen.
    - Auch die Papier-Akten um «5 · Verstehen» erweitern.
 2. Akte 02: Hausabwart informieren (Kinder fragen selbst nach den Watt der Zimmerlampe). Bei Laptop-Netzteilen steht oft nur V und A, dann V × A.
-3. Fotos für die Einsatz-Einstiege: echte Fotos statt Emoji. Fertig: igel, spatz, futter, znueni (Quellenzeile im `cap`). Offen: waerme, strom, zuhause. `landing/img/specht.jpg` (Fleckenspecht am Futterspender, CC BY 2.0, Bobolink) liegt bereit für das Kapitel «Das Umsetzen» der Futterstelle. Fotos in `landing/img/` und in `einsaetze.html` über `foto.img` einbinden.
+3. Fotos für die Einsatz-Einstiege: echte Fotos statt Emoji. Fertig: igel, spatz, futter, znueni, waerme (Quellenzeile im `cap`). Offen: strom, zuhause. `landing/img/specht.jpg` (Fleckenspecht am Futterspender, CC BY 2.0, Bobolink) liegt bereit für das Kapitel «Das Umsetzen» der Futterstelle. Fotos in `landing/img/` und in `einsaetze.html` über `foto.img` einbinden.
 4. Lektionsplanung Fr 20.11. und 27.11. und Material in den Lektionsordner kopieren.
 5. Offene Klärungen: Schulgarten/Hort/Hauswart-Erlaubnisse für die Einsätze; Wiederholung für Akte 03 «Drei Orte» (noch nicht bearbeitet, daher normaler Fall); Test 1 (Haltestelle 1+2) am 4.12.; Budget-Blatt für Fr 27.11.
 6. Ermittlungsakten 1–3 (Papier) tragen noch «Klima-Kommissariat» auf dem Deckblatt (bereits gedruckt, bei Neudruck auf «Kommissariat 4b» ändern).
