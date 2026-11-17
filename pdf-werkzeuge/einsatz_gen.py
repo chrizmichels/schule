@@ -20,14 +20,13 @@ def build(e):
         names=[]
         [names.append(fm(q[0])) for q in r['src'] if fm(q[0]) not in names]
         quelle=' und '.join(names)
-        return (f'<div class=rl><div class=rh><span class=rb>{n}</span><b>Runde {n} · {'Zusatz für schnelle Teams · ' if n==3 else ''}{r["t"]}</b><span class=nm4 style="margin-left:auto;font:700 9.5pt AtkH">Liest: {s_} · Hört zu: {pr} · Schreibt: {w}</span></div><p class=sm><b>1 · Text:</b> in der App lesen</p><p class=sm style="margin-top:1mm"><b>2 · Frage:</b> {plain(r["auftrag"])}</p><p class=sm style="margin-top:1mm"><b>3 · Antwort:</b></p>{ln(4,6.6)}</div>')
+        return (f'<div class=rl><div class=rh><span class=rb>{n}</span><b>Runde {n} · {'Zusatz für schnelle Teams · ' if n==3 else ''}{r["t"]}</b></div><p class=sm style="font-size:10.5pt">{plain(r["auftrag"])}</p>{ln(5,8.4)}</div>')
     F=e['felder'];rot=[('A','B','C'),('B','C','A'),('C','A','B')]
     p2=pg(bar_('Blatt 1 · Fr 20.11.'),sec(2,'Forschen','Fr 20.11.'),
-     "<p class=ro style='font-size:11.5pt'>Ihr habt ein Tablet. Zwei Runden. Die dritte ist für schnelle Teams. Die Aufgaben wechseln: <b>Liest</b> (Text in der App laut vorlesen, dann die Frage), <b>Hört zu</b> (sagt, was im Text die Antwort ist), <b>Schreibt</b> (Antwort ins Logbuch).</p>",
+     "<p class=ro style='font-size:11pt'>Lest zuerst den Text in der App. Dann beantwortet ihr die Frage hier. Zwei Runden. Die dritte ist für schnelle Teams.</p>",
      *[runde(i+1,F[i],*rot[i]) for i in range(3)],
      f"<div class=idl style='margin-top:3mm'><b>Unser Satz:</b> {e['satzs'][0]}"+ln(2,8)+f"<b>{e['satzs'][1]}</b>"+ln(2,8)+"</div>",
-     f"<p class=ro>{cb('Wir haben die zwei Runden gemacht und den Satz geschrieben.')}</p>",
-     "<p class=sm style='margin-top:2mm'>Legt dieses Blatt gut ab. Am nächsten Freitag baut euer Plan auf eurem Satz auf.</p>")
+     f"<p class=ro>{cb('Wir haben die zwei Runden gemacht und den Satz geschrieben.')}</p>")
     return p1+p2
 def lp_page(e):
     rows=''.join(f"<tr><td>{i+1}{' Zusatz' if i==2 else ''} {f['t']}</td><td>{f['auftrag']}</td><td>{f['loesung']}{('<br><span class=src>'+f['lp']+'</span>') if any(k in f['lp'] for k in ('steht nicht','NABU:','eigene Beobachtung')) else ''}</td><td><b>{' + '.join(q[0] for q in f['src'])}:</b> {', '.join(f['sw'])}<br><span class=src>Tipp 1: {f['tipp'][0]}</span></td></tr>" for i,f in enumerate(e['felder']))
