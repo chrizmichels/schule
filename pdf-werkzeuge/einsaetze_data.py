@@ -12,7 +12,7 @@ D['spatz']=dict(nr=2,short='Spatzen',file='02_FreiDay_Spatzen_Logbuch_Blatt1_A4.
  kap=[dict(t='Der Hilferuf',p=['Mitte November. In der grossen Pause tschilpt es laut im Gebüsch neben dem Schulhaus. «Das sind Spatzen!», ruft ein Kind. Viele kleine Vögel sitzen dicht zusammen in der Hecke.',
    '«Wie viele sind es?», fragt ein Kind. «Was brauchen sie im Winter?», fragt ein anderes. «Und was kann unsere Schule für sie tun?» Alle reden durcheinander.',STOP]),
   dict(t='Forschen',p=FORSCH('Spatzen'))],
- foto=dict(img='/img/spatz.jpg',w=330,cap='Ein Spatz im Regen<br>Foto: Stephen Craven, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a>, via Wikimedia Commons (Geograph)',aria='Foto: ein Spatz sitzt im Regen auf einer Metallstange und sperrt den Schnabel auf'),
+ foto=dict(img='/img/spatz.jpg',cap='Spatzen in einer Hecke im Winter<br>Foto: <a href="https://pixabay.com/photos/snow-winter-bird-animal-bokeh-2565566/" target="_blank" rel="noopener">Pixabay</a>',aria='Foto: zwei Spatzen sitzen auf einer Hecke. Die Zweige sind mit Raureif bedeckt.'),
  verm='Was könnte den Spatzen im Winter fehlen?',
  sdgl='Die Karte <b>SDG 15: Leben an Land</b> passt am besten: Wir schützen Tiere und ihren Lebensraum an Land. Auch SDG 13 (Klimaschutz) kann passen, wenn ihr es gut begründet habt.',
  lp_sehen='Viele Spatzen sitzen dicht zusammen in der Hecke und tschilpen.',lp_verm='Sie finden im Winter weniger Futter. Sie brauchen Verstecke.',lp_sdg='SDG 15 Leben an Land. SDG 13 (Klima) kann passen, wenn gut begründet.',
