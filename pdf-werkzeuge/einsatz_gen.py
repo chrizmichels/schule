@@ -14,7 +14,7 @@ def build(e):
      "<p class=ro><b>Das sehen wir</b> (2 Dinge):</p>"+ln(3,11),
      f"<p class=ro><b>Das vermuten wir:</b> {e['verm']}</p>"+ln(6,11),
      f"<p class=ro style='border-left:3mm solid {e['col']};background:#f0f2f2;padding:3mm 4mm'><b>Unsere SDG-Karte: SDG {e['sdg']} · {e['sdgn']}</b><br>{e['sdgt']}<br><b>Darum passt sie:</b> {e['sdg_grund']}</p>",
-     "<p class=ro>Sucht die Karte und legt sie auf den Tisch.</p>",app_)
+     app_)
     def runde(n,r,s_,w,pr):
         fm=lambda n:(lambda a,b:a+' «'+b+'»')(*n.split(': ',1))
         names=[]
