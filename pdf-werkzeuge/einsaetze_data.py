@@ -42,7 +42,7 @@ D['futter']=dict(nr=3,short='Futterstelle',file='03_FreiDay_Futterstelle_Logbuch
  kap=[dict(t='Der Hilferuf',p=['Mitte November. Der erste Schnee liegt auf dem Schulhof. In der grossen Pause ruft ein Kind der 4b: «Schaut mal! Dort hüpft ein Vogel im Schnee!» Alle bleiben stehen. Der Vogel pickt hier und da. Er findet fast nichts.',
    '«Hat er Hunger?», fragt ein Kind. «Was frisst ein Vogel im Winter?», fragt ein anderes. «Und sollen wir Futter geben?» Alle reden durcheinander.',STOP]),
   dict(t='Forschen',p=FORSCH('Vogel'))],
- foto=dict(img='/img/futter.jpg',cap='Ein Vogel im Schnee (ein Weisskehlammer aus Nordamerika)<br>Foto: Corvair Owner, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a>, via Wikimedia Commons',aria='Foto: ein kleiner Vogel sitzt im Schnee. Um ihn herum liegen dunkle Körner.'),
+ foto=dict(img='/img/futter.jpg',cap='Ein Vogel im Schnee (ein Buchfink)<br>Foto: on3sign, <a href="https://www.pexels.com/de-de/foto/buchfink-in-verschneiter-winterlandschaft-35743675/" target="_blank" rel="noopener">Pexels</a>',aria='Foto: ein kleiner Vogel mit rötlicher Brust steht allein im Schnee.'),
  verm='Was könnte im Winter mit den Vögeln passieren?',
  sdgl='Die Karte <b>SDG 15: Leben an Land</b> passt am besten: Wir schützen Tiere und ihren Lebensraum an Land. Auch SDG 13 (Klimaschutz) kann passen, wenn ihr es gut begründet habt.',
  lp_sehen='klein, hüpft im Schnee, pickt, findet fast nichts, allein.',lp_verm='Er findet im Schnee kaum Futter und friert.',lp_sdg='SDG 15 Leben an Land. SDG 13 (Klima) kann passen, wenn gut begründet.',
