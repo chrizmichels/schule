@@ -116,7 +116,7 @@ COMMON=dict(sdg=13,sdgn='Klimaschutz',sdgt='Wir schützen das Klima.',col='#3f7e
 D['waerme']=dict(COMMON,nr=5,short='Waerme',file='05_FreiDay_Waerme_Logbuch_Blatt1_A4.pdf',t='Der Wärme-Einsatz',frage='Wie können wir in unserer Schule Wärme sparen?',
  kap=[dict(t='Der Hilferuf',p=['Mitte November. Die 4b kommt aus der Pause zurück. Im Gang ist es kalt. Im Klassenzimmer steht die Tür offen und ein Fenster ist gekippt. Die Heizung läuft.','«Warum ist es hier so kalt?», fragt ein Kind. «Wohin geht die Wärme?», fragt ein anderes. «Und wie können wir Energie sparen?» Alle reden durcheinander.',STOP]),
   dict(t='Forschen',p=FORSCH('Energie'))],
- foto=dict(img='/img/waerme.jpg',w=250,cap='Ein Heizkörper am Fenster<br>Foto: Derek Harper, <a href="https://creativecommons.org/licenses/by-sa/2.0/" target="_blank" rel="noopener">CC BY-SA 2.0</a>, via Wikimedia Commons (Geograph)',aria='Foto: ein weisser Heizkörper steht unter einem Fenster. Draussen sieht man grosse Bäume.'),
+ foto=dict(img='/img/waerme.jpg',w=320,cap='Ein Fenster im Winter, unten ein Heizkörper<br>Foto: canshotz, <a href="https://www.pexels.com/de-de/foto/gemutliche-innenszene-mit-winterlichem-fensterblick-36406089/" target="_blank" rel="noopener">Pexels</a>',aria='Foto: ein Fenster mit Blick auf einen verschneiten Baum und eine Strasse. Unter dem Fenster steht ein Heizkörper. Links stehen eine Lampe und Pflanzen.'),
  verm='Wohin geht die Wärme, wenn die Tür offen und das Fenster gekippt ist?',
  lp_sehen='Kalter Gang, offene Tür, gekipptes Fenster, Heizung läuft.',lp_verm='Die warme Luft geht nach draussen oder in den Gang. Die Heizung muss mehr arbeiten.',
  felder=[FA,FB,FC(t='Heizen und Lüften',sw=['Stoßlüften','Türen','Grad'],
