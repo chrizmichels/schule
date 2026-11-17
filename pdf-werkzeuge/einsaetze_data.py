@@ -132,7 +132,7 @@ D['waerme']=dict(COMMON,nr=5,short='Waerme',file='05_FreiDay_Waerme_Logbuch_Blat
 D['strom']=dict(COMMON,nr=6,short='Strom',file='06_FreiDay_Strom_Logbuch_Blatt1_A4.pdf',t='Der Strom-Einsatz',frage='Wie können wir in unserer Schule Strom sparen?',
  kap=[dict(t='Der Hilferuf',p=['Mitte November. Es wird früh dunkel. Nach der grossen Pause kommt die 4b ins Klassenzimmer zurück. Das Licht brennt. Der Computer läuft. Der Bildschirm leuchtet. Aber niemand war im Zimmer.','«Wie lange läuft das schon?», fragt ein Kind. «Was kostet das?», fragt ein anderes. «Und was macht das mit der Umwelt?» Alle reden durcheinander.',STOP]),
   dict(t='Forschen',p=FORSCH('Energie'))],
- foto=dict(img='/img/strom.jpg',w=330,cap='Eine Steckerleiste mit vielen Kabeln<br>Foto: Ivy Main, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via Wikimedia Commons',aria='Foto: eine weisse Steckerleiste mit fünf Steckern und vielen Kabeln liegt auf einem Holzboden. Rechts ist ein roter Schalter.'),
+ foto=dict(img='/img/strom.jpg',w=330,cap='Ein Schulzimmer: das Licht brennt, niemand ist da<br>Foto: Harrison Keely, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>, via Wikimedia Commons',aria='Foto: ein leeres Schulzimmer. Die Deckenlampen brennen. Die Stühle stehen auf den Tischen.'),
  verm='Was passiert, wenn das jeden Tag so ist?',
  lp_sehen='Licht an, Computer und Bildschirm laufen, niemand im Raum.',lp_verm='Strom wird verschwendet, kostet Geld und belastet das Klima.',
  felder=[FA,FB,FC(t='Licht',sw=['Licht','Tageslicht','auszuschalten'],
