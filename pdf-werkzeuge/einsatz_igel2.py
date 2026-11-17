@@ -1,6 +1,6 @@
 from lib import *
 import qrcode
-LINK='freiday-4b.vercel.app/einsaetze'
+LINK='425.co/f'
 def qrsvg(txt,mm=19):
     m=qrcode.QRCode(border=0,error_correction=qrcode.constants.ERROR_CORRECT_M);m.add_data('https://'+txt);m.make();M=m.get_matrix();n=len(M)
     d=''.join(f'M{x},{y}h1v1h-1z' for y,r in enumerate(M) for x,v in enumerate(r) if v)
