@@ -4,7 +4,7 @@ NABU_V='https://berlin.nabu.de/tiere-und-pflanzen/was-tun-wenn/15359.html'
 KLX='https://klexikon.zum.de/wiki/'
 STOP='Da sagt jemand: «Stopp. Zuerst schauen wir genau hin. Dann sammeln wir, was wir vermuten.»'
 FORSCH=lambda wer:['Die Teams wollen es genau wissen. Aber niemand ist %s-Experte. «Wo finden wir die Antworten?», fragt ein Kind. «In den Quellen!», ruft ein anderes.'%wer,
-  'Es gibt nur ein Tablet pro Team. Darum forschen die Teams in drei Runden. In jeder Runde hat jedes Kind eine andere Aufgabe.']
+  'Es gibt nur ein Tablet pro Team. Darum forschen die Teams in zwei Runden. Schnelle Teams machen eine dritte. In jeder Runde hat jedes Kind eine andere Aufgabe.']
 ZEIT=['Fr 20.11.','Fr 20.11.','Fr 27.11.','Fr 4.12.','Fr 11.12.','Fr 18.12.']
 D={}
 D['spatz']=dict(nr=2,short='Spatzen',file='02_FreiDay_Spatzen_Logbuch_Blatt1_A4.pdf',t='Der Spatzen-Einsatz',frage='Wie können wir den Spatzen rund um unsere Schule helfen?',
@@ -164,3 +164,28 @@ D['zuhause']=dict(COMMON,nr=7,short='Zuhause',file='07_FreiDay_Zuhause_Logbuch_B
 
 for _k,_v in {'igel': 'Der Igel lebt an Land. Wir schützen sein Zuhause: Laub, Hecken und Garten.', 'spatz': 'Spatzen leben an Land. Wir helfen ihnen mit Verstecken und Futter.', 'futter': 'Vögel leben an Land. Mit der Futterstelle helfen wir ihnen im Winter.', 'znueni': 'Alle Menschen sollen genug und gut zu essen haben. Wir wollen ein gutes Znüni für alle.', 'waerme': 'Wer Wärme spart, braucht weniger Energie. Das schützt das Klima.', 'strom': 'Wer Strom spart, braucht weniger Energie. Das schützt das Klima.', 'zuhause': 'Wer zu Hause Energie spart, schützt das Klima.'}.items():
     if _k in D: D[_k]['sdg_grund']=_v
+
+# --- Kurztext pro Runde (erst lesen, Quelle/Klexikon zum Schluss); 2 Pflichtrunden + 1 Zusatzrunde (Reihenfolge: Pflicht, Pflicht, Zusatz) ---
+KURZ={
+('spatz','A'):"Spatzen (Haussperlinge) leben gern in der Nähe von <b>Menschen</b>: in Städten und in Gärten. Sie fressen vor allem <b>Samen</b>. Im Sommer fressen sie auch Insekten. Spatzen suchen ihr Futter in <b>Gruppen</b>. So warnen sie einander vor Feinden.",
+('spatz','B'):"Haussperlinge sind <b>Standvögel</b>. Das heisst: Sie bleiben das ganze Jahr bei uns. Sie leben <b>gesellig</b>, also in Gesellschaft. Ihr Tschilpen kommt oft aus einer <b>Hecke</b>.",
+('spatz','C'):"Ein Vogel braucht ein Nest, Material fürs Nest, <b>Futter</b> und Wasser und <b>Verstecke</b>. <b>Gefahren</b> sind zum Beispiel Katzen und grosse Fenster, in denen sich Bäume spiegeln.",
+('futter','A'):"Im Winter dürfen Vögel zum Beispiel <b>Sonnenblumenkerne</b>, Hanfkörner und <b>Meisenknödel</b> fressen. <b>Brot</b> und Essenreste sind nichts für Vögel. Sie sind tabu.",
+('futter','B'):"Ein <b>Silofutterhäuschen</b> ist eine saubere Sache: Es schützt das Futter. Der <b>Futterspender</b> soll für <b>Katzen</b> nicht erreichbar sein. Man sollte den Standort ab und zu wechseln.",
+('futter','C'):"Meisen und Amseln finden im Winter meist selbst genug Nahrung. Füttern ist nicht verboten, aber oft nicht <b>notwendig</b>. Wenn man füttert, ist <b>Hygiene</b> wichtig: Die Futterstelle muss regelmässig gereinigt werden, sonst können Keime Vögel gefährden. Man kann Futter selber machen: Fett erwärmen (zum Beispiel Kokosfett), <b>Körnermischung</b> untermischen, formen, auskühlen lassen und aufhängen. Keine <b>Kunststoffnetze</b> verwenden: Vögel können sich darin verfangen.",
+('znueni','A'):"Der Körper holt sich aus dem Essen <b>Energie</b>. Mit dieser Energie <b>wächst</b> er und erneuert sich. Dafür braucht er <b>Kohlenhydrate</b>. Sie stecken zum Beispiel in Brot, Reis und Kartoffeln.",
+('znueni','B'):"Zu gesundem Essen gehört sauberes <b>Trinkwasser</b>. Dazu kommen <b>Obst</b> und Gemüse mit vielen <b>Vitaminen</b>. Auch Kohlenhydrate (Brot, Reis, Kartoffeln), Eiweiss und etwas Fett gehören dazu.",
+('znueni','C'):"Bei einer <b>Allergie</b> hält der Körper einen Stoff für <b>Gift</b>, obwohl er für die meisten Menschen harmlos ist, zum Beispiel <b>Erdnüsse</b>. Das kann gefährlich werden. Darum muss man vorher fragen, was jedes Kind essen darf.",
+('waerme','A'):"Energie kommt zum Beispiel von der Sonne (<b>Sonnenenergie</b>), vom Wasser (<b>Wasserkraft</b>), aus Holz und aus der Erde (Erdwärme). Diese Energie gilt als erneuerbar. Kohle, <b>Erdöl</b> und Erdgas gibt es nur begrenzt.",
+('waerme','B'):"Der Mensch braucht <b>Wärme</b>, damit er im Winter nicht friert. Dafür gibt es die <b>Heizung</b>. Er braucht auch <b>Strom</b>, zum Beispiel für Licht und Geräte. Und er braucht Energie für Bewegung, zum Beispiel für Autos.",
+('waerme','C'):"Nach jeder Schulstunde kurz und kräftig <b>stosslüften</b>, statt das Fenster zu kippen. Sonst kühlen die Wände aus. Bei Kälte <b>Türen</b> und Fenster schliessen. In Klassenräumen reichen etwa 20 <b>Grad</b>. Jedes Grad weniger spart ungefähr 6 % Heizenergie.",
+('strom','C'):"Schalte das <b>Licht</b> nur ein, wenn es wenig <b>Tageslicht</b> hat. Ist niemand im Raum, ist es gut, das Licht <b>auszuschalten</b>. Farbige Klebepunkte an den Schaltern zeigen, welche Lampe wofür ist.",
+('zuhause','C'):"Auch Computer und <b>Ladegeräte</b> brauchen oft Strom, ohne dass man etwas sieht. Das heisst <b>Standby</b>. Mit einer schaltbaren <b>Steckerleiste</b> kann man Geräte ganz vom Netz trennen."}
+KURZ[('strom','A')]=KURZ[('zuhause','A')]=KURZ[('waerme','A')];KURZ[('strom','B')]=KURZ[('zuhause','B')]=KURZ[('waerme','B')]
+SW={('znueni','C'):['Allergie','Gift','Erdnüsse'],('waerme','C'):['stosslüften','Türen','Grad'],('zuhause','C'):['Standby','Steckerleiste','Ladegeräte']}
+ZUSATZ={'spatz':'B','futter':'B','znueni':'A','waerme':'A','strom':'A','zuhause':'A'}
+for _k,_e in D.items():
+    for _r in _e['felder']:
+        _r['kurz']=KURZ[(_k,_r['k'])]
+        if (_k,_r['k']) in SW: _r['sw']=SW[(_k,_r['k'])]
+    _e['felder'].sort(key=lambda r:r['k']==ZUSATZ[_k])

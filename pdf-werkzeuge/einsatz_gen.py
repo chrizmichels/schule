@@ -20,24 +20,24 @@ def build(e):
         names=[]
         [names.append(fm(q[0])) for q in r['src'] if fm(q[0]) not in names]
         quelle=' und '.join(names)
-        return (f'<div class=rl><div class=rh><span class=rb>{n}</span><b>Runde {n} · {r["t"]}</b><span class=nm4 style="margin-left:auto;font:700 9.5pt AtkH">Sucht: {s_} · Prüft: {pr} · Schreibt: {w}</span></div><p class=sm>{plain(r["auftrag"])}</p><p class=sm style="margin-top:1mm"><b>Quelle:</b> {quelle} &nbsp;·&nbsp; <b>Findet im Text:</b> {" · ".join(r["sw"])}</p>{ln(4,7.4)}</div>')
+        return (f'<div class=rl><div class=rh><span class=rb>{n}</span><b>Runde {n} · {'Zusatz für schnelle Teams · ' if n==3 else ''}{r["t"]}</b><span class=nm4 style="margin-left:auto;font:700 9.5pt AtkH">Sucht: {s_} · Prüft: {pr} · Schreibt: {w}</span></div><p class=sm>{plain(r["auftrag"])}</p><p class=sm style="margin-top:1mm"><b>Text:</b> in der App lesen &nbsp;·&nbsp; <b>Findet im Text:</b> {" · ".join(r["sw"])}</p>{ln(4,7.4)}</div>')
     F=e['felder'];rot=[('A','B','C'),('B','C','A'),('C','A','B')]
     p2=pg(bar_('Blatt 1 · Fr 20.11.'),sec(2,'Forschen','Fr 20.11.'),
-     "<p class=ro style='font-size:11.5pt'>Ihr habt ein Tablet. Drei Runden. Die Aufgaben wechseln: <b>Sucht</b> (Quelle in der App öffnen, Wörter im Text finden), <b>Prüft</b> (liest mit: Steht <b>beides</b> aus der Frage im Text? Dann «Stopp, das ist es!»), <b>Schreibt</b> (Antwort ins Logbuch).</p>",
+     "<p class=ro style='font-size:11.5pt'>Ihr habt ein Tablet. Zwei Runden. Die dritte ist für schnelle Teams. Die Aufgaben wechseln: <b>Sucht</b> (Text in der App lesen, Wörter im Text finden), <b>Prüft</b> (liest mit: Steht <b>beides</b> aus der Frage im Text? Dann «Stopp, das ist es!»), <b>Schreibt</b> (Antwort ins Logbuch).</p>",
      *[runde(i+1,F[i],*rot[i]) for i in range(3)],
      f"<div class=idl style='margin-top:3mm'><b>Unser Satz:</b> {e['satzs'][0]}"+ln(2,8)+f"<b>{e['satzs'][1]}</b>"+ln(2,8)+"</div>",
-     f"<p class=ro>{cb('Wir haben alle drei Runden gemacht und den Satz geschrieben.')}</p>",
+     f"<p class=ro>{cb('Wir haben die zwei Runden gemacht und den Satz geschrieben.')}</p>",
      "<p class=sm style='margin-top:2mm'>Legt dieses Blatt gut ab. Am nächsten Freitag baut euer Plan auf eurem Satz auf.</p>")
     return p1+p2
 def lp_page(e):
-    rows=''.join(f"<tr><td>{i+1} {f['t']}</td><td>{f['auftrag']}</td><td>{f['loesung']}{('<br><span class=src>'+f['lp']+'</span>') if any(k in f['lp'] for k in ('steht nicht','NABU:','eigene Beobachtung')) else ''}</td><td><b>{' + '.join(q[0] for q in f['src'])}:</b> {', '.join(f['sw'])}<br><span class=src>Tipp 1: {f['tipp'][0]}</span></td></tr>" for i,f in enumerate(e['felder']))
+    rows=''.join(f"<tr><td>{i+1}{' Zusatz' if i==2 else ''} {f['t']}</td><td>{f['auftrag']}</td><td>{f['loesung']}{('<br><span class=src>'+f['lp']+'</span>') if any(k in f['lp'] for k in ('steht nicht','NABU:','eigene Beobachtung')) else ''}</td><td><b>{' + '.join(q[0] for q in f['src'])}:</b> {', '.join(f['sw'])}<br><span class=src>Tipp 1: {f['tipp'][0]}</span></td></tr>" for i,f in enumerate(e['felder']))
     return f'''<div class=page><h1>Lösungs-Logbuch: {e['t']}, Freitag 20.11.</h1><p class=sub>Für die Lehrperson · Etappe 1 Hilferuf und Etappe 2 Forschen · {e['teams']} Team{'s' if e['teams']>1 else ''} (je 1 Logbuch Blatt 1, doppelseitig)</p>
 <h2>Ablauf am Freitag</h2>
 <ul><li><b>Input (höchstens 5 Min.):</b> Geschichte aus der App vorlesen. Dann arbeiten die Teams selbständig. <b>Material:</b> 1 Tablet pro Team, Logbuch Blatt 1, SDG-Karten.</li><li><b>Tablet-Logistik:</b> Pro Runde sucht ein Kind (Tablet), eines schreibt, eines prüft. Die Rollen wechseln. Das Lösungs-Logbuch erscheint in der App erst nach der eigenen Antwort.</li></ul>
 <h2>Etappe 1 · Hilferuf</h2>
 <div class=box><b class=k>Das sehen wir:</b> {e['lp_sehen']} <b class=k>Vermutung:</b> {e['lp_verm']} <b class=k>SDG-Karte:</b> {e['lp_sdg']}</div>
-<h2>Etappe 2 · Forschen (3 Runden)</h2>
-<table><tr><th>Runde</th><th>Auftrag</th><th>Lösung</th><th>Quelle · Wörter zum Finden im Text (vorgegeben) · Tipps (1 · 2)</th></tr>{rows}</table>
+<h2>Etappe 2 · Forschen (2 Pflichtrunden + 1 Zusatzrunde)</h2>
+<table><tr><th>Runde</th><th>Auftrag</th><th>Lösung</th><th>Quelle (zum Schluss) · Wörter im Text (vorgegeben) · Tipp</th></tr>{rows}</table>
 <div class=box><b class=k>Unser Satz (Ziel von Freitag 1), Beispiel:</b> «{e['satzl']}» Dieser Satz ist der Einstieg für Freitag 2.</div>
 <h2>Wohin es führt (nur für dich)</h2><ul>{''.join('<li>'+x+'</li>' for x in e['lp_weiter'])}</ul>
 <div class="box warn"><b>Sicherheit:</b> {e['lp_sicher']}</div>
