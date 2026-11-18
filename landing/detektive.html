@@ -82,7 +82,7 @@ h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:
 .opts.two{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
 .opt{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 16px;border:2px solid var(--rule);border-radius:10px;background:var(--desk);text-align:left;font-weight:700;font-size:20px;line-height:1.2;transition:transform .08s}
 .opt small{display:block;font-family:var(--f-type);font-weight:400;font-size:14px;color:var(--muted)}
-.opt:hover{border-color:var(--ink);transform:translateY(-1px)}
+.opt:hover{border-color:var(--ink);transform:translateY(-1px)}.opt.ok{border-color:#2a7a3b;background:#e3f3e6;box-shadow:inset 6px 0 0 #2a7a3b}.opt.bad{border-color:#b3302a;background:#fbe9e7;box-shadow:inset 6px 0 0 #b3302a}.opt:disabled{cursor:default;transform:none}.lgrp{font-family:var(--f-type);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:var(--muted);margin:26px 0 6px}.lq{margin:14px 0 22px}.lq .q{font-weight:700;font-size:19px}.lcard{margin-top:18px;border:3px solid var(--ink);border-radius:12px;padding:14px 16px;background:#fffdf2}.lcard.lock{opacity:.6;border-style:dashed}.lcard h3{margin:0 0 4px}.lcard p{margin:4px 0 10px}
 .opt[aria-pressed=true]{border-color:var(--ink);background:var(--hl-soft);box-shadow:inset 6px 0 0 var(--ink)}
 .load{padding:18px;border:2px dashed var(--muted);border-radius:12px;text-align:center;font-family:var(--f-type);font-weight:700;margin:16px 0}
 
@@ -242,7 +242,7 @@ function chipsFor(g,sel,block){
  ((!known||S.cust===g)?`<input type="date" data-g="${g}" data-act="cday" min="${addDays(t,-20)}" max="${t}" value="${sel}" aria-label="Datum wählen">`:'')+`</div>`}
 
 /* ---------- Zustand ---------- */
-const S={view:'home',loading:false,err:null,cust:null,
+const S={view:'home',lern:{},loading:false,err:null,cust:null,
  f1:{day:FIX[0],c:{a:false,b:false,c:false},show:false,res:null,self:null},
  f2:{a:FIX[0],b:FIX[1],c:{a:false,b:false,c:false},show:false,res:null,self:null},
  f3:{day:FIX[0],time:'12',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
@@ -309,7 +309,7 @@ function viewHome(){
  <div class="need"><b>Das brauchst du (Papier):</b><ul><li><b>Deine Akte:</b> Zu jedem Fall gehört eine Akte (Akte 01, 02, 03). Dort schreibst du bei Schritt 1, 2, 3 …</li><li><b>KM 54.2:</b> Hier trägst du Temperaturen ein und malst die Kurven (Akte 01 und 02).</li><li><b>KM 54.3:</b> Hier stehen die Höhen der Orte (Akte 03).</li><li><b>Stifte:</b> Bleistift, <span class="rot">rot</span> und <span class="blau">blau</span>.</li></ul></div>
  <div id="now" class="now" aria-live="off"><small>Jetzt in Zürich …</small></div></section>
  <div class="files">${A.map(([i,t,q])=>`<div class="file"><span class="tab">Akte 0${i}</span><h3>${t}</h3><p>${q}</p><div class="foot"><span class="stars ${solved[i]?'on':''}" aria-label="${solved[i]?'gelöst':'offen'}">${solved[i]?'★':'☆'}</span><button class="open" data-act="open" data-v="${i}">Akte öffnen</button></div>${solved[i]?'<span class="solvedst">GELÖST</span>':''}</div>`).join('')}</div>
- ${n===3?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}`}
+ ${n===3?`<div class="qcard" style="margin-top:22px"><div class="fb"><span class="stp">Alle Akten gelöst</span><strong>Gut ermittelt!</strong>Du bist jetzt Klimadetektiv oder Klimadetektivin.</div></div>`:''}${lernCard()}`}
 
 const chkRow=(f,k,t)=>`<label class="chk"><input type="checkbox" data-act="chk" data-f="${f}" data-k="${k}" ${S['f'+f].c[k]?'checked':''} ${S['f'+f].show?'disabled':''}><span>${t}</span></label>`;
 const VERM={1:['a'],2:['a'],3:['a','b']};
@@ -400,7 +400,7 @@ function sol3(r){
  return h+doneBtns('3')}
 
 function render0(){
- const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3}[S.view]||viewHome;
+ const m={home:viewHome,'1':viewF1,'2':viewF2,'3':viewF3,lern:viewLern}[S.view]||viewHome;
  $('#app').innerHTML=m()+(S.view==='home'?'':'</div>');
  if(S.view==='home')showNow();
  if(S.view==='3'&&S.f3.map&&S.f3.res)drawMap();
@@ -470,6 +470,48 @@ const setDay=(g,v)=>{S.cust=null;const t=todayKey();
  else if(g==='f2b'){S.f2.b=v;afterChange(2)}
  else if(g==='f3'){S.f3.day=v;if(v!==t&&S.f3.time==='now')S.f3.time='12';afterChange(3)}};
 
+
+/* ---------- Lernen: Probeprüfung (frei, wenn alle Akten gelöst sind) ---------- */
+const allSolved=()=>['1','2','3'].every(k=>solved[k]);
+const thermo=v=>{const y=t=>230-t*17;let s=`<svg viewBox="0 0 220 260" width="200" role="img" aria-label="Thermometer. Die Flüssigkeit steht bei einer Zahl zwischen 0 und 12 Grad." font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif"><rect x="90" y="14" width="26" height="224" rx="13" fill="#fff" stroke="#14211f" stroke-width="3"/><rect x="97" y="${y(v)}" width="12" height="${230-y(v)+8}" fill="#d62828"/><circle cx="103" cy="240" r="13" fill="#d62828" stroke="#14211f" stroke-width="3"/>`;
+ for(let t=0;t<=12;t++){s+=`<line x1="${t%2?118:124}" x2="132" y1="${y(t)}" y2="${y(t)}" stroke="#14211f" stroke-width="2"/>`;if(t%2===0)s+=`<text x="140" y="${y(t)+5}" font-size="16">${t}</text>`}
+ return s+'<text x="172" y="20" font-size="15">°C</text></svg>'};
+const miniChart=(sers)=>{const H=[8,10,12,14,16,18,20],w=420,h=190,L=34,R=10,T=8,B=24,lo=3,hi=11,X=x=>L+(x-8)/12*(w-L-R),Y=v=>T+(hi-v)/(hi-lo)*(h-T-B);
+ let s=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Temperatur-Diagramm von 8 bis 20 Uhr" font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif" font-size="14">`;
+ for(let v=lo;v<=hi;v+=2)s+=`<line x1="${L}" x2="${w-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="#cdb886" stroke-dasharray="4 5"/><text x="${L-6}" y="${Y(v)+5}" text-anchor="end">${v}</text>`;
+ H.forEach(x=>s+=`<text x="${X(x)}" y="${h-6}" text-anchor="middle">${x}</text>`);
+ sers.forEach(([vals,c,d])=>{s+=`<polyline points="${vals.map((v,i)=>X(H[i])+','+Y(v)).join(' ')}" fill="none" stroke="${c}" stroke-width="3" ${d?'stroke-dasharray="7 5"':''}/>`+vals.map((v,i)=>`<circle cx="${X(H[i])}" cy="${Y(v)}" r="4" fill="${c}"/>`).join('')});
+ return s+'<text x="2" y="'+(h-6)+'" font-size="12">°C</text></svg>'};
+const D1=[4.2,5.3,5.7,6.7,6.5,6.1,6.3],D2=[9.6,9.5,10.1,10.1,9.4,9.7,9.7];
+const LQ=[
+ {g:'Haltestelle 1 · Wetter messen',q:'Wie viele Grad zeigt das Thermometer?',fig:()=>thermo(7),o:['5 °C','6 °C','7 °C','8 °C'],c:2,e:'Lies bei der Spitze der roten Flüssigkeit ab. Sie steht bei 7.'},
+ {g:'Haltestelle 1 · Wetter messen',q:'Warum messen wir immer zur gleichen Zeit und am gleichen Ort?',o:['Dann ist es immer warm.','Dann kann man die Werte vergleichen.','Dann braucht man kein Thermometer.','Dann scheint immer die Sonne.'],c:1,e:'Nur wenn Zeit und Ort gleich sind, kann man die Werte vergleichen.'},
+ {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Das Diagramm zeigt Tag 1 (Freitag, 6. November). Um wie viel Uhr war es am wärmsten?',fig:()=>miniChart([[D1,'#d62828']]),o:['8 Uhr','12 Uhr','14 Uhr','18 Uhr'],c:2,e:'Der höchste Punkt der Kurve liegt bei 14 Uhr: 6,7 °C.'},
+ {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Wie viel wärmer war es um 14 Uhr als um 8 Uhr? (Um 8 Uhr: 4,2 °C. Um 14 Uhr: 6,7 °C.)',o:['1,5 °C','2,5 °C','4,2 °C','6,7 °C'],c:1,e:'6,7 − 4,2 = 2,5 °C.'},
+ {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Rot ist Tag 1, blau ist Tag 2. Welcher Tag war wärmer?',fig:()=>miniChart([[D1,'#d62828'],[D2,'#1d4ed8',1]]),o:['Tag 1 (rot)','Tag 2 (blau)','Beide gleich warm'],c:1,e:'Die blaue Kurve liegt an allen Zeiten über der roten. Tag 2 war wärmer.'},
+ {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Um 12 Uhr war Tag 1 bei 5,7 °C und Tag 2 bei 10,1 °C. Wie viel Grad Unterschied sind das?',o:['4,4 °C','5,7 °C','10,1 °C','15,8 °C'],c:0,e:'10,1 − 5,7 = 4,4 °C. Du rechnest die grössere Zahl minus die kleinere.'},
+ {g:'Akte 01 bis 03 · Warum ist die Temperatur so?',q:'Warum ist es am Nachmittag am wärmsten?',o:['Am Nachmittag ist die Sonne am stärksten.','Der Boden ist am Nachmittag am kältesten.','Die Sonne wärmt den Boden, der Boden wärmt die Luft. Das dauert, bis in den Nachmittag.','Die Luft wärmt den Boden.'],c:2,e:'Die Sonne wärmt den Boden. Der warme Boden wärmt die Luft. Auch nach dem Mittag wird der Boden noch wärmer.'},
+ {g:'Akte 01 bis 03 · Warum ist die Temperatur so?',q:'Was machen Wolken am Tag mit der Temperatur?',o:['Sie halten Sonnenstrahlen ab. Es bleibt kühler.','Sie machen es immer wärmer.','Sie machen es nur nachts kälter.','Sie haben keine Wirkung.'],c:0,e:'Wolken halten Sonnenstrahlen ab. Dann kommt weniger Wärme zum Boden.'},
+ {g:'Akte 01 bis 03 · Warum ist die Temperatur so?',q:'Was ist Nebel?',o:['Eine Wolke direkt am Boden.','Sehr starker Wind.','Warme Luft vom Süden.','Gefrorener Regen.'],c:0,e:'Nebel ist eine Wolke am Boden. Die Sonne kommt kaum durch, darum bleibt es kühl.'},
+ {g:'Akte 01 bis 03 · Warum ist die Temperatur so?',q:'Was macht der Wind mit der Temperatur?',o:['Er bringt Luft von anderswo. Sie kann warm oder kalt sein.','Er macht es immer kälter.','Er macht es immer wärmer.','Er hat nichts mit der Temperatur zu tun.'],c:0,e:'Wind bringt Luft von anderswo. Kommt sie aus dem Norden, ist sie oft kälter, aus dem Süden oft wärmer.'},
+ {g:'Akte 03 · Drei Orte',q:'Warum ist es in den Bergen kälter?',o:['Weil die Sonne dort weniger scheint.','Je höher man kommt, desto geringer wird der Luftdruck. Aufsteigende Luft dehnt sich aus und wird kälter.','Weil Berge aus kaltem Stein sind.','Weil die Luft oben schwerer ist.'],c:1,e:'Oben ist der Luftdruck geringer. Aufsteigende Luft dehnt sich aus. Dabei sinkt ihre Temperatur.'},
+ {g:'Akte 03 · Drei Orte',q:'Pro 100 Meter höher wird es etwa …',o:['0,6 °C kälter','6 °C kälter','0,6 °C wärmer','60 °C kälter'],c:0,e:'Pro 100 Meter wird es etwa 0,6 °C kälter.'},
+ {g:'Akte 03 · Drei Orte',q:'Am 6. November um 8 Uhr: Lugano (273 m) 10,1 °C, Zürich (556 m) 4,2 °C, Zermatt (1638 m) 2,2 °C. Was passt?',o:['Je höher der Ort, desto kälter.','Je höher der Ort, desto wärmer.','Die Höhe ist egal.'],c:0,e:'Zermatt liegt am höchsten und ist am kältesten. Lugano liegt am tiefsten und ist am wärmsten.'}];
+function lernCard(){const n=['1','2','3'].filter(k=>solved[k]).length,ok=n===3;
+ return `<div class="lcard ${ok?'':'lock'}"><h3>${ok?'':'🔒 '}Lernen für Test 1</h3><p>${ok?'Übe mit Fragen wie im Test. Du bekommst sofort die Rückmeldung.':'Löse zuerst alle drei Akten. Gelöst: '+n+' von 3.'}</p>${ok?'<button class="btn" data-act="open" data-v="lern">Fragen üben</button>':''}</div>`}
+function viewLern(){
+ let h=`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Lernen</small>Probeprüfung Test 1</div></div><div class="qcard">`;
+ if(!allSolved())return h+FB('no','Noch gesperrt.','<p>Löse zuerst alle drei Akten und tippe auf «Akte schliessen».</p>');
+ h+='<p class="muted">Übe mit Fragen wie im Test. Tippe auf eine Antwort. Du siehst sofort, ob sie stimmt.</p>';
+ let last='',done=0,right=0;
+ LQ.forEach((q,i)=>{const a=S.lern[i],ans=a!==undefined;if(ans){done++;if(a===q.c)right++}
+  if(q.g!==last){h+=`<div class="lgrp">${q.g}</div>`;last=q.g}
+  h+=`<div class="lq"><p class="q">${i+1}. ${q.q}</p>${q.fig?`<div class="fig">${q.fig()}</div>`:''}<div class="opts">`+q.o.map((t,j)=>`<button class="opt ${ans?(j===q.c?'ok':j===a?'bad':''):''}" data-act="lq" data-q="${i}" data-i="${j}" ${ans?'disabled':''}>${t}</button>`).join('')+'</div>'
+   +(ans?(a===q.c?FB('info','Richtig!',`<p>${q.e}</p>`):FB('near','Nicht ganz.',`<p>Richtig: <b>${q.o[q.c]}</b></p><p>${q.e}</p>`)):'')+'</div>'});
+ if(done===LQ.length){h+=FB(right===LQ.length?'info':'near',`Du hast ${right} von ${LQ.length} richtig.`,right===LQ.length?'<p>Super! Du bist bereit für den Test.</p>':'<p>Lies bei den falschen Fragen nochmals das Beweisstück oder dein Lösungsdossier.</p>',1)}
+ else h+=`<p class="muted">${done} von ${LQ.length} beantwortet.</p>`;
+ return h+`<div class="actions"><button class="btn light" data-act="lreset">Nochmals von vorn</button></div>`}
+
 /* ---------- Klicks ---------- */
 document.addEventListener('click',e=>{
  const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const a=b.dataset.act,v=b.dataset.v,g=b.dataset.g;
@@ -481,6 +523,8 @@ document.addEventListener('click',e=>{
  else if(a==='show'){if(!taskOK(+v))return;S['f'+v].show=true;render();const fb=$('#fb');if(fb){try{fb.scrollIntoView({block:'start',behavior:'smooth'});fb.focus({preventScroll:true})}catch(e){}}}
  else if(a==='self'){S['f'+b.dataset.f].self=v;render()}
  else if(a==='map'){S.f3.map=!S.f3.map;render()}
+ else if(a==='lq'){const y=scrollY;S.lern[+b.dataset.q]=+b.dataset.i;render0();scrollTo(0,y)}
+ else if(a==='lreset'){S.lern={};render0();scrollTo(0,0)}
  else if(a==='retry'){const w=+S.view;S.err=null;if(w&&vermOK(w))run(w,false)}
  else if(a==='solve'){solved[v]=true;saveSolved();S.view='home';render();scrollTo(0,0)}
  else if(a==='again'){restart(v);delete solved[v];saveSolved();EXP.e1=false;EXP.e2=false;EXP.e3=false;render();scrollTo(0,0)}
@@ -490,7 +534,7 @@ document.addEventListener('change',e=>{const i=e.target;
  if(i.dataset.act==='chk'){const f=i.dataset.f,k=i.dataset.k;S['f'+f].c[k]=i.checked;if(vermOK(+f)&&!S['f'+f].res&&!S.loading)run(+f,false);else render();const n=document.querySelector(`[data-act=chk][data-f="${f}"][data-k="${k}"]`);if(n)n.focus();return}
  if(i.dataset.act!=='cday'||!i.value)return;const v=i.value;if(v>todayKey())return;setDay(i.dataset.g,v);S.cust=i.dataset.g;render()});
 /* Deep Links: #<nr> öffnet direkt eine Akte; Zurück-Taste funktioniert */
-const validView=h=>h==='home'||['1','2','3'].includes(h);
+const validView=h=>h==='home'||['1','2','3','lern'].includes(h);
 function syncHash(){const h=location.hash.slice(1)||'home';if(h!==S.view)history.pushState(null,'',S.view==='home'?location.pathname+location.search:'#'+S.view)}
 function readHash(){const h=decodeURIComponent(location.hash.slice(1));S.view=validView(h)?(h||'home'):'home'}
 window.addEventListener('popstate',()=>{readHash();render0();scrollTo(0,0)});
