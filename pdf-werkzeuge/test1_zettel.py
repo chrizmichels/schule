@@ -3,16 +3,16 @@ ziele=[
 ("Haltestelle 1: Wetter messen",[
  "Ich kann ein Thermometer genau ablesen.",
  "Ich kann die gemessene Temperatur im Diagramm als Punkt einzeichnen.",
- "Ich kann erklären, warum wir immer zur gleichen Zeit und am gleichen Ort messen: Nur so kann man die Werte vergleichen."]),
+ "Ich kann erklären, warum wir immer zur gleichen Zeit und am gleichen Ort messen."]),
 ("Haltestelle 2: Temperatur im Diagramm",[
  "Ich kann aus einer Tabelle ein Liniendiagramm zeichnen.",
- "Ich kann in einem Temperatur-Diagramm ablesen, wann es am wärmsten und am kältesten war.",
+ "Ich kann in einem Temperatur-Diagramm die höchste und die tiefste Temperatur ablesen.",
  "Ich kann den Unterschied von zwei Temperaturen in Grad ausrechnen."]),
 ("Akte 01 bis 03: Warum ist die Temperatur so?",[
- "Ich kann erklären, warum es am Nachmittag am wärmsten ist: Die Sonne wärmt den Boden, der Boden wärmt die Luft.",
+ "Ich kann erklären, warum es am Nachmittag am wärmsten ist.",
  "Ich kann erklären, wie Wolken, Nebel und Wind die Temperatur verändern.",
- "Ich kann erklären, warum es in den Bergen kälter ist: Je höher man kommt, desto geringer wird der Luftdruck. Aufsteigende Luft dehnt sich aus und kühlt ab.",
- "Ich kann Orte nach ihrer Höhe vergleichen (Lugano, Zürich, Zermatt) und sagen, wo es kälter ist."])]
+ "Ich kann erklären, warum es in den Bergen kälter ist.",
+ "Ich kann Orte nach ihrer Höhe vergleichen und die Temperaturen erklären."])]
 body=''.join(f'<h2>{t}</h2>'+''.join(f'<div class=z><span class=cb></span>{x}</div>' for x in l) for t,l in ziele)
 html=f'''<!doctype html><meta charset=utf-8><style>
 @page{{size:A4;margin:14mm 16mm}}
