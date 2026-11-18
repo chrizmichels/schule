@@ -28,6 +28,6 @@ h2{{font-size:12pt;margin:5mm 0 1.5mm;color:#1e7a8c}}
 <div class=w><b>Wann?</b> Freitag, 4. Dezember 2026, am Morgen (SOL)<br><b>Wie lange?</b> 25 Minuten. Du arbeitest allein und ohne Heft.</div>
 <p><b>Lernziele.</b> Das musst du für den Test können. Hake ein Kästchen ab, wenn du es sicher kannst.</p>
 {body}
-<div class=u><b>So übst du:</b> Schau deine Blätter KM 54.1, KM 54.2, KM 54.3, deine Akten und dein Messprotokoll an. Ab Freitag, 27. November, findest du in Schabi Übungsfragen mit Lösung zum Kontrollieren.</div>'''
+<div class=u><b>So übst du:</b> Schau deine Blätter KM 54.1, KM 54.2, KM 54.3, deine Akten und dein Messprotokoll an. Zu Akte 01 bis 03 bekommst du am Freitag, 20. November, ein <b>Lösungsdossier</b> zum Lernen. Ab Freitag, 27. November, findest du in Schabi Übungsfragen mit Lösung zum Kontrollieren.</div>'''
 open('_t.html','w').write(html)
 render(html,'out/09_Ankuendigung_Test1_Fr4.12.pdf')
