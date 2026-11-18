@@ -118,6 +118,7 @@ h3{font-family:var(--f-type);font-size:13px;letter-spacing:.08em;text-transform:
 .btn.light:hover{border-color:var(--ink);filter:none}
 .fig{border:1px solid var(--rule);border-radius:10px;padding:8px;margin:12px 0;background:#fff}
 .fig svg{display:block;width:100%;height:auto}
+.fig svg.th{width:120px;margin:0 auto}
 .legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:4px 0 0;font-weight:700;font-size:.95rem}
 .legend i{display:inline-block;width:26px;height:0;border-top:5px solid #d62828;vertical-align:middle;margin-right:6px;border-radius:3px}
 .legend i.b{border-top:5px dashed #1d4ed8}
@@ -473,7 +474,7 @@ const setDay=(g,v)=>{S.cust=null;const t=todayKey();
 
 /* ---------- Lernen: Probeprüfung (frei, wenn alle Akten gelöst sind) ---------- */
 const allSolved=()=>['1','2','3'].every(k=>solved[k]);
-const thermo=v=>{const y=t=>140-t*10.5;let s=`<svg viewBox="0 0 170 175" width="140" role="img" aria-label="Thermometer. Die Flüssigkeit steht bei einer Zahl zwischen 0 und 12 Grad." font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif"><rect x="60" y="4" width="22" height="150" rx="11" fill="#fff" stroke="#14211f" stroke-width="3"/><rect x="66" y="${y(v)}" width="10" height="${152-y(v)}" fill="#d62828"/><circle cx="71" cy="158" r="12" fill="#d62828" stroke="#14211f" stroke-width="3"/>`;
+const thermo=v=>{const y=t=>140-t*10.5;let s=`<svg class="th" viewBox="0 0 170 175" width="140" role="img" aria-label="Thermometer. Die Flüssigkeit steht bei einer Zahl zwischen 0 und 12 Grad." font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif"><rect x="60" y="4" width="22" height="150" rx="11" fill="#fff" stroke="#14211f" stroke-width="3"/><rect x="66" y="${y(v)}" width="10" height="${152-y(v)}" fill="#d62828"/><circle cx="71" cy="158" r="12" fill="#d62828" stroke="#14211f" stroke-width="3"/>`;
  for(let t=0;t<=12;t++){s+=`<line x1="${t%2?88:94}" x2="102" y1="${y(t)}" y2="${y(t)}" stroke="#14211f" stroke-width="2"/>`;if(t%2===0)s+=`<text x="108" y="${y(t)+5}" font-size="14">${t}</text>`}
  return s+'<text x="132" y="14" font-size="13">°C</text></svg>'};
 const miniChart=(sers)=>{const H=[8,10,12,14,16,18,20],w=420,h=190,L=34,R=10,T=8,B=24,lo=3,hi=11,X=x=>L+(x-8)/12*(w-L-R),Y=v=>T+(hi-v)/(hi-lo)*(h-T-B);
