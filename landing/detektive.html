@@ -525,7 +525,7 @@ function viewLern(){
 document.addEventListener('click',e=>{
  const b=e.target.closest('[data-act]');if(!b||b.tagName==='INPUT')return;const a=b.dataset.act,v=b.dataset.v,g=b.dataset.g;
  if(a==='home'){TOKEN++;S.view='home';S.loading=false;S.err=null;S.cust=null;render();scrollTo(0,0)}
- else if(a==='open'){S.view=v;render();scrollTo(0,0)}
+ else if(a==='open'){S.view=v;autoOpen();render();scrollTo(0,0)}
  else if(a==='day')setDay(g,v);
  else if(a==='cust'){S.cust=S.cust===g?null:g;render();const i=document.querySelector('input[type=date]');if(i)i.focus()}
  else if(a==='time'){S.f3.time=v;afterChange(3)}
@@ -545,9 +545,11 @@ document.addEventListener('change',e=>{const i=e.target;
 /* Deep Links: #<nr> öffnet direkt eine Akte; Zurück-Taste funktioniert */
 const validView=h=>h==='home'||['1','2','3','lern'].includes(h);
 function syncHash(){const h=location.hash.slice(1)||'home';if(h!==S.view)history.pushState(null,'',S.view==='home'?location.pathname+location.search:'#'+S.view)}
+function autoOpen(){const w=S.view;if(!['1','2','3'].includes(w)||!solved[w])return;const f=S['f'+w];if(f.show||f.res||S.loading)return;Object.keys(f.c).forEach(k=>f.c[k]=true);f.show=true;run(+w,false)}
 function readHash(){const h=decodeURIComponent(location.hash.slice(1));S.view=validView(h)?(h||'home'):'home'}
-window.addEventListener('popstate',()=>{readHash();render0();scrollTo(0,0)});
+window.addEventListener('popstate',()=>{readHash();autoOpen();render0();scrollTo(0,0)});
 readHash();
+autoOpen();
 render();
 </script>
 </body>
