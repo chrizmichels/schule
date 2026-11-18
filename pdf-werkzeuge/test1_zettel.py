@@ -8,7 +8,7 @@ ziele=[
  "Ich kann aus einer Tabelle ein Liniendiagramm zeichnen.",
  "Ich kann in einem Temperatur-Diagramm die höchste und die tiefste Temperatur ablesen.",
  "Ich kann den Unterschied von zwei Temperaturen in Grad ausrechnen."]),
-("Akte 01 bis 03: Warum ist die Temperatur so?",[
+("Akte 01 bis 03: Warum verändert sich die Temperatur?",[
  "Ich kann erklären, warum es am Nachmittag am wärmsten ist.",
  "Ich kann erklären, wie Wolken, Nebel und Wind die Temperatur verändern.",
  "Ich kann erklären, warum es in den Bergen kälter ist.",
