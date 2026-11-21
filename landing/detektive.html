@@ -247,7 +247,7 @@ function chipsFor(g,sel,block){
 const S={view:'home',lern:{},loading:false,err:null,cust:null,
  f1:{day:FIX[0],c:{a:false,b:false,c:false},show:false,res:null,self:null},
  f2:{a:FIX[0],b:FIX[1],c:{a:false,b:false,c:false},show:false,res:null,self:null},
- f3:{day:FIX[0],time:'12',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
+ f3:{day:FIX[0],time:'08',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
 let solved={};try{solved=JSON.parse(localStorage.getItem('kd_solved')||'{}')||{}}catch(e){}
 const saveSolved=()=>{try{localStorage.setItem('kd_solved',JSON.stringify(solved))}catch(e){}};
 let TOKEN=0;
@@ -470,7 +470,7 @@ const setDay=(g,v)=>{S.cust=null;const t=todayKey();
  if(g==='f1'){S.f1.day=v;afterChange(1)}
  else if(g==='f2a'){S.f2.a=v;afterChange(2)}
  else if(g==='f2b'){S.f2.b=v;afterChange(2)}
- else if(g==='f3'){S.f3.day=v;if(v!==t&&S.f3.time==='now')S.f3.time='12';afterChange(3)}};
+ else if(g==='f3'){S.f3.day=v;if(v!==t&&S.f3.time==='now')S.f3.time='08';afterChange(3)}};
 
 
 /* ---------- Lernen: Probeprüfung (frei, wenn alle Akten gelöst sind) ---------- */
