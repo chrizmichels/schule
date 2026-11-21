@@ -247,7 +247,7 @@ function chipsFor(g,sel,block){
 const S={view:'home',lern:{},loading:false,err:null,cust:null,
  f1:{day:FIX[0],c:{a:false,b:false,c:false},show:false,res:null,self:null},
  f2:{a:FIX[0],b:FIX[1],c:{a:false,b:false,c:false},show:false,res:null,self:null},
- f3:{day:FIX[0],time:'08',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
+ f3:{day:todayKey(),time:'now',c:{a:false,b:false,c:false},show:false,res:null,self:null,map:false}};
 let solved={};try{solved=JSON.parse(localStorage.getItem('kd_solved')||'{}')||{}}catch(e){}
 const saveSolved=()=>{try{localStorage.setItem('kd_solved',JSON.stringify(solved))}catch(e){}};
 let TOKEN=0;
