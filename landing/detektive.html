@@ -473,7 +473,7 @@ const setDay=(g,v)=>{S.cust=null;const t=todayKey();
  else if(g==='f3'){S.f3.day=v;if(v!==t&&S.f3.time==='now')S.f3.time='08';afterChange(3)}};
 
 
-/* ---------- Lernen: Probeprüfung (frei, wenn alle Akten gelöst sind) ---------- */
+/* ---------- Lernen: Übungen zur Lernzielkontrolle (immer frei) ---------- */
 const allSolved=()=>['1','2','3'].every(k=>solved[k]);
 const thermo=v=>{const y=t=>140-t*10.5;let s=`<svg class="th" viewBox="0 0 170 175" width="140" role="img" aria-label="Thermometer. Die Flüssigkeit steht bei einer Zahl zwischen 0 und 12 Grad." font-family="Atkinson Hyperlegible,Trebuchet MS,Verdana,sans-serif"><rect x="60" y="4" width="22" height="150" rx="11" fill="#fff" stroke="#14211f" stroke-width="3"/><rect x="66" y="${y(v)}" width="10" height="${152-y(v)}" fill="#d62828"/><circle cx="71" cy="158" r="12" fill="#d62828" stroke="#14211f" stroke-width="3"/>`;
  for(let t=0;t<=12;t++){s+=`<line x1="${t%2?88:94}" x2="102" y1="${y(t)}" y2="${y(t)}" stroke="#14211f" stroke-width="2"/>`;if(t%2===0)s+=`<text x="108" y="${y(t)+5}" font-size="14">${t}</text>`}
@@ -488,7 +488,7 @@ const D1=[4.2,5.3,5.7,6.7,6.5,6.1,6.3],D2=[9.6,9.5,10.1,10.1,9.4,9.7,9.7];
 const trow=vs=>'<div class="trow">'+vs.map((v,i)=>'<div><b>'+'ABC'[i]+'</b>'+thermo(v)+'</div>').join('')+'</div>';
 const LQ=[
  {g:'Haltestelle 1 · Wetter messen',q:'Wie viele Grad zeigt das Thermometer?',fig:()=>thermo(7),o:['5 °C','6 °C','7 °C','8 °C'],c:2,e:'Lies bei der Spitze der roten Flüssigkeit ab. Sie steht bei 7.'},
- {g:'Haltestelle 1 · Wetter messen',q:'Wie viele Grad zeigt dieses Thermometer?',fig:()=>thermo(3),o:['2 °C','3 °C','4 °C','5 °C'],c:1,e:'Die Spitze steht zwischen 2 und 4. Das ist 3 °C. Schreibe im Test immer die Einheit °C dazu.'},
+ {g:'Haltestelle 1 · Wetter messen',q:'Wie viele Grad zeigt dieses Thermometer?',fig:()=>thermo(3),o:['2 °C','3 °C','4 °C','5 °C'],c:1,e:'Die Spitze steht zwischen 2 und 4. Das ist 3 °C. Schreibe in der Lernzielkontrolle immer die Einheit °C dazu.'},
  {g:'Haltestelle 1 · Wetter messen',q:'Ein Thermometer soll bis 9 °C rot angemalt sein. Welches ist richtig?',fig:()=>trow([5,9,11]),o:['A','B','C'],c:1,e:'Bei B reicht die Flüssigkeit bis zur 9. A zeigt 5 °C, C zeigt 11 °C.'},
  {g:'Haltestelle 1 · Wetter messen',q:'Max misst in seinem Garten immer höhere Werte als Tina. Was müssen die beiden ändern, damit sie gleich messen?',o:['Beide messen am gleichen Ort und zur gleichen Zeit.','Max nimmt ein grösseres Thermometer.','Tina misst nur bei Regen.','Beide messen, wann sie wollen.'],c:0,e:'Max steht vielleicht in der Sonne, Tina im Schatten. Nur wenn Ort und Zeit gleich sind, kann man die Werte vergleichen.'},
  {g:'Haltestelle 1 · Wetter messen',q:'Wir messen jede Woche um 8:30 Uhr am gleichen Fenster. Warum ist das wichtig?',o:['Dann ist es immer warm.','Dann kann man die Werte vergleichen.','Dann braucht man kein Thermometer.','Dann scheint immer die Sonne.'],c:1,e:'Nur wenn Zeit und Ort gleich sind, kann man die Werte vergleichen.'},
@@ -497,7 +497,7 @@ const LQ=[
  {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Was passiert mit der Temperatur zwischen 14 und 20 Uhr?',fig:()=>miniChart([[D1,'#d62828']]),o:['Sie steigt stark.','Sie sinkt leicht.','Sie bleibt genau gleich.'],c:1,e:'Die Kurve geht von 6,7 °C bei 14 Uhr auf 6,3 °C bei 20 Uhr. Die Temperatur sinkt leicht.'},
  {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Du trägst diese Messwerte ein: 8 Uhr = 2 °C, 12 Uhr = 6 °C, 16 Uhr = 4 °C. Wo liegt der Punkt für 12 Uhr?',o:['Über «12 Uhr», auf der Höhe von 6 °C','Über «12 Uhr», auf der Höhe von 2 °C','Über «16 Uhr», auf der Höhe von 6 °C','Über «8 Uhr», auf der Höhe von 12 °C'],c:0,e:'Zuerst die Zeit auf der Achse unten suchen (12 Uhr), dann bis zur Temperatur nach oben gehen (6 °C). Dort kommt der Punkt hin.'},
  {g:'Haltestelle 2 · Temperatur im Diagramm',q:'Um 12 Uhr war Tag 1 bei 5,7 °C und Tag 2 bei 10,1 °C. Wie viel Grad Unterschied sind das?',o:['4,4 °C','5,7 °C','10,1 °C','15,8 °C'],c:0,e:'10,1 − 5,7 = 4,4 °C.'},
- {g:'Akte 01 bis 03 · Warum verändert sich die Temperatur?',q:'Warum ist es am Nachmittag oft wärmer als am Morgen?',o:['Am Nachmittag ist die Sonne am stärksten.','Der Boden ist am Nachmittag am kältesten.','Die Sonne wärmt den Boden, der Boden wärmt die Luft. Das dauert bis in den Nachmittag.','Die Luft wärmt den Boden.'],c:2,e:'Die Sonne wärmt den Boden. Der warme Boden wärmt die Luft. Im Test verwendest du die Wörter Sonne, Boden und Luft.'},
+ {g:'Akte 01 bis 03 · Warum verändert sich die Temperatur?',q:'Warum ist es am Nachmittag oft wärmer als am Morgen?',o:['Am Nachmittag ist die Sonne am stärksten.','Der Boden ist am Nachmittag am kältesten.','Die Sonne wärmt den Boden, der Boden wärmt die Luft. Das dauert bis in den Nachmittag.','Die Luft wärmt den Boden.'],c:2,e:'Die Sonne wärmt den Boden. Der warme Boden wärmt die Luft. In der Lernzielkontrolle verwendest du die Wörter Sonne, Boden und Luft.'},
  {g:'Akte 01 bis 03 · Warum verändert sich die Temperatur?',q:'Was machen Wolken am Tag mit der Temperatur?',o:['Sie halten Sonnenstrahlen ab. Es bleibt kühler.','Sie machen es immer wärmer.','Sie machen es nur nachts kälter.','Sie haben keine Wirkung.'],c:0,e:'Wolken halten Sonnenstrahlen ab. Dann kommt weniger Wärme zum Boden.'},
  {g:'Akte 01 bis 03 · Warum verändert sich die Temperatur?',q:'Was ist Nebel?',o:['Eine Wolke direkt am Boden.','Sehr starker Wind.','Warme Luft vom Süden.','Gefrorener Regen.'],c:0,e:'Nebel ist eine Wolke am Boden. Die Sonne kommt kaum durch, darum bleibt es kühl.'},
  {g:'Akte 01 bis 03 · Warum verändert sich die Temperatur?',q:'Was macht der Wind mit der Temperatur?',o:['Er bringt Luft von anderswo. Sie kann warm oder kalt sein.','Er macht es immer kälter.','Er macht es immer wärmer.','Er hat nichts mit der Temperatur zu tun.'],c:0,e:'Wind bringt Luft von anderswo. Kommt sie aus dem Norden, ist sie oft kälter, aus dem Süden oft wärmer.'},
@@ -506,18 +506,17 @@ const LQ=[
  {g:'Akte 03 · Drei Orte',q:'Warum ist es weiter oben kälter?',o:['Weil die Sonne dort weniger scheint.','Der Luftdruck ist geringer. Aufsteigende Luft dehnt sich aus und wird kälter.','Weil Berge aus kaltem Stein sind.','Weil die Luft oben schwerer ist.'],c:1,e:'Oben ist der Luftdruck geringer. Aufsteigende Luft dehnt sich aus. Dabei sinkt ihre Temperatur.'},
  {g:'Akte 03 · Drei Orte',q:'Pro 100 Meter höher wird es etwa …',o:['0,6 °C kälter','6 °C kälter','0,6 °C wärmer','60 °C kälter'],c:0,e:'Pro 100 Meter wird es etwa 0,6 °C kälter.'},
  {g:'Akte 03 · Drei Orte',q:'Am 6. November um 8 Uhr: Lugano (275 m) 10,1 °C, Zürich (408 m) 4,2 °C, Zermatt (1608 m) 2,2 °C. Was passt?',o:['Je höher der Ort, desto kälter.','Je höher der Ort, desto wärmer.','Die Höhe ist egal.'],c:0,e:'Zermatt liegt am höchsten und ist am kältesten. Lugano liegt am tiefsten und ist am wärmsten.'}];
-function lernCard(){const n=['1','2','3'].filter(k=>solved[k]).length,ok=n===3;
- return `<div class="lcard ${ok?'':'lock'}"><h3>${ok?'':'🔒 '}Lernen für Test 1</h3><p>${ok?'Übe mit Fragen wie im Test. Du bekommst sofort die Rückmeldung.':'Löse zuerst alle drei Akten. Gelöst: '+n+' von 3.'}</p>${ok?'<button class="btn" data-act="open" data-v="lern">Fragen üben</button>':''}</div>`}
+function lernCard(){
+ return `<div class="lcard"><h3>Üben für die Lernzielkontrolle</h3><p>Übe mit Fragen wie in der Lernzielkontrolle. Du bekommst sofort die Rückmeldung. Du kannst jederzeit üben.</p><button class="btn" data-act="open" data-v="lern">Fragen üben</button></div>`}
 function viewLern(){
- let h=`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Lernen</small>Probeprüfung Test 1</div></div><div class="qcard">`;
- if(!allSolved())return h+FB('no','Noch gesperrt.','<p>Löse zuerst alle drei Akten und tippe auf «Akte schliessen».</p>');
- h+='<p class="muted">Übe mit Fragen wie im Test. Tippe auf eine Antwort. Du siehst sofort, ob sie stimmt.</p>';
+ let h=`<div class="gbar"><button class="back" data-act="home">← Alle Akten</button><div class="ttl"><small>Lernen</small>Übungen zur Lernzielkontrolle</div></div><div class="qcard">`;
+ h+='<p class="muted">Übe mit Fragen wie in der Lernzielkontrolle. Tippe auf eine Antwort. Du siehst sofort, ob sie stimmt.</p>';
  let last='',done=0,right=0;
  LQ.forEach((q,i)=>{const a=S.lern[i],ans=a!==undefined;if(ans){done++;if(a===q.c)right++}
   if(q.g!==last){h+=`<div class="lgrp">${q.g}</div>`;last=q.g}
   h+=`<div class="lq"><p class="q">${i+1}. ${q.q}</p>${q.fig?`<div class="fig">${q.fig()}</div>`:''}<div class="opts">`+q.o.map((t,j)=>`<button class="opt ${ans?(j===q.c?'ok':j===a?'bad':''):''}" data-act="lq" data-q="${i}" data-i="${j}" ${ans?'disabled':''}>${t}</button>`).join('')+'</div>'
    +(ans?(a===q.c?FB('info','Richtig!',`<p>${q.e}</p>`):FB('near','Nicht ganz.',`<p>Richtig: <b>${q.o[q.c]}</b></p><p>${q.e}</p>`)):'')+'</div>'});
- if(done===LQ.length){h+=FB(right===LQ.length?'info':'near',`Du hast ${right} von ${LQ.length} richtig.`,right===LQ.length?'<p>Super! Du bist bereit für den Test.</p>':'<p>Lies bei den falschen Fragen nochmals das Beweisstück oder dein Lösungsdossier.</p>',1)}
+ if(done===LQ.length){h+=FB(right===LQ.length?'info':'near',`Du hast ${right} von ${LQ.length} richtig.`,right===LQ.length?'<p>Super! Du bist bereit für die Lernzielkontrolle.</p>':'<p>Lies bei den falschen Fragen nochmals das Beweisstück oder dein Lösungsdossier.</p>',1)}
  else h+=`<p class="muted">${done} von ${LQ.length} beantwortet.</p>`;
  return h+`<div class="actions"><button class="btn light" data-act="lreset">Nochmals von vorn</button></div>`}
 
