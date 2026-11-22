@@ -44,4 +44,11 @@ def lp_page(e):
 if __name__=='__main__':
     for k,e in D.items():
         render(doc(build(e),css),'out/'+e['file'])
-    render(doc(''.join(lp_page(e) for e in D.values()),lpcss),'out/FreiDay_Einsatz02-07_Loesungs-Logbuch_Fr20.11_LP.pdf')
+    import os;os.makedirs('out/lsg',exist_ok=True)
+    for e in D.values():  # je Einsatz ein Lösungs-Logbuch (Name wie Einsatz-Logbuch)
+        z=1.0
+        while z>0.8:
+            render(doc(lp_page(e),lpcss+f'body{{zoom:{z}}}'),'out/lsg/'+e['file'].replace('Logbuch_Blatt1','Loesungs-Logbuch'))
+            import pymupdf as m;d=m.open('out/lsg/'+e['file'].replace('Logbuch_Blatt1','Loesungs-Logbuch'))
+            if len(d)==1 and max(b[3] for b in d[0].get_text('blocks'))<820:break
+            z=round(z-0.02,2)
