@@ -24,10 +24,10 @@ h2{{font-size:12pt;margin:5mm 0 1.5mm;color:#1e7a8c}}
 .cb{{flex:none;width:4.5mm;height:4.5mm;border:1.5px solid #14211f;border-radius:1mm;margin-top:.7mm}}
 .u{{border-top:1px dashed #888;margin-top:6mm;padding-top:3mm}}
 </style><body>
-<div class=t><small>NMG · Wetter und Klima</small><b>Test 1: Wetter messen und verstehen</b></div>
+<div class=t><small>NMG · Wetter und Klima</small><b>Lernzielkontrolle: Wetter messen und verstehen</b></div>
 <div class=w><b>Wann?</b> Freitag, 4. Dezember 2026, am Morgen (SOL)<br><b>Wie lange?</b> 25 Minuten. Du arbeitest allein und ohne Heft.</div>
-<p><b>Lernziele.</b> Das musst du für den Test können. Hake ein Kästchen ab, wenn du es sicher kannst.</p>
+<p><b>Lernziele.</b> Das musst du für die Lernzielkontrolle können. Hake ein Kästchen ab, wenn du es sicher kannst.</p>
 {body}
-<div class=u><b>So übst du:</b> Schau deine Blätter KM 54.1, KM 54.2, KM 54.3, deine Akten und dein Messprotokoll an. Zu Akte 01 bis 03 bekommst du am Freitag, 20. November, ein <b>Lösungsdossier</b> zum Lernen. Zum Üben gibt es die <b>Probeprüfung</b> auf <b>425.co/k</b> (frei, wenn du alle drei Akten gelöst hast) und Übungsfragen auf Papier mit Lösung zum Kontrollieren.</div>'''
+<div class=u><b>So übst du:</b> Schau deine Blätter KM 54.1, KM 54.2, KM 54.3, deine Akten und dein Messprotokoll an. Zu Akte 01 bis 03 gibt es ein <b>Lösungsdossier</b> zum Lernen. In Schabi findest du eine <b>Probe-Lernzielkontrolle mit Lösungen</b>. Löse sie und kontrolliere danach. Online kannst du jederzeit auf <b>425.co/k</b> üben. Dort bekommst du sofort die Rückmeldung.</div>'''
 open('_t.html','w').write(html)
-render(html,'out/09_Ankuendigung_Test1_Fr4.12.pdf')
+render(html,'out/09_Ankuendigung_Lernzielkontrolle_Fr4.12.pdf')
