@@ -30,7 +30,7 @@ def build(e):
     return p1+p2
 def lp_page(e):
     rows=''.join(f"<tr><td>{i+1}{' Zusatz' if i==2 else ''} {f['t']}</td><td>{f['auftrag']}</td><td>{f['loesung']}{('<br><span class=src>'+f['lp']+'</span>') if any(k in f['lp'] for k in ('steht nicht','NABU:','eigene Beobachtung')) else ''}</td><td><b>{' + '.join(q[0] for q in f['src'])}:</b> {', '.join(f['sw'])}<br><span class=src>Tipp 1: {f['tipp'][0]}</span></td></tr>" for i,f in enumerate(e['felder']))
-    return f'''<div class=page><h1>Lösungs-Logbuch: {e['t']}, Freitag 20.11.</h1><p class=sub>Für die Lehrperson · Etappe 1 Hilferuf und Etappe 2 Forschen · {e['teams']} Team{'s' if e['teams']>1 else ''} (je 1 Logbuch Blatt 1, doppelseitig)</p>
+    return f'''<div class=page><h1>Lösungs-Logbuch: {e['t']}, Freitag 20.11.</h1><p class=sub>Etappe 1 Hilferuf und Etappe 2 Forschen · {e['teams']} Team{'s' if e['teams']>1 else ''} (je 1 Logbuch Blatt 1, doppelseitig)</p>
 <h2>Ablauf am Freitag</h2>
 <ul><li><b>Input (höchstens 5 Min.):</b> Geschichte aus der App vorlesen. Dann arbeiten die Teams selbständig. <b>Material:</b> 1 Tablet pro Team, Logbuch Blatt 1, SDG-Karten.</li><li><b>Tablet-Logistik:</b> Pro Runde sucht ein Kind (Tablet), eines schreibt, eines prüft. Die Rollen wechseln. Das Lösungs-Logbuch erscheint in der App erst nach der eigenen Antwort.</li></ul>
 <h2>Etappe 1 · Hilferuf</h2>
@@ -38,7 +38,7 @@ def lp_page(e):
 <h2>Etappe 2 · Forschen (2 Pflichtrunden + 1 Zusatzrunde)</h2>
 <table><tr><th>Runde</th><th>Auftrag</th><th>Lösung</th><th>Quelle (zum Schluss) · Tipp</th></tr>{rows}</table>
 <div class=box><b class=k>Unser Satz (Ziel von Freitag 1), Beispiel:</b> «{e['satzl']}» Dieser Satz ist der Einstieg für Freitag 2.</div>
-<h2>Wohin es führt (nur für dich)</h2><ul>{''.join('<li>'+x+'</li>' for x in e['lp_weiter'])}</ul>
+<h2>Wohin es führt</h2><ul>{''.join('<li>'+x+'</li>' for x in e['lp_weiter'])}</ul>
 <div class="box warn"><b>Sicherheit:</b> {e['lp_sicher']}</div>
 <p class=src>Quellen: {e['lp_quellen']}</p></div>'''
 if __name__=='__main__':

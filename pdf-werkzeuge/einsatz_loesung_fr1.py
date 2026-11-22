@@ -16,7 +16,7 @@ ul{margin:.8mm 0 .8mm 4.5mm;padding:0}li{margin:.4mm 0}
 .src{font-size:8.5pt;color:#3d5446}
 b.k{color:var(--g)}
 '''
-p1='''<div class=page><h1>Lösungs-Logbuch: Igel-Einsatz, Freitag 20.11.</h1><p class=sub>Für die Lehrperson · Etappe 1 Hilferuf und Etappe 2 Forschen</p>
+p1='''<div class=page><h1>Lösungs-Logbuch: Igel-Einsatz, Freitag 20.11.</h1><p class=sub>Etappe 1 Hilferuf und Etappe 2 Forschen</p>
 <h2>Ablauf am Freitag</h2>
 <ul><li><b>Input (höchstens 5 Min.):</b> Geschichte aus der App vorlesen oder lesen lassen. Dann arbeiten die Teams selbständig.</li><li><b>Material:</b> 1 Tablet pro Team, Logbuch Blatt 1 (pro Team 1×, doppelseitig), SDG-Karten.</li><li><b>Tablet-Logistik:</b> Pro Runde sucht ein Kind (Tablet), eines schreibt, eines prüft. Die Rollen wechseln. So braucht es nur ein Tablet pro Team.</li><li><b>Hilfe:</b> Tipp 1 und 2 in der App. Das Lösungs-Logbuch erscheint in der App erst, wenn die Kinder angekreuzt haben, dass sie ihre Antwort geschrieben haben.</li></ul>
 <h2>Etappe 1 · Hilferuf</h2>
@@ -27,7 +27,7 @@ p1='''<div class=page><h1>Lösungs-Logbuch: Igel-Einsatz, Freitag 20.11.</h1><p 
 <tr><td>2 Schlafen</td><td>Wo schläft ein Igel im Winter? Was passiert im Körper?</td><td>In einem Nest aus Laub und Ästen. Körpertemperatur sinkt, Atmung und Herzschlag werden langsamer, kaum Energieverbrauch.</td><td><b>Klexikon «Winterschlaf» + «Igel»:</b> Körpertemperatur, Herzschlag, Nest · Tipps: Was würdest du als Tier tun? · Körper: «Winterschlaf»; Schlafplatz: «Igel», Wörter Nest, Laub</td></tr>
 <tr><td>3 Helfen</td><td>Wo suchen Igel einen Schlafplatz? Wie kann man helfen?</td><td>Erdmulden, unter Hecken, in Haufen aus Totholz, Reisig und Laub. Naturnaher Garten mit Verstecken. Füttern nur wenn nötig, nur Katzenfutter.</td><td><b>NABU «Unterschlupf für Igel im Winter»:</b> Winterquartier, Reisig, Totholz · Tipps: Wo würdest du dich als Igel verstecken? · Klexikon hat dazu fast nichts: NABU-Seite lesen, Wörter selbst im Text finden</td></tr></table>
 <div class=box><b class=k>Unser Satz (Ziel von Freitag 1):</b> «Ein Igel schläft im Winter in einem Nest aus Laub, Totholz und Reisig, in einer ruhigen, geschützten Ecke. Dafür brauchen wir Laub, Totholz und Reisig und einen ruhigen Ort.» Dieser Satz ist der Einstieg für Freitag 2.</div>
-<h2>Wohin es führt (nur für dich)</h2>
+<h2>Wohin es führt</h2>
 <ul><li><b>Fr 27.11. Plan:</b> Wo (Schulgarten neben der Schule klären), was wir brauchen (Laub, Totholz aus dem Wald, Reisig), wer bringt was. Idee für ein Erklärschild.</li><li><b>Fr 4.12. Umsetzen:</b> Totholz im Wald sammeln, Haufen im Schulgarten anlegen. <b>Fr 11.12.:</b> Schild und Prüfen. <b>Fr 18.12.:</b> Bericht.</li><li><b>Vorher klären:</b> Schulgarten und Erlaubnis (zuständige Person), ob dort schon ein Haufen oder Nest liegt. Totholz im Wald: Begleitung und Erlaubnis.</li></ul>
 <div class="box warn"><b>Sicherheit:</b> Igel nie anfassen, sofort die Lehrperson holen. Ab Mitte November schlafen die meisten Igel (NABU). Bestehende Unterschlupfe im Winter nicht versetzen.</div>
 <p class=src>Quellen: Klexikon «Igel» und «Winterschlaf» (klexikon.zum.de) · NABU: Unterschlupf für Igel im Winter (nabu.de/aktiv-werden/naturnah-gaertnern/tiere-im-garten/winterquartiere/unterschlupf-fuer-igel-im-winter)</p></div>'''
