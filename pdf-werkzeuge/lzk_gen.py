@@ -1,4 +1,4 @@
-"""Lernzielkontrolle Wetter und Klima (6 Aufgaben, 24 Punkte) und Probe-Lernzielkontrolle.
+"""Lernzielkontrolle Wetter und Klima (6 Aufgaben, 12 Punkte) und Probe-Lernzielkontrolle.
 Erzeugt je eine Aufgaben- und eine Lösungsversion:
   out/LZK_Wetter_und_Klima.pdf, out/LZK_Wetter_und_Klima_Loesung_LP.pdf
   out/Probe-LZK_Wetter_und_Klima.pdf, out/Probe-LZK_Wetter_und_Klima_Loesung.pdf
@@ -119,78 +119,54 @@ def sol(txt, sh):
 
 
 def page(n, inner, v, head=''):
-    return f'<div class=pg>{head}{inner}<div class=ft><span>{v["sub"]}</span><span>Seite: {n}/3</span></div></div>'
+    return f'<div class=pg>{head}{inner}<div class=ft><span>{v["sub"]}</span><span>Seite: {n}/2</span></div></div>'
 
 
 def build(key, solution, lp):
     v = V[key]
     sh = solution
-    title = v['name'] + (' · Lösung' + (' (nur für die LP)' if lp else ' zum Kontrollieren') if sh else '')
+    title = v['name'] + (' · Lösung' if sh else '')
     hd = (f'<div class=hd><div class=t><small>NMG · Wetter und Klima</small><b>{title if sh else v["name"] + ": Wetter messen und verstehen"}</b></div>'
-          f'<div class=p>Punkte<span>/ 24</span></div></div><div class=name>Name:</div>')
-    # ---- Seite 1
+          f'<div class=p>Punkte<span>/ 12</span></div></div><div class=name>Name:</div>')
+    g = lambda s_: f'<div class=a style="margin-top:1.5mm">{s_}</div>'
+    ans = lambda x: f'<span class=a>{x}</span>' if sh else '<span class=blank></span>'
+    # 1 Thermometer ablesen
     a1a = ''.join(
         f'<div>{thermo(x, fill=True)}<div style="text-align:center;margin-top:1mm">'
         + (f'<span class=a>{x} °C</span>' if sh else '<span class=blank style="min-width:16mm"></span> °C')
         + '</div></div>' for x in v['read'])
-    a1b = ''.join(
-        f'<div>{thermo(x, fill=sh)}<div style="text-align:center;margin-top:1mm;font-size:11.5pt">{x} °C</div></div>'
-        for x in v['draw'])
-    t1 = task(1, qrow('<b>Thermometer</b>', 5)
-              + f'<div class=sub>{qrow("a) Wie warm ist es? Schreibe die Temperatur mit der Einheit unter jedes Thermometer.", 3)}</div>'
+    t1 = task(1, qrow('<b>Thermometer.</b> Wie warm ist es? Schreibe die Temperatur mit der Einheit unter jedes Thermometer.', 2)
               + f'<div class=row>{a1a}</div>'
-              + f'<div class=sub style="margin-top:3mm">{qrow("b) Male jedes Thermometer mit rotem Stift bis zur angegebenen Temperatur an.", 2)}</div>'
-              + f'<div class=row style="justify-content:space-evenly">{a1b}</div>')
-    if sh:
-        g = lambda s_: f'<div class=a style="margin-top:1.5mm">{s_}</div>'
-        a2 = (qrow('<b>Gleich messen</b>', 4)
-              + f'<div class=sub>{qrow("a) " + v["who"] + " Nenne einen Grund. Was müssen die beiden ändern, damit sie gleich messen?", 2)}</div>'
-              + g('Grund (1 P): z. B. einer misst in der Sonne, der andere im Schatten / sie messen zu verschiedenen Zeiten / andere Thermometer.<br>Ändern (1 P): z. B. gleiche Uhrzeit, gleicher Ort (Schatten), gleiches Thermometer.')
-              + f'<div class=sub style="margin-top:3mm">{qrow("b) " + v["why"], 2)}</div>'
-              + g('1 P: Damit man die Werte vergleichen kann. 1 P: Die Temperatur ändert sich im Tagesverlauf (sonst misst man nicht unter gleichen Bedingungen). Sinn zählt.'))
-    else:
-        a2 = (qrow('<b>Gleich messen</b>', 4)
-              + f'<div class=sub>{qrow("a) " + v["who"] + " Nenne einen Grund. Was müssen die beiden ändern, damit sie gleich messen?", 2)}</div>' + lines(3)
-              + f'<div class=sub style="margin-top:3mm">{qrow("b) " + v["why"], 2)}</div>' + lines(3))
-    t2 = task(2, a2)
-    # ---- Seite 2
+              + (g('3 richtig = 2 P, 2 richtig = 1 P') if sh else ''))
+    # 2 Gleich messen
+    t2 = task(2, qrow('<b>Gleich messen.</b> ' + v['who'], 2)
+              + '<div class=sub>a) Nenne einen Grund.' + (' ' + sol('z. B. einer misst in der Sonne, der andere im Schatten / zu verschiedenen Zeiten / andere Thermometer (1 P)', sh) if sh else '') + '</div>' + ('' if sh else lines(2))
+              + '<div class=sub>b) Was müssen die beiden ändern, damit sie gleich messen?' + (' ' + sol('z. B. gleiche Uhrzeit, gleicher Ort, gleiches Thermometer (1 P)', sh) if sh else '') + '</div>' + ('' if sh else lines(2)))
+    # 3 Diagramm lesen
     d = v['chart']
     mx = max(d)
     hmx = 8 + 2 * d.index(mx)
-    ans = lambda x: f'<span class=a>{x}</span>' if sh else '<span class=blank></span>'
-    t3 = task(3, qrow(f'<b>Diagramm lesen.</b> {v["who_name"]} hat an einem Tag alle 2 Stunden die Temperatur gemessen. Schau dir das Diagramm an.', 5)
+    t3 = task(4, qrow(f'<b>Diagramm lesen.</b> {v["who_name"]} hat an einem Tag alle 2 Stunden die Temperatur gemessen.', 2)
               + chart(data=d, color=RED)
-              + f'<div class=sub>{qrow("a) Um wie viel Uhr war es am wärmsten? " + ans(hmx) + " Uhr &nbsp; Wie warm war es? " + ans(mx) + " °C", 2)}</div>'
-              + f'<div class=sub>{qrow(f"b) Um 8 Uhr war es {d[0]} °C. Wie viel wärmer war es am wärmsten Zeitpunkt? Schreibe die Rechnung.", 2)}</div>'
-              + '<div style="margin-top:2mm">Rechnung: ' + (f'<span class=a>{mx} − {d[0]} = {mx - d[0]} °C</span>' if sh else '<span class=blank style="min-width:70mm"></span>') + '</div>'
-              + f'<div class=sub>{qrow("c) Was passiert mit der Temperatur zwischen 14 und 20 Uhr? " + ("<span class=a>Sie sinkt (es wird kälter).</span>" if sh else ""), 1)}</div>'
-              + ('' if sh else lines(1)))
+              + f'<div class=sub>a) Um wie viel Uhr war es am wärmsten? {ans(hmx)} Uhr <i>(1 P)</i></div>'
+              + f'<div class=sub>b) Wie warm war es dann? {ans(str(mx) + " °C") if sh else "<span class=blank></span> °C"} <i>(1 P)</i></div>')
+    # 4 Diagramm zeichnen
     p4 = v['pts']
-    t4 = task(4, qrow('<b>Diagramm zeichnen.</b> Trage die drei Messwerte als Punkte ins Diagramm ein. Verbinde die Punkte mit einer Linie.', 3)
+    t4 = task(5, qrow('<b>Diagramm zeichnen.</b> Trage die drei Messwerte als Punkte ein (1 P). Verbinde die Punkte mit einer Linie (1 P).', 2)
               + f'<table class=k><tr><th>Zeit</th><th>8 Uhr</th><th>12 Uhr</th><th>16 Uhr</th></tr><tr><th>Temperatur</th><td>{p4[0]} °C</td><td>{p4[1]} °C</td><td>{p4[2]} °C</td></tr></table>'
               + chart(pts={8: p4[0], 12: p4[1], 16: p4[2]} if sh else None, color=RED))
-    # ---- Seite 3
-    if sh:
-        a5 = (qrow('<b>Warum ändert sich die Temperatur?</b>', 4)
-              + f'<div class=sub>{qrow("a) " + v["nachm"] + " Schreibe zwei Sätze. Verwende diese Wörter: Sonne, Boden, Luft.", 2)}</div>'
-              + '<div class=a style="margin-top:1.5mm">1 P: Die Sonne wärmt den Boden. 1 P: Der Boden wärmt die Luft darüber. (Auch: Der Boden war am Morgen noch kalt und wird bis zum Nachmittag weiter warm.)</div>'
-              + f'<div class=sub style="margin-top:3mm">{qrow("b) Wolken, Nebel und Wind verändern die Temperatur. Wähle zwei davon. Schreibe, was sie machen.", 2)}</div>'
-              + '<div class=a style="margin-top:1.5mm">Je 1 P: Wolken/Nebel halten die Sonnenstrahlen ab: Die Luft bleibt kühler. Wind bringt Luft von anderswo: aus dem Norden kälter, aus dem Süden wärmer.</div>')
-    else:
-        a5 = (qrow('<b>Warum ändert sich die Temperatur?</b>', 4)
-              + f'<div class=sub>{qrow("a) " + v["nachm"] + " Schreibe zwei Sätze. Verwende diese Wörter: Sonne, Boden, Luft.", 2)}</div>' + lines(4)
-              + f'<div class=sub style="margin-top:5mm">{qrow("b) Wolken, Nebel und Wind verändern die Temperatur. Wähle zwei davon. Schreibe, was sie machen.", 2)}</div>' + lines(4))
-    t5 = task(5, a5)
+    # 5 Warum ändert sich die Temperatur
+    t5 = task(3, qrow('<b>Warum ändert sich die Temperatur?</b> ' + v['nachm'] + ' Schreibe zwei Sätze. Verwende diese Wörter: Sonne, Boden, Luft.', 2)
+              + (g('1 P: Die Sonne wärmt den Boden. 1 P: Der Boden wärmt die Luft darüber.') if sh else lines(4)))
+    # 6 Orte
     o = v['orte']
     tab = ('<table class=k><tr><th>Ort</th>' + ''.join(f'<th>{n_}</th>' for n_, _ in o) + '</tr><tr><th>Höhe</th>'
            + ''.join(f'<td>{h} m ü. M.</td>' for _, h in o) + '</tr></table>')
-    t6 = task(6, qrow('<b>Orte und Höhe.</b> Schau dir die Orte und ihre Höhe an.', 3) + tab
-              + f'<div class=sub>{qrow("a) An welchem Ort ist es am kältesten? " + ans(v["coldest"]), 1)}</div>'
-              + f'<div class=sub>{qrow("b) Je höher der Ort, desto " + ("<span class=a>kälter</span>" if sh else "<span class=blank style=\"min-width:30mm\"></span>") + ".", 1)}</div>'
-              + f'<div class=sub>{qrow("c) Nenne einen Grund, warum es weiter oben kälter ist.", 1)}</div>'
-              + ('<div class=a style="margin-top:1.5mm">1 P: Aufsteigende Luft dehnt sich aus und wird kälter. / Oben ist die Luft dünner und behält weniger Wärme vom Boden. / Pro 100 m wird es etwa 0,6 °C kälter. (Ein Grund genügt.)</div>' if sh else lines(3)))
+    t6 = task(6, qrow('<b>Orte und Höhe.</b> Schau dir die Orte und ihre Höhe an.', 2) + tab
+              + f'<div class=sub>a) An welchem Ort ist es am kältesten? {ans(v["coldest"])} <i>(1 P)</i></div>'
+              + f'<div class=sub>b) Je höher der Ort, desto {"<span class=a>kälter</span>" if sh else "<span class=blank style=\"min-width:30mm\"></span>"} ist es. <i>(1 P)</i></div>')
     html = ('<!doctype html><meta charset=utf-8><style>' + CSS + '</style><body>'
-            + page(1, t1 + t2, v, hd) + page(2, t3 + t4, v) + page(3, t5 + t6, v))
+            + page(1, t1 + t2 + t5, v, hd) + page(2, t3 + t4 + t6, v))
     return html
 
 
