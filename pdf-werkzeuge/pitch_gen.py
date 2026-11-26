@@ -36,8 +36,8 @@ p1=f'''<div class=pg>
 </div>'''
 def card(n): return f'''<div class=card><h3>Person {n}</h3>
 <div class=r><span>Name:</span><i></i><span>Wer? (z. B. Lehrerin, Hauswart, Kind aus 6a):</span><i></i></div>
-<div class=fl>👍 Das gefällt mir:</div>{ln(2,10.5)}
-<div class=fl>💡 Das würde ich ändern:</div>{ln(2,10.5)}</div>'''
+<div class=fl>👍 Das gefällt mir:</div>{ln(2,10)}
+<div class=fl>💡 Das würde ich ändern:</div>{ln(2,10)}</div>'''
 p2=f'''<div class=pg>
 <div class=hd><div class=t><small>FreiDay · Fr 27.11. · Einsatz-Team</small><b>Feedback holen</b></div></div>
 {card(1)}{card(2)}{card(3)}
