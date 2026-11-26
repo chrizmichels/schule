@@ -20,17 +20,18 @@ table{{width:100%;border-collapse:collapse;margin-top:1mm}}td,th{{border:1px sol
 .card .r span{{white-space:nowrap}}.card .r i{{flex:1;border-bottom:1px solid #9aa;height:6mm;display:block}}
 .c2{{display:flex;gap:4mm}}.c2>div{{flex:1}}
 
+.nm2{{margin:0 0 1mm}}.nm2 div{{border-bottom:1.5px solid {INK};height:13mm;font-weight:700;font-size:14pt;padding-top:5mm}}
 .big{{margin:5mm 0 0;font-size:13pt}}.big b{{display:block;margin-bottom:0}}
 .fl{{font-weight:700;margin-top:1.5mm}}.card{{padding:2.5mm 4mm}}
 small.h{{color:#4a5a58}}
 '''
 p1=f'''<div class=pg>
 <div class=hd><div class=t><small>FreiDay · Fr 27.11. · Einsatz-Team</small><b>Unser Elevator-Pitch</b></div></div>
-<div class=nm><div>Team:&nbsp;</div><div>Einsatz:&nbsp;</div></div>
-<div class=box style="margin-top:2mm"><b>Elevator-Pitch:</b> Du hast nur <b>1 Minute</b>. Sag es kurz und klar. Übe es zuerst im Team.</div>
-<div class=big><b>1 · Was machen wir?</b>{ln(3,14)}</div>
-<div class=big><b>2 · Bis wann?</b>{ln(2,14)}</div>
-<div class=big><b>3 · Warum ist das wichtig?</b>{ln(3,14)}</div>
+<div class=nm2><div>Team:</div></div><div class=nm2><div>Einsatz:</div></div>
+<div class=box style="margin-top:3mm"><b>Elevator-Pitch:</b> Du hast nur <b>1 Minute</b>. Sag es kurz und klar. Übe es zuerst im Team.</div>
+<div class=big><b>1 · Was machen wir?</b>{ln(3,16)}</div>
+<div class=big><b>2 · Bis wann?</b>{ln(2,16)}</div>
+<div class=big><b>3 · Warum ist das wichtig?</b>{ln(3,16)}</div>
 <div class=box style="margin-top:8mm"><b>So sagst du es:</b><br><span style="font-size:13pt;line-height:1.8">«Wir machen ____________________ . Wir sind fertig bis ____________ . Das ist wichtig, weil ____________________ . Was meinst du?»</span></div>
 </div>'''
 def card(n): return f'''<div class=card><h3>Person {n}</h3>
