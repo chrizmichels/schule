@@ -163,8 +163,8 @@ def build(key, solution, lp):
     tab = ('<table class=k><tr><th>Ort</th>' + ''.join(f'<th>{n_}</th>' for n_, _ in o) + '</tr><tr><th>Höhe</th>'
            + ''.join(f'<td>{h} m ü. M.</td>' for _, h in o) + '</tr></table>')
     t6 = task(6, qrow('<b>Orte und Höhe.</b> Schau dir die Orte und ihre Höhe an.', 2) + tab
-              + f'<div class=sub>a) An welchem Ort ist es am kältesten? {ans(v["coldest"])} <i>(1 P)</i></div>'
-              + f'<div class=sub>b) Je höher der Ort, desto {"<span class=a>kälter</span>" if sh else "<span class=blank style=\"min-width:30mm\"></span>"} ist es. <i>(1 P)</i></div>')
+              + f'<div class=sub style="margin-top:6mm">a) An welchem Ort ist es am kältesten? {ans(v["coldest"]) if sh else "<span class=blank style=\"min-width:45mm\"></span>"} <i>(1 P)</i></div>'
+              + f'<div class=sub style="margin-top:8mm">b) Je höher der Ort, desto {"<span class=a>kälter</span>" if sh else "<span class=blank style=\"min-width:50mm\"></span>"} ist es. <i>(1 P)</i></div>')
     html = ('<!doctype html><meta charset=utf-8><style>' + CSS + '</style><body>'
             + page(1, t1 + t2 + t5, v, hd) + page(2, t3 + t4 + t6, v))
     return html
