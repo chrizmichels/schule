@@ -36,13 +36,12 @@ p1=f'''<div class=pg>
 </div>'''
 def card(n): return f'''<div class=card><h3>Person {n}</h3>
 <div class=r><span>Name:</span><i></i><span>Wer? (z. B. Lehrerin, Hauswart, Kind aus 6a):</span><i></i></div>
-<div class=fl>👍 Das gefällt mir:</div>{ln(2,8)}
-<div class=fl>💡 Das würde ich ändern:</div>{ln(2,8)}</div>'''
+<div class=fl>👍 Das gefällt mir:</div>{ln(2,10.5)}
+<div class=fl>💡 Das würde ich ändern:</div>{ln(2,10.5)}</div>'''
 p2=f'''<div class=pg>
 <div class=hd><div class=t><small>FreiDay · Fr 27.11. · Einsatz-Team</small><b>Feedback holen</b></div></div>
-<div class=box><b>So geht es:</b> Suche 3 Personen im Schulhaus (nicht aus deinem Team). Frag höflich, ob sie 2 Minuten Zeit haben. Pitche deinen Plan. Die Person sagt dir ihre Meinung. <b>Du schreibst auf. Sag danke!</b></div>
 {card(1)}{card(2)}{card(3)}
-<div class=card style="border-color:{T}"><h3>Das ändern wir wegen dem Feedback:</h3>{ln(2,7)}</div>
+<div class=card style="border-color:{T}"><h3>Das ändern wir wegen dem Feedback:</h3>{ln(2,8)}</div>
 </div>'''
 render(f'<!doctype html><meta charset=utf-8><style>{CSS}</style><body>{p1}{p2}','out/FreiDay_Pitch-Blatt_Fr27.11_A4.pdf')
 import pymupdf as m
