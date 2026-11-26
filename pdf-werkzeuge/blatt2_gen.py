@@ -27,10 +27,10 @@ def b2(e,x):
      f'<div class=ft2 style="position:absolute;left:12mm;right:12mm;bottom:6mm;font:700 8pt AtkH;color:var(--g);display:flex;justify-content:space-between"><span>Einsatz 0{nr} · Blatt 2 · {ZEIT}</span><span>Seite: 1/2</span></div>')
     p2=pg(bar_(f'Blatt 2 · {ZEIT}') if False else f"<div class=bar><span class=lbl>Einsatz 0{nr} · Blatt 2 · Plan (Fortsetzung)</span><span class=nm2>Team:</span></div>",
      item(3,'Was brauchen wir?','Wer besorgt es? Was kostet es?')+
-     "<table class=t2><tr><th>Das brauchen wir</th><th style='width:42mm'>Wer besorgt es?</th><th style='width:24mm'>Kosten (CHF)</th></tr>"+'<tr><td></td><td></td><td></td></tr>'*5+"<tr><td colspan=2 style='text-align:right'><b>Total</b></td><td></td></tr></table>"+
+     "<table class=t2><tr><th>Das brauchen wir</th><th style='width:42mm'>Wer besorgt es?</th><th style='width:24mm'>Kosten (CHF)</th></tr>"+'<tr><td></td><td></td><td></td></tr>'*8+"<tr><td colspan=2 style='text-align:right'><b>Total</b></td><td></td></tr></table>"+
      "<p class=ro style='margin:0'>Brauchen wir Geld? Dann fragen wir zuerst die Lehrperson. Wir suchen eine Lösung, die <b>wenig oder nichts</b> kostet.</p>",
      item(4,'Wer macht was bis Fr 18.12.?','Schreibt Namen oder Buchstaben dazu. Häkchen, wenn fertig.')+
-     "<table class=t2>"+''.join(f"<tr><td style='width:20mm'><b>{d}</b></td><td></td><td class=c style='width:12mm'>☐</td></tr>" for d in ('Fr 4.12.','Fr 11.12.','Fr 18.12.'))+"</table>",
+     "<table class=t2>"+''.join(f"<tr style='height:17mm'><td style='width:20mm'><b>{d}</b></td><td></td><td class=c style='width:12mm'>☐</td></tr>" for d in ('Fr 4.12.','Fr 11.12.','Fr 18.12.'))+"</table>",
      item(5,'Wie zeigen wir es am Fr 18.12. der Klasse?')+f"<p class=ro style='margin:1mm 0 0 7mm'>{cb('Plakat')} &nbsp; {cb('Foto oder Bilder')} &nbsp; {cb('Kurzer Vortrag (2 Min.)')} &nbsp; {cb('Anderes:')} "+bl(40)+"</p>",
      "<div class=fz style='margin-top:4mm'><b>Legt dieses Blatt gut ab.</b> Am Fr 4.12. und Fr 11.12. arbeitet ihr nach diesem Plan.</div>",
      f'<div class=ft2 style="position:absolute;left:12mm;right:12mm;bottom:6mm;font:700 8pt AtkH;color:var(--g);display:flex;justify-content:space-between"><span>Einsatz 0{nr} · Blatt 2 · {ZEIT}</span><span>Seite: 2/2</span></div>')
