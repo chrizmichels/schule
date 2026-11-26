@@ -1,19 +1,12 @@
 from lib import render
-ziele=[
-("Haltestelle 1: Wetter messen",[
+ziele=[("",[
  "Ich kann ein Thermometer genau ablesen.",
- "Ich kann die gemessene Temperatur im Diagramm als Punkt einzeichnen.",
- "Ich kann erklären, warum wir immer zur gleichen Zeit und am gleichen Ort messen."]),
-("Haltestelle 2: Temperatur im Diagramm",[
- "Ich kann aus einer Tabelle ein Liniendiagramm zeichnen.",
- "Ich kann in einem Temperatur-Diagramm die höchste und die tiefste Temperatur ablesen.",
- "Ich kann den Unterschied von zwei Temperaturen in Grad ausrechnen."]),
-("Akte 01 bis 03: Warum verändert sich die Temperatur?",[
+ "Ich kann erklären, warum wir immer zur gleichen Zeit und am gleichen Ort messen.",
  "Ich kann erklären, warum es am Nachmittag am wärmsten ist.",
- "Ich kann erklären, wie Wolken, Nebel und Wind die Temperatur verändern.",
- "Ich kann erklären, warum es in den Bergen kälter ist.",
- "Ich kann Orte nach ihrer Höhe vergleichen und die Temperaturen erklären."])]
-body=''.join(f'<h2>{t}</h2>'+''.join(f'<div class=z><span class=cb></span>{x}</div>' for x in l) for t,l in ziele)
+ "Ich kann in einem Temperatur-Diagramm die höchste Temperatur und die Uhrzeit ablesen.",
+ "Ich kann aus einer Tabelle ein Liniendiagramm zeichnen.",
+ "Ich kann Orte nach ihrer Höhe vergleichen: Je höher, desto kälter."])]
+body=''.join((f'<h2>{t}</h2>' if t else '')+''.join(f'<div class=z><span class=cb></span>{x}</div>' for x in l) for t,l in ziele)
 html=f'''<!doctype html><meta charset=utf-8><style>
 @page{{size:A4;margin:14mm 16mm}}
 body{{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:11.5pt;line-height:1.45;color:#14211f;margin:0}}
@@ -25,9 +18,9 @@ h2{{font-size:12pt;margin:5mm 0 1.5mm;color:#1e7a8c}}
 .u{{border-top:1px dashed #888;margin-top:6mm;padding-top:3mm}}
 </style><body>
 <div class=t><small>NMG · Wetter und Klima</small><b>Lernzielkontrolle: Wetter messen und verstehen</b></div>
-<div class=w><b>Wann?</b> Freitag, 4. Dezember 2026, am Morgen (SOL)<br><b>Wie lange?</b> 25 Minuten. Du arbeitest allein und ohne Heft.</div>
+<div class=w><b>Wann?</b> Freitag, 4. Dezember 2026, am Morgen (SOL)<br><b>Wie lange?</b> 25 Minuten. Du arbeitest allein und ohne Heft.<br><b>Wie viel?</b> 6 Aufgaben, 12 Punkte.</div>
 <p><b>Lernziele.</b> Das musst du für die Lernzielkontrolle können. Hake ein Kästchen ab, wenn du es sicher kannst.</p>
 {body}
-<div class=u><b>So übst du:</b> Schau deine Blätter KM 54.1, KM 54.2, KM 54.3, deine Akten und dein Messprotokoll an. Zu Akte 01 bis 03 gibt es ein <b>Lösungsdossier</b> zum Lernen. In Schabi findest du eine <b>Probe-Lernzielkontrolle mit Lösungen</b>. Löse sie und kontrolliere danach. Online kannst du jederzeit auf <b>425.co/k</b> üben. Dort bekommst du sofort die Rückmeldung.</div>'''
+<div class=u><b>So übst du:</b> Schau deine Blätter KM 54.1, KM 54.2, KM 54.3, deine Akten und dein Messprotokoll an. Zu Akte 01 bis 03 gibt es ein <b>Lösungsdossier</b> zum Lernen. In Schabi findest du eine <b>Probe-Lernzielkontrolle mit Lösungen</b>. Löse sie und kontrolliere danach. Online kannst du jederzeit auf <b>425.co/detektive#lern</b> üben. Dort bekommst du sofort die Rückmeldung.</div>'''
 open('_t.html','w').write(html)
 render(html,'out/09_Ankuendigung_Lernzielkontrolle_Fr4.12.pdf')
