@@ -68,6 +68,11 @@ p3=f'''<div class=pg>
 H='<!doctype html><meta charset=utf-8><style>{}</style><body>'.format(CSS)
 render(H+p1+p2,'out/FreiDay_Pitch-Blatt_Fr27.11_A4.pdf')
 render(H+p3,'out/FreiDay_Feedback-Blatt_Fr27.11_A4.pdf')
+p4=f'''<div class=pg>
+<div class=hd><div class=t><small>FreiDay · Fr 27.11. · Einsatz-Team</small><b>Notizen</b></div></div>
+{ln(22,11.5)}
+</div>'''
+render(H+p1+p2+p3+p4,'out/00_FreiDay_Pitch-Booklet_Fr27.11_A4.pdf')
 import pymupdf as m
 for f in ['Pitch','Feedback']:
     d=m.open(f'out/FreiDay_{f}-Blatt_Fr27.11_A4.pdf');print(f,len(d),[round(max(b[3] for b in p.get_text('blocks'))/72*25.4) for p in d])
