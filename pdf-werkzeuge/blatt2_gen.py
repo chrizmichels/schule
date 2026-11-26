@@ -20,12 +20,11 @@ def b2(e,x):
     satz0=e['satzs'][0].rstrip(':')
     tab=lambda rows:''.join(f'<tr><td>Idee {i}: </td><td class=c>☐</td><td class=c>☐</td><td class=c>☐</td></tr>' for i in range(1,4))
     p1=pg(cover,
-     f"<p class=ro><b>Unser Satz von letzter Woche:</b> {satz0} …</p>"+ln(2,8),
      sec(3,'Plan',ZEIT),
-     item(1,'Drei einfache Ideen','Was könnten wir tun?')+"<p class=hint>Einfach heisst: wenig Geld, wenig Material, wir schaffen es selbst in einer Lektion.</p>"+ln(3,8.5),
+     item(1,'Drei einfache Ideen','Was könnten wir tun?')+"<p class=hint>Einfach heisst: wenig Geld, wenig Material, wir schaffen es selbst in einer Lektion.</p>"+ln(4,9),
      item(2,'Welche Idee wählen wir?','Macht ein Häkchen, wenn die Antwort <b>Ja</b> ist.')+"<table class=t2><tr><th>Idee</th><th>Wenig Geld?</th><th>In einer Lektion?</th><th>Hilft es wirklich?</th></tr>"+tab(0)+"</table><p class=ro style='margin:0'><b>Wir wählen:</b> "+bl(120)+"</p>",
      item(3,'Wo machen wir es?',x['wo'])+f"<p class=hint>{x['woh']}</p>"+ln(2,8.5),
-     item(4,'Wen müssen wir fragen?')+"<div class=fz><ul>"+''.join(f'<li>{q}</li>' for q in x['fr'])+"</ul></div>"+f"<p class=ro style='margin:1mm 0 0'>{cb('Wir haben gefragt. Antwort:')}</p>"+ln(2,8.5),
+     item(4,'Wen müssen wir fragen?')+"<div class=fz><ul>"+''.join(f'<li>{q}</li>' for q in x['fr'])+"</ul></div>"+f"<p class=ro style='margin:1mm 0 0'>{cb('Wir haben gefragt. Antwort:')}</p>"+ln(3,9),
      f'<div class=ft2 style="position:absolute;left:12mm;right:12mm;bottom:6mm;font:700 8pt AtkH;color:var(--g);display:flex;justify-content:space-between"><span>Einsatz 0{nr} · Blatt 2 · {ZEIT}</span><span>Seite: 1/2</span></div>')
     p2=pg(bar_(f'Blatt 2 · {ZEIT}') if False else f"<div class=bar><span class=lbl>Einsatz 0{nr} · Blatt 2 · Plan (Fortsetzung)</span><span class=nm2>Team:</span></div>",
      item(5,'Was brauchen wir?','Wer besorgt es? Was kostet es?')+f"<p class=hint>Ideen: {x['idee']}</p>"+
