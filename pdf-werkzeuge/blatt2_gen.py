@@ -21,18 +21,17 @@ def b2(e,x):
     tab=lambda rows:''.join(f'<tr><td>Idee {i}: </td><td class=c>☐</td><td class=c>☐</td><td class=c>☐</td></tr>' for i in range(1,4))
     p1=pg(cover,
      sec(3,'Plan',ZEIT),
-     item(1,'Drei einfache Ideen','Was könnten wir tun?')+"<p class=hint>Einfach heisst: wenig Geld, wenig Material, wir schaffen es selbst in einer Lektion.</p>"+ln(4,9),
-     item(2,'Welche Idee wählen wir?','Macht ein Häkchen, wenn die Antwort <b>Ja</b> ist.')+"<table class=t2><tr><th>Idee</th><th>Wenig Geld?</th><th>In einer Lektion?</th><th>Hilft es wirklich?</th></tr>"+tab(0)+"</table><p class=ro style='margin:0'><b>Wir wählen:</b> "+bl(120)+"</p>",
-     item(3,'Wen müssen wir fragen?','Wer muss Ja sagen? Wer kann uns helfen?')+ln(3,9)+
+     item(1,'Unsere Idee','Was machen wir?')+"<p class=hint>Einfach heisst: wenig Geld, wenig Material, wir schaffen es selbst in einer Lektion.</p>"+ln(6,10),
+     item(2,'Wen müssen wir fragen?','Wer muss Ja sagen? Wer kann uns helfen?')+ln(3,9)+
      f"<p class=ro style='margin:1mm 0 0'>{cb('Wir haben gefragt. Antwort:')}</p>"+ln(3,9),
      f'<div class=ft2 style="position:absolute;left:12mm;right:12mm;bottom:6mm;font:700 8pt AtkH;color:var(--g);display:flex;justify-content:space-between"><span>Einsatz 0{nr} · Blatt 2 · {ZEIT}</span><span>Seite: 1/2</span></div>')
     p2=pg(bar_(f'Blatt 2 · {ZEIT}') if False else f"<div class=bar><span class=lbl>Einsatz 0{nr} · Blatt 2 · Plan (Fortsetzung)</span><span class=nm2>Team:</span></div>",
-     item(4,'Was brauchen wir?','Wer besorgt es? Was kostet es?')+
+     item(3,'Was brauchen wir?','Wer besorgt es? Was kostet es?')+
      "<table class=t2><tr><th>Das brauchen wir</th><th style='width:42mm'>Wer besorgt es?</th><th style='width:24mm'>Kosten (CHF)</th></tr>"+'<tr><td></td><td></td><td></td></tr>'*5+"<tr><td colspan=2 style='text-align:right'><b>Total</b></td><td></td></tr></table>"+
      "<p class=ro style='margin:0'>Brauchen wir Geld? Dann fragen wir zuerst die Lehrperson. Wir suchen eine Lösung, die <b>wenig oder nichts</b> kostet.</p>",
-     item(5,'Wer macht was bis Fr 18.12.?','Schreibt Namen oder Buchstaben dazu. Häkchen, wenn fertig.')+
+     item(4,'Wer macht was bis Fr 18.12.?','Schreibt Namen oder Buchstaben dazu. Häkchen, wenn fertig.')+
      "<table class=t2>"+''.join(f"<tr><td style='width:20mm'><b>{d}</b></td><td></td><td class=c style='width:12mm'>☐</td></tr>" for d in ('Fr 4.12.','Fr 11.12.','Fr 18.12.'))+"</table>",
-     item(6,'Wie zeigen wir es am Fr 18.12. der Klasse?')+f"<p class=ro style='margin:1mm 0 0 7mm'>{cb('Plakat')} &nbsp; {cb('Foto oder Bilder')} &nbsp; {cb('Kurzer Vortrag (2 Min.)')} &nbsp; {cb('Anderes:')} "+bl(40)+"</p>",
+     item(5,'Wie zeigen wir es am Fr 18.12. der Klasse?')+f"<p class=ro style='margin:1mm 0 0 7mm'>{cb('Plakat')} &nbsp; {cb('Foto oder Bilder')} &nbsp; {cb('Kurzer Vortrag (2 Min.)')} &nbsp; {cb('Anderes:')} "+bl(40)+"</p>",
      "<div class=fz style='margin-top:4mm'><b>Legt dieses Blatt gut ab.</b> Am Fr 4.12. und Fr 11.12. arbeitet ihr nach diesem Plan.</div>",
      f'<div class=ft2 style="position:absolute;left:12mm;right:12mm;bottom:6mm;font:700 8pt AtkH;color:var(--g);display:flex;justify-content:space-between"><span>Einsatz 0{nr} · Blatt 2 · {ZEIT}</span><span>Seite: 2/2</span></div>')
     return p1+p2
