@@ -7,7 +7,7 @@ CSS=f'''
 *{{box-sizing:border-box}}
 body{{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:11pt;line-height:1.35;color:{INK};margin:0}}
 .pg{{height:273mm;overflow:hidden;page-break-after:always;position:relative}}.pg:last-child{{page-break-after:auto}}
-.hd{{display:flex;gap:4mm;margin-bottom:4mm}}
+.hd{{display:flex;gap:4mm;margin-bottom:3mm}}
 .hd .t{{flex:1;background:{T};color:#fff;border-radius:3mm;padding:2.5mm 5mm}}.hd .t small{{display:block;font-size:8.5pt;opacity:.92}}.hd .t b{{font-size:17pt}}
 .nm{{display:flex;gap:6mm;margin-bottom:3mm}}.nm div{{flex:1;border-bottom:1.5px solid {INK};padding-bottom:.5mm;font-weight:700}}
 .q{{margin:3.2mm 0 0}}.q b{{display:block;margin-bottom:.5mm}}
@@ -15,10 +15,12 @@ body{{font-family:Inter,"Helvetica Neue",Arial,sans-serif;font-size:11pt;line-he
 table{{width:100%;border-collapse:collapse;margin-top:1mm}}td,th{{border:1px solid {INK};padding:0 2mm;height:10.5mm;text-align:left;font-size:10pt}}th{{background:#e6f1f3}}
 .box{{background:#e6f1f3;border:1px solid {T};border-radius:3mm;padding:2.5mm 4mm;margin:3.5mm 0}}
 .box b{{color:{T}}}
-.card{{border:1.5px solid {INK};border-radius:3mm;padding:3mm 4mm;margin-bottom:4mm}}
+.card{{border:1.5px solid {INK};border-radius:3mm;padding:3mm 4mm;margin-bottom:3mm}}
 .card h3{{margin:0 0 1mm;font-size:12pt}}.card .r{{display:flex;gap:4mm;align-items:flex-end;margin-bottom:1mm}}
 .card .r span{{white-space:nowrap}}.card .r i{{flex:1;border-bottom:1px solid #9aa;height:6mm;display:block}}
 .c2{{display:flex;gap:4mm}}.c2>div{{flex:1}}
+
+.fl{{font-weight:700;margin-top:1.5mm}}.card{{padding:2.5mm 4mm}}
 small.h{{color:#4a5a58}}
 '''
 p1=f'''<div class=pg>
@@ -35,8 +37,8 @@ p1=f'''<div class=pg>
 </div>'''
 def card(n): return f'''<div class=card><h3>Person {n}</h3>
 <div class=r><span>Name:</span><i></i><span>Wer? (z. B. Lehrerin, Hauswart, Kind aus 6a):</span><i></i></div>
-<div class=r><span>👍 Das gefällt mir:</span><i></i></div><div class=r style="margin-top:2mm"><i></i></div>
-<div class=r><span>💡 Das würde ich ändern:</span><i></i></div><div class=r style="margin-top:2mm"><i></i></div></div>'''
+<div class=fl>👍 Das gefällt mir:</div>{ln(2,8)}
+<div class=fl>💡 Das würde ich ändern:</div>{ln(2,8)}</div>'''
 p2=f'''<div class=pg>
 <div class=hd><div class=t><small>FreiDay · Fr 27.11. · Einsatz-Team</small><b>Feedback holen</b></div></div>
 <div class=box><b>So geht es:</b> Suche 3 Personen im Schulhaus (nicht aus deinem Team). Frag höflich, ob sie 2 Minuten Zeit haben. Pitche deinen Plan. Die Person sagt dir ihre Meinung. <b>Du schreibst auf. Sag danke!</b></div>
